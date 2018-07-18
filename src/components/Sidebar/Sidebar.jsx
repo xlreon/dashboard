@@ -10,6 +10,13 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+import Typography from '@material-ui/core/Typography';
 // core components
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
 
@@ -47,16 +54,19 @@ const Sidebar = ({ ...props }) => {
             activeClassName="active"
             key={key}
           >
-            <ListItem button className={classes.itemLink + listItemClasses}>
-              <ListItemIcon className={classes.itemIcon + whiteFontClasses}>
-                <prop.icon />
-              </ListItemIcon>
-              <ListItemText
-                primary={prop.sidebarName}
-                className={classes.itemText + whiteFontClasses}
-                disableTypography={true}
-              />
-            </ListItem>
+              <ExpansionPanel className={classes.itemLink + listItemClasses}>
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={whiteFontClasses} />}>
+                  <ListItemIcon className={classes.itemIcon + whiteFontClasses}>
+                  <prop.icon />
+                </ListItemIcon>
+                  <Typography className={classes.heading + whiteFontClasses}>Devices</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <Typography className={whiteFontClasses}>
+                    Device 1
+                  </Typography>
+                </ExpansionPanelDetails>
+            </ExpansionPanel>
           </NavLink>
         );
       })}
@@ -64,11 +74,11 @@ const Sidebar = ({ ...props }) => {
   );
   var brand = (
     <div className={classes.logo}>
-      <a href="https://www.creative-tim.com" className={classes.logoLink}>
+      <a href="#" className={classes.logoLink}>
         <div className={classes.logoImage}>
           <img src={logo} alt="logo" className={classes.img} />
         </div>
-        {logoText}
+        <b style={{color: "black"}}>{logoText}</b>
       </a>
     </div>
   );
@@ -113,8 +123,8 @@ const Sidebar = ({ ...props }) => {
           <div className={classes.sidebarWrapper}>{links}</div>
           {image !== undefined ? (
             <div
-              className={classes.background}
-              style={{ backgroundImage: "url(" + image + ")" }}
+              // className={classes.background}
+              // style={{ backgroundImage: "url(" + image + ")" }}
             />
           ) : null}
         </Drawer>
