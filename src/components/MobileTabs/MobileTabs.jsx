@@ -12,16 +12,33 @@ import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
 import ThumbDown from '@material-ui/icons/ThumbDown';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import Typography from '@material-ui/core/Typography';
+import CustomCard from '../CustomCard/CustomCard.jsx';
+import FeatureList from '../FeatureList/FeatureList';
+import Grid from "@material-ui/core/Grid";
+import GridItem from "components/Grid/GridItem.jsx";
 
 function TabContainer(props) {
+  // const { classes ,children } = props;
   return (
-    <Typography component="div" style={{ padding: 3 * 3 }}>
-      {props.children}
-    </Typography>
+    <Grid container>
+        <GridItem xs={12}>
+          <CustomCard/>
+        </GridItem>
+        <GridItem xs={12}>
+          <FeatureList />
+        </GridItem>
+    </Grid>
+    // <Typography component="div" style={{ padding: 3 * 3 }}>
+      
+    //   <CustomCard />
+    //   <FeatureList styles={{marginTop: "2em"}} />
+    // </Typography>
   );
 }
 
 TabContainer.propTypes = {
+  // classes: PropTypes.object.isRequired,
+  // theme: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
 };
 
@@ -33,6 +50,10 @@ const styles = theme => ({
   scrollButtons: {
       width: '50%'
   }
+  // ,
+  // list : {
+  //   padding: theme.spacing.unit * 2,
+  // },
 });
 
 

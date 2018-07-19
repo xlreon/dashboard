@@ -18,6 +18,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MobileCard from '../MobileCard/MobileCard.jsx';
 import MobileTabs from '../MobileTabs/MobileTabs.jsx';
 
+
 import Typography from '@material-ui/core/Typography';
 // core components
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
@@ -50,6 +51,7 @@ const Sidebar = ({ ...props }) => {
         const whiteFontClasses = classNames({
           [" " + classes.whiteFont]: activeRoute(prop.path)
         });
+        const isClicked = false;
         return (
           <NavLink
             to={prop.path}
@@ -99,7 +101,7 @@ const Sidebar = ({ ...props }) => {
           }}
         >
           {brand}
-          <div className={classes.sidebarWrapper}>
+          {/* <div className={classes.sidebarWrapper} >
             <HeaderLinks />
             {links}
           </div>
@@ -108,7 +110,7 @@ const Sidebar = ({ ...props }) => {
               className={classes.background}
               style={{ backgroundImage: "url(" + image + ")" }}
             />
-          ) : null}
+          ) : null} */}
         </Drawer>
       </Hidden>
       <Hidden smDown>
