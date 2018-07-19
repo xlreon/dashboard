@@ -5,15 +5,13 @@ import {
 } from "assets/jss/material-dashboard-react.jsx";
 
 const appStyle = theme => ({
-  wrapper: {
-    position: "relative",
-    top: "0",
-    height: "100vh"
+  root: {
+    flexGrow: 1,
   },
   mainPanel: {
-    [theme.breakpoints.up("md")]: {
-      width: `calc(100% - ${drawerWidth}px)`
-    },
+    // [theme.breakpoints.up("md")]: {
+    //   width: `calc(100% - ${drawerWidth}px)`
+    // },
     overflow: "auto",
     position: "relative",
     float: "right",
@@ -22,15 +20,60 @@ const appStyle = theme => ({
     width: "100%",
     overflowScrolling: "touch"
   },
-  content: {
-    marginTop: "70px",
-    padding: "30px 15px",
-    minHeight: "calc(100vh - 123px)"
+  appFrame: {
+    height: '100%',
+    zIndex: 1,
+    overflow: 'hidden',
+    position: 'relative',
+    display: 'flex',
+    width: '100%',
   },
-  container,
-  map: {
-    // marginTop: "70px"
-  }
+  
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 20,
+  },
+  hide: {
+    display: 'none',
+  },
+  drawerPaper: {
+    position: 'relative',
+    width: drawerWidth,
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
+  content: {
+    flexGrow: 1,
+    // backgroundColor: theme.palette.background.default,
+    // padding: theme.spacing.unit * 3,
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  'content-left': {
+    marginLeft: -drawerWidth,
+  },
+  'content-right': {
+    marginRight: -drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  'contentShift-left': {
+    marginLeft: 0,
+  },
+  'contentShift-right': {
+    marginRight: 0,
+  },
 });
 
 export default appStyle;

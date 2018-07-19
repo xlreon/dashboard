@@ -1,9 +1,10 @@
 import React from "react";
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 import GridItem from "components/Grid/GridItem.jsx";
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import classNames from 'classnames';
 
 import {
   withScriptjs,
@@ -99,7 +100,14 @@ const styles = theme => ({
   map : {
     zIndex:1,
     position: "relative"
-  }
+  },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 20,
+  },
+  hide: {
+    display: 'none',
+  },
 });
 
 function Maps({ ...props }) {
@@ -107,7 +115,17 @@ function Maps({ ...props }) {
   return (
     <div>
       <Grid container spacing={12} className={classes.floatingButton}>
-        <GridItem xs={11}>
+        <GridItem xs={1}>
+          <IconButton
+            color="inherit"
+            aria-label="Open drawer"
+            onClick={props.handleDrawerToggle}
+            className={classNames(classes.menuButton, props.open && classes.hide)}
+          >
+            <MenuIcon />
+          </IconButton>
+        </GridItem>
+        <GridItem xs={10}>
         </GridItem>
         <GridItem xs={1}>
           {/* <Button variant="fab" color="primary" aria-label="Add" className={classes.button}> */}
