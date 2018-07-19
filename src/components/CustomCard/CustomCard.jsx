@@ -15,7 +15,8 @@ import img from "assets/img/android.png";
 const styles = theme => ({
   card: {
     display: 'flex',
-    margin : 10
+    marginTop : 10,
+    marginBottom : 10
   },
   details: {
     display: 'flex',

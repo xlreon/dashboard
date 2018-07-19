@@ -16,15 +16,13 @@ import GridItem from "components/Grid/GridItem.jsx";
 const styles = theme => ({
   root: {
     width: '100%',
-    maxWidth: 360,
+    // maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
   ListItem : {
-      height : 150,
+      paddingTop : 20,
+      paddingBottom : 20,
   },
-  ListItemText : {
-    padding: theme.spacing.unit,
-  }
 });
 
 function SimpleList(props) {
