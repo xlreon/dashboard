@@ -58,6 +58,12 @@ function MediaControlCard(props) {
             <Typography variant="subheading" color="textSecondary">
               Android
             </Typography>
+            <Typography variant="subheading" color="textSecondary">
+              99% Battery
+            </Typography>
+            <Typography variant="subheading" color="textSecondary">
+              Wifi Network
+            </Typography>
           </CardContent>
           {/* <div className={classes.controls}>
             <IconButton aria-label="Previous">

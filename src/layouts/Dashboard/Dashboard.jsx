@@ -70,11 +70,11 @@ class App extends React.Component {
           {...rest}
         />
         <div className={classes.mainPanel} ref="mainPanel">
-          <Header
+          {/* <Header
             routes={dashboardRoutes}
             handleDrawerToggle={this.handleDrawerToggle}
             {...rest}
-          />
+          /> */}
           <div className={classes.map}>{switchRoutes}</div>
         </div>
       </div>

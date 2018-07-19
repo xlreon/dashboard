@@ -1,16 +1,23 @@
 import React from "react";
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import withStyles from "@material-ui/core/styles/withStyles";
+import Grid from "@material-ui/core/Grid";
+import GridItem from "components/Grid/GridItem.jsx";
+
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
   Marker
 } from "react-google-maps";
+import MenuButton from "./MenuButton";
 
 const CustomSkinMap = withScriptjs(
   withGoogleMap(props => (
     <GoogleMap
       defaultZoom={13}
-      defaultCenter={{ lat: 40.748817, lng: -73.985428 }}
+      defaultCenter={{ lat: 12.9716, lng:  77.5946 }}
       defaultOptions={{
         scrollwheel: false,
         zoomControl: true,
@@ -76,20 +83,49 @@ const CustomSkinMap = withScriptjs(
         ]
       }}
     >
-      <Marker position={{ lat: 40.748817, lng: -73.985428 }} />
+      <Marker position={{ lat: 12.9716, lng: 77.5946 }} />
     </GoogleMap>
   ))
 );
 
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  },
+  floatingButton : {
+    zIndex:1,
+    position: "absolute"
+  },
+  map : {
+    zIndex:1,
+    position: "relative"
+  }
+});
+
 function Maps({ ...props }) {
+  const {classes } = props;
   return (
-    <CustomSkinMap
-      googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQxMINewEFxKj9fJgyFPuvykf5OCaMBOM"
-      loadingElement={<div style={{ height: `100%` }} />}
-      containerElement={<div style={{ height: `100vh` }} />}
-      mapElement={<div style={{ height: `100%` }} />}
-    />
+    <div>
+      <Grid container spacing={12} className={classes.floatingButton}>
+        <GridItem xs={11}>
+        </GridItem>
+        <GridItem xs={1}>
+          {/* <Button variant="fab" color="primary" aria-label="Add" className={classes.button}> */}
+              {/* <AddIcon /> */}
+              <MenuButton />
+          {/* </Button> */}
+        </GridItem>
+      </Grid>
+        
+      <CustomSkinMap
+        className={classes.map}
+        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQxMINewEFxKj9fJgyFPuvykf5OCaMBOM"
+        loadingElement={<div style={{ height: `100%` }} />}
+        containerElement={<div style={{ height: `100vh` }} />}
+        mapElement={<div style={{ height: `100%` }} />}
+      />
+    </div>
   );
 }
 
-export default Maps;
+export default withStyles(styles)(Maps);
