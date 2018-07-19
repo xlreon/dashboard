@@ -18,6 +18,8 @@ import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboar
 
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/pfa.png";
+import Maps from "views/Maps/Maps.jsx";
+import MobileCard from "../../components/MobileCard/MobileCard";
 
 const switchRoutes = (
   <Switch>
@@ -64,6 +66,7 @@ class App extends React.Component {
           handleDrawerToggle={this.handleDrawerToggle}
           open={this.state.mobileOpen}
           color="blue"
+          body={<MobileCard/>}
           {...rest}
         />
         <div className={classes.mainPanel} ref="mainPanel">

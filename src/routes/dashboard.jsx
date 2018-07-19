@@ -6,20 +6,21 @@ import Maps from "views/Maps/Maps.jsx";
 
 const dashboardRoutes = [
   {
-    path: "/dashboard",
+    path: "/",
     sidebarName: "Devices",
     navbarName: "Dashboard",
     icon: Dashboard,
-    component: DashboardPage
-  },
-  {
-    path: "/maps",
-    sidebarName: "Maps",
-    navbarName: "Map",
-    icon: LocationOn,
     component: Maps
   },
-  { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
+  // ,
+  // {
+  //   path: "/",
+  //   sidebarName: "Features",
+  //   navbarName: "Dashboard",
+  //   icon: LocationOn,
+  //   component: Maps
+  // },
+  { redirect: true, path: "/", to: "/dashboard", navbarName: "Dashboard" }
 ];
 
 export default dashboardRoutes;

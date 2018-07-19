@@ -15,6 +15,8 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MobileCard from '../MobileCard/MobileCard.jsx';
+import MobileTabs from '../MobileTabs/MobileTabs.jsx';
 
 import Typography from '@material-ui/core/Typography';
 // core components
@@ -27,19 +29,20 @@ const Sidebar = ({ ...props }) => {
   function activeRoute(routeName) {
     return props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
-  const { classes, color, logo, image, logoText, routes } = props;
+  const { classes, color, logo, image, logoText, routes, body } = props;
   var links = (
     <List className={classes.list}>
       {routes.map((prop, key) => {
         if (prop.redirect) return null;
         var activePro = " ";
         var listItemClasses;
-        if(prop.path === "/upgrade-to-pro"){
-          activePro = classes.activePro + " ";
-          listItemClasses = classNames({
-            [" " + classes[color]]: true
-          });
-        } else {
+        // if(prop.path === "/upgrade-to-pro"){
+        //   activePro = classes.activePro + " ";
+        //   listItemClasses = classNames({
+        //     [" " + classes[color]]: true
+        //   });
+        // } else 
+        {
           listItemClasses = classNames({
             [" " + classes[color]]: activeRoute(prop.path)
           });
@@ -55,16 +58,14 @@ const Sidebar = ({ ...props }) => {
             key={key}
           >
               <ExpansionPanel className={classes.itemLink + listItemClasses}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={whiteFontClasses} />}>
-                  <ListItemIcon className={classes.itemIcon + whiteFontClasses}>
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                  <ListItemIcon className={classes.itemIcon}>
                   <prop.icon />
                 </ListItemIcon>
-                  <Typography className={classes.heading + whiteFontClasses}>Devices</Typography>
+                  <Typography className={classes.heading}>Devices</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                  <Typography className={whiteFontClasses}>
-                    Device 1
-                  </Typography>
+                  {body}
                 </ExpansionPanelDetails>
             </ExpansionPanel>
           </NavLink>
@@ -120,13 +121,14 @@ const Sidebar = ({ ...props }) => {
           }}
         >
           {brand}
-          <div className={classes.sidebarWrapper}>{links}</div>
+          <MobileTabs/>
+          {/* <div className={classes.sidebarWrapper}>{links}</div>
           {image !== undefined ? (
             <div
               // className={classes.background}
               // style={{ backgroundImage: "url(" + image + ")" }}
             />
-          ) : null}
+          ) : null} */}
         </Drawer>
       </Hidden>
     </div>
