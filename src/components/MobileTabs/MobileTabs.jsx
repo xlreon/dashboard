@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import PhoneIcon from '@material-ui/icons/Phone';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
+import StayCurrentPotrait from "@material-ui/icons/StayCurrentPortrait";
 import HelpIcon from '@material-ui/icons/Help';
 import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
 import ThumbDown from '@material-ui/icons/ThumbDown';
@@ -81,22 +82,22 @@ class ScrollableTabsButtonForce extends React.Component {
             indicatorColor="primary"
             textColor="primary"
           >
-            <Tab label="Item One" icon={<PhoneIcon />} />
-            <Tab label="Item Two" icon={<FavoriteIcon />} />
-            <Tab label="Item Three" icon={<PersonPinIcon />} />
-            <Tab label="Item Four" icon={<HelpIcon />} />
+            <Tab label="Item One" icon={<StayCurrentPotrait />} />
+            <Tab label="Item Two" icon={<StayCurrentPotrait />} />
+            <Tab label="Item Three" icon={<StayCurrentPotrait />} />
+            {/* <Tab label="Item Four" icon={<HelpIcon />} />
             <Tab label="Item Five" icon={<ShoppingBasket />} />
             <Tab label="Item Six" icon={<ThumbDown />} />
-            <Tab label="Item Seven" icon={<ThumbUp />} />
+            <Tab label="Item Seven" icon={<ThumbUp />} /> */} */}
           </Tabs>
         </AppBar>
         {value === 0 && <TabContainer>Item One</TabContainer>}
         {value === 1 && <TabContainer>Item Two</TabContainer>}
         {value === 2 && <TabContainer>Item Three</TabContainer>}
-        {value === 3 && <TabContainer>Item Four</TabContainer>}
+        {/* {value === 3 && <TabContainer>Item Four</TabContainer>}
         {value === 4 && <TabContainer>Item Five</TabContainer>}
         {value === 5 && <TabContainer>Item Six</TabContainer>}
-        {value === 6 && <TabContainer>Item Seven</TabContainer>}
+        {value === 6 && <TabContainer>Item Seven</TabContainer>} */}
       </div>
     );
   }
