@@ -133,10 +133,10 @@ function Maps({ ...props }) {
         <GridItem xs={9}>
         </GridItem>
         <GridItem xs={1}>
-          {/* <Button variant="fab" color="primary" aria-label="Add" className={classes.button}> */}
-              {/* <AddIcon /> */}
-              <MenuButton />
-          {/* </Button> */}
+            <MenuButton />
+            {/* <Button variant="fab" color="primary" aria-label="Add" className={classes.button}>
+              <MenuIcon />
+            </Button>  */}
         </GridItem>
       </Grid>
         
