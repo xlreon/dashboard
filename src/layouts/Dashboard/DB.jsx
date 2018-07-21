@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Maps from "views/Maps/Maps.jsx";
 import MobileTabs from 'components/MobileTabs/MobileTabs';
+import DeviceList from 'components/Devices/DeviceList';
 import logo from "assets/img/pfa.png";
 import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
 import Grid from "@material-ui/core/Grid";
@@ -57,8 +58,8 @@ class PersistentDrawer extends React.Component {
             </div>
           </GridItem>
         </Grid>
-          {/* {brand} */}
-          <MobileTabs/>
+          {/* <MobileTabs/> */}
+          <DeviceList />
         </Drawer>
     );
 

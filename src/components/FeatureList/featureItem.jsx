@@ -28,6 +28,7 @@ function FeatureItem(props) {
     const { classes } = props;
     return (
         <div>
+            <Divider />
             <ListItem button className={classes.ListItem}>
                 <Grid container spacing={24}>
                     <GridItem xs={2}>
@@ -50,7 +51,7 @@ function FeatureItem(props) {
                     </GridItem>
                 </Grid>
             </ListItem>
-            <Divider />
+            
         </div>
     );
 }
