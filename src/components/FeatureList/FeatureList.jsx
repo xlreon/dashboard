@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import FeatureItem from './FeatureItem';
+import Divider from '@material-ui/core/Divider';
 
 const styles = theme => ({
     root: {
@@ -40,7 +41,9 @@ class FeatureList extends React.Component {
             <div className={classes.root}>
                 <List component="nav">
                     <FeatureItem />
+                    <Divider />
                     <FeatureItem />
+                    <Divider />
                     <FeatureItem />
                 </List>
             </div>

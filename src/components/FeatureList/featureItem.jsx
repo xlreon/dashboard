@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import ArrowForward from '@material-ui/icons/KeyboardArrowRight';
 import { Typography } from '../../../node_modules/@material-ui/core';
 import Grid from "@material-ui/core/Grid";
@@ -28,7 +27,6 @@ function FeatureItem(props) {
     const { classes } = props;
     return (
         <div>
-            <Divider />
             <ListItem button className={classes.ListItem}>
                 <Grid container spacing={24}>
                     <GridItem xs={2}>

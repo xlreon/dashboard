@@ -11,8 +11,9 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
+import Wifi from '@material-ui/icons/Wifi';
+import Android from '@material-ui/icons/Android';
+import Battery from '@material-ui/icons/Battery60';
 
 const styles = theme => ({
   cover: {
@@ -29,7 +30,7 @@ const styles = theme => ({
   }
 });
 
-function MediaControlCard(props) {
+function CustomCard(props) {
   const { classes, theme } = props;
 
   return (
@@ -45,19 +46,19 @@ function MediaControlCard(props) {
           <List component="nav">
             <ListItem >
               <ListItemIcon>
-                <InboxIcon />
+                <Android />
               </ListItemIcon>
               <ListItemText primary="Android" />
             </ListItem>
             <ListItem >
               <ListItemIcon>
-                <DraftsIcon />
+                <Battery />
               </ListItemIcon>
-              <ListItemText primary="99% Battery" />
+              <ListItemText primary="63% Battery" />
             </ListItem>
             <ListItem >
               <ListItemIcon>
-                <DraftsIcon />
+                <Wifi />
               </ListItemIcon>
               <ListItemText primary="Wifi Network" />
             </ListItem>
@@ -69,9 +70,9 @@ function MediaControlCard(props) {
   );
 }
 
-MediaControlCard.propTypes = {
+CustomCard.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(MediaControlCard);
+export default withStyles(styles, { withTheme: true })(CustomCard);
