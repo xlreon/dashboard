@@ -1,7 +1,13 @@
 import {
   primaryColor,
+  successColor,
   primaryBoxShadow,
-  defaultFont
+  defaultFont,
+  warningColor,
+    dangerColor,
+    infoColor,
+    roseColor,
+    grayColor
 } from "assets/jss/material-dashboard-react.jsx";
 
 const dropdownStyle = theme => ({
