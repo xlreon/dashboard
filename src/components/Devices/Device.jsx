@@ -30,6 +30,31 @@ const styles = theme => ({
 class Device extends React.Component {
   state = {
     expanded: null,
+    details : 
+      {
+        deviceDetails: {
+          os : "Android",
+          battery : "55",
+          wifi : "TP_LINK"
+        },
+        features : [
+          {
+            name : "Play Sound",
+            description : "sncjancojanclancknckan",
+            detail : "Detail1"
+          },
+          {
+            name : "Secure Device",
+            description : "uiebivsvuibiebvscsd",
+            detail : "Detail2"
+          },
+          {
+            name : "Erase Device",
+            description : "AIUCBIUASCVOICOSDIVVNELKVSN",
+            detail : "Detail3"
+          }
+        ]
+      }
   };
 
   handleChange = panel => (event, expanded) => {
@@ -40,15 +65,15 @@ class Device extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { expanded } = this.state;
+    const { expanded, details } = this.state;
 
     return (
         <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
             <ExpansionPanelSummary  expandIcon={<ExpandMoreIcon />}>
-            <CustomCard/>
+            <CustomCard details={details.deviceDetails}/>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-                <FeatureList />
+                <FeatureList details={details.features}/>
             </ExpansionPanelDetails>
         </ExpansionPanel>
     );
