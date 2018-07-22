@@ -48,19 +48,19 @@ function CustomCard(props) {
               <ListItemIcon>
                 <Android />
               </ListItemIcon>
-              <ListItemText primary="Android" />
+              <ListItemText primary={props.details.os} />
             </ListItem>
             <ListItem >
               <ListItemIcon>
                 <Battery />
               </ListItemIcon>
-              <ListItemText primary="63% Battery" />
+              <ListItemText primary={props.details.battery + "% Battery"} />
             </ListItem>
             <ListItem >
               <ListItemIcon>
                 <Wifi />
               </ListItemIcon>
-              <ListItemText primary="Wifi Network" />
+              <ListItemText primary={props.details.wifi} />
             </ListItem>
           </List>
         </Grid>
