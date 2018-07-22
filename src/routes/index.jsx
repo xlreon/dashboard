@@ -1,4 +1,4 @@
-import DB from "layouts/Dashboard/DB.jsx";
+import DB from "views/Dashboard/DB.jsx";
 
 const indexRoutes = [{ path: "/", component: DB }];
 

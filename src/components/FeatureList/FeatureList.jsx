@@ -27,18 +27,23 @@ class FeatureList extends React.Component {
     state = {
       clicked: false,
       feature : null,
-      featureDetail: null
+      featureDetail: null,
+      button : null
     };
   
 
-    openPanel = (feature,detail) => {
-        console.log(feature);
-        this.setState({ clicked: true, feature : feature, featureDetail : detail});
+    openPanel = (feature,detail, button) => {
+        // console.log(feature);
+        this.setState({ clicked: true, feature : feature, featureDetail : detail, button : button});
       };
     
     closePanel = () => {
         this.setState({ clicked: false });
       };
+
+      eventhandler = (event) => {
+        console.log(event);
+    };
   
     render() {
         
@@ -51,7 +56,11 @@ class FeatureList extends React.Component {
                 closePanel={this.closePanel} 
                 feature={this.state.feature}
                 featureDetail={this.state.featureDetail}
+                button={this.state.button}
                 details = {details}
+                changeLocation={this.props.changeLocation}
+                buttonClick={this.eventhandler}
+                location={this.props.location}
             />
             :
             <div className={classes.root}>

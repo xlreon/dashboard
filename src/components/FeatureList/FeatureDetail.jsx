@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ArrowForward from '@material-ui/icons/KeyboardArrowRight';
 import { Typography, IconButton } from '../../../node_modules/@material-ui/core';
 import Grid from "@material-ui/core/Grid";
 import GridItem from "components/Grid/GridItem.jsx";
@@ -43,16 +39,34 @@ function FeatureDetail(props) {
                         <ChevronLeft />
                     </IconButton>
                 </GridItem>
-                <GridItem xs={10} className={classes.detailHeader}>
-                    <Typography variant="headline">{props.feature}</Typography>
+                <GridItem xs={10}>
+                    <div className={classes.detailHeader}>
+                        <Typography variant="headline">{props.feature}</Typography>
+                    </div>
                 </GridItem>
                 <GridItem xs={12}>
                     <Typography variant="subheading" color="textSecondary">{props.featureDetail}</Typography>
                 </GridItem>
-                <GridItem xs={12} className={classes.detailButton}>
-                    <Button variant="contained" color="primary" className={classes.button}>
-                        Stop Ringing
-                    </Button>
+                <GridItem xs={12}>
+                    <div className={classes.detailButton}>
+                        <Button 
+                            variant="contained" 
+                            color="primary" 
+                            className={classes.button} 
+                            onClick={() => {
+                                if (props.button === "Show on Map")
+                                {
+                                    props.changeLocation({lat : 20.4625, lng : 85.8830});
+                                }
+                                else
+                                {
+                                    console.log(props.button);
+                                }
+                            }}
+                        >
+                            {props.button}
+                        </Button>
+                    </div>
                 </GridItem>
             </Grid>
             

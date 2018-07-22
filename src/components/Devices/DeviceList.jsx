@@ -1,16 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Device from './Device';
 
 const styles = theme => ({
   root: {
     width: '100%',
+    backgroundColor : '#D3D3D3'
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -40,8 +36,8 @@ class ControlledExpansionPanels extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Device />
-        <Device />
+        <Device changeLocation={this.props.changeLocation}/>
+        <Device changeLocation={this.props.changeLocation}/>
       </div>
     );
   }

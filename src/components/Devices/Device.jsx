@@ -35,23 +35,33 @@ class Device extends React.Component {
         deviceDetails: {
           os : "Android",
           battery : "55",
-          wifi : "TP_LINK"
+          wifi : "TP_LINK",
+          location: { lat: 20.4625, lng: 85.8830 }
         },
         features : [
           {
             name : "Play Sound",
             description : "sncjancojanclancknckan",
-            detail : "Detail1"
+            detail : "Detail1",
+            event : "Stop Ringing"
+          },
+          {
+            name : "Get Location",
+            description : "Show your current location",
+            detail : "Click on this Button to fetch your Location on the map",
+            event : "Show on Map"
           },
           {
             name : "Secure Device",
             description : "uiebivsvuibiebvscsd",
-            detail : "Detail2"
+            detail : "Detail2",
+            event : "Secure"
           },
           {
             name : "Erase Device",
             description : "AIUCBIUASCVOICOSDIVVNELKVSN",
-            detail : "Detail3"
+            detail : "Detail3",
+            event : "Erase"
           }
         ]
       }
@@ -73,7 +83,7 @@ class Device extends React.Component {
             <CustomCard details={details.deviceDetails}/>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-                <FeatureList details={details.features}/>
+                <FeatureList details={details.features} changeLocation={this.props.changeLocation} location={details.deviceDetails.location}/>
             </ExpansionPanelDetails>
         </ExpansionPanel>
     );

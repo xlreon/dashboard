@@ -14,13 +14,19 @@ import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboar
 import Grid from "@material-ui/core/Grid";
 import GridItem from "components/Grid/GridItem.jsx";
 
-class PersistentDrawer extends React.Component {
+class DashBoard extends React.Component {
   state = {
     open: true,
+    location:{ lat: 12.9716, lng: 77.5946 }
   };
 
   handleDrawerToggle = () => {
     this.setState({ open: !this.state.open });
+  };
+
+  changeLocation= (loc) => {
+    console.log(loc);
+    this.setState({ loaction : loc });
   };
 
   render() {
@@ -28,42 +34,34 @@ class PersistentDrawer extends React.Component {
     const { open } = this.state;
 
     const drawer = (
-        <Drawer
-          anchor="left"
-          variant="persistent"
-          open={open}
-        //   onClose={props.handleDrawerToggle}
-          classes={{
-            paper: classes.drawerPaper
-          }}
-        >
-        
-        {/* <div className={classes.drawerHeader}>
-          <IconButton onClick={this.handleDrawerToggle}>
-            <MenuIcon />
-          </IconButton>
-        </div> */}
-        <Grid container spacing={12}>
-          <GridItem xs={1}>
-            <img src={logo} alt="logo" className={classes.img} />
-          </GridItem>
-          <GridItem xs={9}>
-            <Typography variant="display1" color={'primary'} className={classes.drawerLogo}>Find My Device</Typography>
-          </GridItem>
-          <GridItem xs={2} >
-            <div className={classes.drawerHeader}>
-              <IconButton onClick={this.handleDrawerToggle}>
-                <MenuIcon />
-              </IconButton>
-            </div>
-          </GridItem>
-        </Grid>
-          {/* <MobileTabs/> */}
-          <DeviceList />
-        </Drawer>
+      <Drawer
+        anchor="left"
+        variant="persistent"
+        open={open}
+        classes={{
+          paper: classes.drawerPaper
+        }}
+      >
+      <Grid container spacing={12}>
+        <GridItem xs={1}>
+          <img src={logo} alt="logo" className={classes.img} />
+        </GridItem>
+        <GridItem xs={9}>
+          <Typography variant="display1" color={'primary'} className={classes.drawerLogo}>Find My Device</Typography>
+        </GridItem>
+        <GridItem xs={2} >
+          <div className={classes.drawerHeader}>
+            <IconButton onClick={this.handleDrawerToggle}>
+              <MenuIcon />
+            </IconButton>
+          </div>
+        </GridItem>
+      </Grid>
+        {/* <MobileTabs/> */}
+        <DeviceList changeLocation={this.changeLocation}/>
+      </Drawer>
     );
-
-
+    
     return (
       <div className={classes.root}>
         <div className={classes.appFrame}>
@@ -78,6 +76,7 @@ class PersistentDrawer extends React.Component {
                 <Maps 
                     handleDrawerToggle={this.handleDrawerToggle}
                     open={this.state.open}
+                    location={this.state.location}
                 />
                 </div>
           </main>
@@ -87,9 +86,9 @@ class PersistentDrawer extends React.Component {
   }
 }
 
-PersistentDrawer.propTypes = {
+DashBoard.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(dashboardStyle, { withTheme: true })(PersistentDrawer);
+export default withStyles(dashboardStyle, { withTheme: true })(DashBoard);
