@@ -24,45 +24,37 @@ const styles = theme => ({
   },
 });     
 
-var item = (
-    <div>
-        <ListItem button className={classes.ListItem}>
-            <Grid container spacing={24}>
-                <GridItem xs={2}>
-                    <ListItemIcon>
-                        <DraftsIcon />
-                    </ListItemIcon>
-                </GridItem>
-                <GridItem xs={8}>
-                    <ListItemText primary="Play Sound"  />
-                </GridItem>
-                <GridItem xs={2}>
-                    <ListItemIcon>
-                        <ArrowForward />
-                    </ListItemIcon>
-                </GridItem>
-                <GridItem xs={12}>
-                    <ListItemIcon>
-                        <Typography variant="subheading" color="textSecondary">dbsvijdsbvjsbdoivdsoivndsvndo oioifenoifnseoifnesoi dfnbiodf</Typography>
-                    </ListItemIcon>
-                </GridItem>
-            </Grid>
-        </ListItem>
-        <Divider />
-    </div>
-);
-
 function FeatureItem(props) {
     const { classes } = props;
     return (
-        <div className={classes.root}>
-            <List component="nav">
-                <FeatureItem />
-            </List>
-        
+        <div>
+            <Divider />
+            <ListItem button className={classes.ListItem}>
+                <Grid container spacing={24}>
+                    <GridItem xs={2}>
+                        <ListItemIcon>
+                            <DraftsIcon />
+                        </ListItemIcon>
+                    </GridItem>
+                    <GridItem xs={8}>
+                        <ListItemText primary="Play Sound"  />
+                    </GridItem>
+                    <GridItem xs={2}>
+                        <ListItemIcon>
+                            <ArrowForward />
+                        </ListItemIcon>
+                    </GridItem>
+                    <GridItem xs={12}>
+                        <ListItemIcon>
+                            <Typography variant="subheading" color="textSecondary">dbsvijdsbvjsbdoivdsoivndsvndo oioifenoifnseoifnesoi dfnbiodf</Typography>
+                        </ListItemIcon>
+                    </GridItem>
+                </Grid>
+            </ListItem>
+            
         </div>
     );
-    }
+}
 
 FeatureItem.propTypes = {
   classes: PropTypes.object.isRequired,

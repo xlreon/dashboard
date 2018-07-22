@@ -3,22 +3,16 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Maps from "views/Maps/Maps.jsx";
 import MobileTabs from 'components/MobileTabs/MobileTabs';
-import {transition} from "assets/jss/material-dashboard-react.jsx";
-
+import DeviceList from 'components/Devices/DeviceList';
+import logo from "assets/img/pfa.png";
 import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
+import Grid from "@material-ui/core/Grid";
+import GridItem from "components/Grid/GridItem.jsx";
 
 class PersistentDrawer extends React.Component {
   state = {
@@ -30,8 +24,8 @@ class PersistentDrawer extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
-    const { anchor, open } = this.state;
+    const { classes } = this.props;
+    const { open } = this.state;
 
     const drawer = (
         <Drawer
@@ -43,13 +37,29 @@ class PersistentDrawer extends React.Component {
             paper: classes.drawerPaper
           }}
         >
-          <div className={classes.drawerHeader}>
+        
+        {/* <div className={classes.drawerHeader}>
           <IconButton onClick={this.handleDrawerToggle}>
-            <ChevronLeftIcon />
+            <MenuIcon />
           </IconButton>
-        </div>
-          {/* {brand} */}
-          <MobileTabs/>
+        </div> */}
+        <Grid container spacing={12}>
+          <GridItem xs={1}>
+            <img src={logo} alt="logo" className={classes.img} />
+          </GridItem>
+          <GridItem xs={9}>
+            <Typography variant="display1" color={'primary'} className={classes.drawerLogo}>Find My Device</Typography>
+          </GridItem>
+          <GridItem xs={2} >
+            <div className={classes.drawerHeader}>
+              <IconButton onClick={this.handleDrawerToggle}>
+                <MenuIcon />
+              </IconButton>
+            </div>
+          </GridItem>
+        </Grid>
+          {/* <MobileTabs/> */}
+          <DeviceList />
         </Drawer>
     );
 

@@ -44,8 +44,23 @@ const appStyle = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    padding: '0 8px',
+    // padding: '0 8px',
     ...theme.mixins.toolbar,
+  },
+  drawerLogo: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingLeft : 10,
+    // justifyContent: 'center',
+    // padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
+  img: {
+    width: "35px",
+    top: "17px",
+    position: "absolute",
+    verticalAlign: "middle",
+    border: "0"
   },
   content: {
     flexGrow: 1,

@@ -5,6 +5,7 @@ import GridItem from "components/Grid/GridItem.jsx";
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import classNames from 'classnames';
+import Button from '@material-ui/core/Button';
 
 import {
   withScriptjs,
@@ -115,23 +116,27 @@ function Maps({ ...props }) {
   return (
     <div>
       <Grid container spacing={12} className={classes.floatingButton}>
-        <GridItem xs={1}>
-          <IconButton
+        <GridItem xs={2}>
+          {/* <IconButton
             color="inherit"
             aria-label="Open drawer"
             onClick={props.handleDrawerToggle}
             className={classNames(classes.menuButton, props.open && classes.hide)}
-          >
+          > */}
+          <Button variant="fab" color="secondary" aria-label="Add" onClick={props.handleDrawerToggle}
+            className={classNames(classes.menuButton, props.open && classes.hide)}>
             <MenuIcon />
-          </IconButton>
+          </Button>
+            
+          {/* </IconButton> */}
         </GridItem>
-        <GridItem xs={10}>
+        <GridItem xs={9}>
         </GridItem>
         <GridItem xs={1}>
-          {/* <Button variant="fab" color="primary" aria-label="Add" className={classes.button}> */}
-              {/* <AddIcon /> */}
-              <MenuButton />
-          {/* </Button> */}
+            <MenuButton />
+            {/* <Button variant="fab" color="primary" aria-label="Add" className={classes.button}>
+              <MenuIcon />
+            </Button>  */}
         </GridItem>
       </Grid>
         
