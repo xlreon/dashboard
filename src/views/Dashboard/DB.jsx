@@ -13,11 +13,13 @@ import logo from "assets/img/pfa.png";
 import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
 import Grid from "@material-ui/core/Grid";
 import GridItem from "components/Grid/GridItem.jsx";
+import Button from '@material-ui/core/Button';
 
 class DashBoard extends React.Component {
   state = {
     open: true,
-    location:{ lat: 12.9716, lng: 77.5946 },
+    showAll : true,
+    location: [{ lat: 12.9716, lng: 77.5946 }],
     phones : [
       {
         deviceDetails: {
@@ -96,12 +98,24 @@ class DashBoard extends React.Component {
 
   changeLocation= (loc) => {
     console.log(loc);
-    this.setState({ location : loc });
+    this.setState({ location : [loc], showAll: false });
+  };
+
+  getLocations = () => {
+    var list = []
+    {this.state.phones.map((prop, key) => {
+      return list.push(prop.deviceDetails.location);
+    })}
+    return list;
+  };
+
+  showAllDevices = () => {
+    this.setState({ showAll: true });
   };
 
   render() {
     const { classes } = this.props;
-    const { open } = this.state;
+    const { open, location, showAll } = this.state;
 
     const drawer = (
       <Drawer
@@ -113,7 +127,7 @@ class DashBoard extends React.Component {
         }}
       >
       <Grid container spacing={12}>
-        <GridItem xs={1}>
+        <GridItem xs={1} className={classes.imgContainer}>
           <img src={logo} alt="logo" className={classes.img} />
         </GridItem>
         <GridItem xs={9}>
@@ -128,10 +142,13 @@ class DashBoard extends React.Component {
         </GridItem>
       </Grid>
         {/* <MobileTabs/> */}
-        <DeviceList changeLocation={this.changeLocation} phones={this.state.phones}/>
+        <DeviceList changeLocation={this.changeLocation} phones={this.state.phones} className={classes.DeviceList}/>
+        <Button color="primary" className={classes.button} onClick={this.showAllDevices}>
+          Show all Devices
+        </Button>
       </Drawer>
     );
-    
+
     return (
       <div className={classes.root}>
         <div className={classes.appFrame}>
@@ -146,7 +163,7 @@ class DashBoard extends React.Component {
                 <Maps 
                     handleDrawerToggle={this.handleDrawerToggle}
                     open={this.state.open}
-                    location={this.state.location}
+                    locations={showAll ? this.getLocations() : location}
                 />
                 </div>
           </main>

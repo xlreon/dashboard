@@ -43,14 +43,18 @@ class Device extends React.Component {
     const { expanded } = this.state;
 
     return (
-        <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
-            <ExpansionPanelSummary  expandIcon={<ExpandMoreIcon />}>
-            <CustomCard details={this.props.details.deviceDetails}/>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-                <FeatureList details={this.props.details.features} changeLocation={this.props.changeLocation} location={this.props.details.deviceDetails.location}/>
-            </ExpansionPanelDetails>
-        </ExpansionPanel>
+      <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <CustomCard details={this.props.details.deviceDetails}/>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <FeatureList 
+            details={this.props.details.features} 
+            changeLocation={this.props.changeLocation} 
+            location={this.props.details.deviceDetails.location}
+          />
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
     );
   }
 }

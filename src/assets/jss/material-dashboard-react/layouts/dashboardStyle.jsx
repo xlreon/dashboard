@@ -20,6 +20,9 @@ const appStyle = theme => ({
     width: "100%",
     overflowScrolling: "touch"
   },
+  button: {
+    margin: theme.spacing.unit,
+  },
   appFrame: {
     height: '100%',
     zIndex: 1,
@@ -27,6 +30,10 @@ const appStyle = theme => ({
     position: 'relative',
     display: 'flex',
     width: '100%',
+  },
+
+  DeviceList : {
+    // height : '80%'
   },
   
   menuButton: {
@@ -55,6 +62,16 @@ const appStyle = theme => ({
     // padding: '0 8px',
     ...theme.mixins.toolbar,
   },
+  // img : {
+  //   width : "35px",
+  //   height : "35px"
+
+  // },
+  // imgContainer : {
+  //   display: 'flex',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
   img: {
     width: "35px",
     top: "17px",

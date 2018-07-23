@@ -42,13 +42,12 @@ class Maps extends React.Component {
   render() {
 
     const {classes } = this.props;
-    console.log(this.props.location);
 
     const CustomSkinMap = withScriptjs(
       withGoogleMap(props => (
         <GoogleMap
-          defaultZoom={13}
-          defaultCenter={this.props.location}
+          defaultZoom={5}
+          defaultCenter={this.props.locations[0]}
           defaultOptions={{
             scrollwheel: true,
             zoomControl: true,
@@ -114,7 +113,10 @@ class Maps extends React.Component {
             ]
           }}
         >
-          <Marker position={this.props.location} />
+        {this.props.locations.map((prop, key) => {
+          return <Marker position={prop} key={key}/>
+        })}
+          
         </GoogleMap>
       ))
     );
@@ -137,7 +139,7 @@ class Maps extends React.Component {
         </Grid>
           
         <CustomSkinMap
-          location={this.props.location}
+          locations={this.props.getLocations}
           className={classes.map}
           googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQxMINewEFxKj9fJgyFPuvykf5OCaMBOM"
           loadingElement={<div style={{ height: `100%` }} />}
