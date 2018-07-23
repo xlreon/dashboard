@@ -26,7 +26,7 @@ class DashBoard extends React.Component {
 
   changeLocation= (loc) => {
     console.log(loc);
-    this.setState({ loaction : loc });
+    this.setState({ location : loc });
   };
 
   render() {
