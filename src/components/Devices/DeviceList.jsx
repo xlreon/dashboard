@@ -6,22 +6,13 @@ import Device from './Device';
 const styles = theme => ({
   root: {
     width: '100%',
-    backgroundColor : '#D3D3D3'
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    flexBasis: '33.33%',
-    flexShrink: 0,
-  },
-  secondaryHeading: {
-    fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary,
+    // backgroundColor : '#D3D3D3'
   },
 });
 
 class ControlledExpansionPanels extends React.Component {
   state = {
-    expanded: null,
+    expanded: null
   };
 
   handleChange = panel => (event, expanded) => {
@@ -32,12 +23,14 @@ class ControlledExpansionPanels extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { expanded } = this.state;
 
     return (
       <div className={classes.root}>
-        <Device changeLocation={this.props.changeLocation}/>
-        <Device changeLocation={this.props.changeLocation}/>
+
+        {this.props.phones.map((prop, key) => {
+          return <Device changeLocation={this.props.changeLocation} details={prop} key={key}/>
+        })}
+        
       </div>
     );
   }

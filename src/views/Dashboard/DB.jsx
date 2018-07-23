@@ -17,7 +17,77 @@ import GridItem from "components/Grid/GridItem.jsx";
 class DashBoard extends React.Component {
   state = {
     open: true,
-    location:{ lat: 12.9716, lng: 77.5946 }
+    location:{ lat: 12.9716, lng: 77.5946 },
+    phones : [
+      {
+        deviceDetails: {
+          os : "Android",
+          battery : "55",
+          wifi : "TP_LINK",
+          location: { lat: 12.9716, lng: 77.5946 }
+        },
+        features : [
+          {
+            name : "Play Sound",
+            description : "sncjancojanclancknckan",
+            detail : "Detail1",
+            event : "Stop Ringing"
+          },
+          {
+            name : "Get Location",
+            description : "Show your current location",
+            detail : "Click on this Button to fetch your Location on the map",
+            event : "Show on Map"
+          },
+          {
+            name : "Secure Device",
+            description : "uiebivsvuibiebvscsd",
+            detail : "Detail2",
+            event : "Secure"
+          },
+          {
+            name : "Erase Device",
+            description : "AIUCBIUASCVOICOSDIVVNELKVSN",
+            detail : "Detail3",
+            event : "Erase"
+          }
+        ]
+      },
+      {
+        deviceDetails: {
+          os : "Android",
+          battery : "20",
+          wifi : "ACT",
+          location: {lat : 20.4625, lng : 85.8830}
+        },
+        features : [
+          {
+            name : "Play Sound",
+            description : "sncjancojanclancknckan",
+            detail : "Detail1",
+            event : "Stop Ringing"
+          },
+          {
+            name : "Get Location",
+            description : "Show your current location",
+            detail : "Click on this Button to fetch your Location on the map",
+            event : "Show on Map"
+          },
+          {
+            name : "Secure Device",
+            description : "uiebivsvuibiebvscsd",
+            detail : "Detail2",
+            event : "Secure"
+          },
+          {
+            name : "Erase Device",
+            description : "AIUCBIUASCVOICOSDIVVNELKVSN",
+            detail : "Detail3",
+            event : "Erase"
+          }
+        ]
+      }
+    ]
   };
 
   handleDrawerToggle = () => {
@@ -58,7 +128,7 @@ class DashBoard extends React.Component {
         </GridItem>
       </Grid>
         {/* <MobileTabs/> */}
-        <DeviceList changeLocation={this.changeLocation}/>
+        <DeviceList changeLocation={this.changeLocation} phones={this.state.phones}/>
       </Drawer>
     );
     

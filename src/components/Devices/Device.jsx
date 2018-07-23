@@ -30,41 +30,6 @@ const styles = theme => ({
 class Device extends React.Component {
   state = {
     expanded: null,
-    details : 
-      {
-        deviceDetails: {
-          os : "Android",
-          battery : "55",
-          wifi : "TP_LINK",
-          location: { lat: 20.4625, lng: 85.8830 }
-        },
-        features : [
-          {
-            name : "Play Sound",
-            description : "sncjancojanclancknckan",
-            detail : "Detail1",
-            event : "Stop Ringing"
-          },
-          {
-            name : "Get Location",
-            description : "Show your current location",
-            detail : "Click on this Button to fetch your Location on the map",
-            event : "Show on Map"
-          },
-          {
-            name : "Secure Device",
-            description : "uiebivsvuibiebvscsd",
-            detail : "Detail2",
-            event : "Secure"
-          },
-          {
-            name : "Erase Device",
-            description : "AIUCBIUASCVOICOSDIVVNELKVSN",
-            detail : "Detail3",
-            event : "Erase"
-          }
-        ]
-      }
   };
 
   handleChange = panel => (event, expanded) => {
@@ -75,15 +40,15 @@ class Device extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { expanded, details } = this.state;
+    const { expanded } = this.state;
 
     return (
         <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
             <ExpansionPanelSummary  expandIcon={<ExpandMoreIcon />}>
-            <CustomCard details={details.deviceDetails}/>
+            <CustomCard details={this.props.details.deviceDetails}/>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-                <FeatureList details={details.features} changeLocation={this.props.changeLocation} location={details.deviceDetails.location}/>
+                <FeatureList details={this.props.details.features} changeLocation={this.props.changeLocation} location={this.props.details.deviceDetails.location}/>
             </ExpansionPanelDetails>
         </ExpansionPanel>
     );

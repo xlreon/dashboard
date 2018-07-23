@@ -56,7 +56,7 @@ function FeatureDetail(props) {
                             onClick={() => {
                                 if (props.button === "Show on Map")
                                 {
-                                    props.changeLocation({lat : 20.4625, lng : 85.8830});
+                                    props.changeLocation(props.location);
                                 }
                                 else
                                 {
