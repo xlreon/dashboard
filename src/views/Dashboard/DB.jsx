@@ -20,74 +20,47 @@ class DashBoard extends React.Component {
     open: true,
     showAll : true,
     location: [{ lat: 12.9716, lng: 77.5946 }],
-    phones : [
+    features :
+    [
       {
-        deviceDetails: {
-          os : "Android",
-          battery : "55",
-          wifi : "TP_LINK",
-          location: { lat: 12.9716, lng: 77.5946 }
-        },
-        features : [
-          {
-            name : "Play Sound",
-            description : "sncjancojanclancknckan",
-            detail : "Detail1",
-            event : "Stop Ringing"
-          },
-          {
-            name : "Get Location",
-            description : "Show your current location",
-            detail : "Click on this Button to fetch your Location on the map",
-            event : "Show on Map"
-          },
-          {
-            name : "Secure Device",
-            description : "uiebivsvuibiebvscsd",
-            detail : "Detail2",
-            event : "Secure"
-          },
-          {
-            name : "Erase Device",
-            description : "AIUCBIUASCVOICOSDIVVNELKVSN",
-            detail : "Detail3",
-            event : "Erase"
-          }
-        ]
+        name : "Play Sound",
+        description : "sncjancojanclancknckan",
+        detail : "Detail1",
+        event : "Stop Ringing"
       },
       {
-        deviceDetails: {
-          os : "Android",
-          battery : "20",
-          wifi : "ACT",
-          location: {lat : 20.4625, lng : 85.8830}
-        },
-        features : [
-          {
-            name : "Play Sound",
-            description : "sncjancojanclancknckan",
-            detail : "Detail1",
-            event : "Stop Ringing"
-          },
-          {
-            name : "Get Location",
-            description : "Show your current location",
-            detail : "Click on this Button to fetch your Location on the map",
-            event : "Show on Map"
-          },
-          {
-            name : "Secure Device",
-            description : "uiebivsvuibiebvscsd",
-            detail : "Detail2",
-            event : "Secure"
-          },
-          {
-            name : "Erase Device",
-            description : "AIUCBIUASCVOICOSDIVVNELKVSN",
-            detail : "Detail3",
-            event : "Erase"
-          }
-        ]
+        name : "Get Location",
+        description : "Show your current location",
+        detail : "Click on this Button to fetch your Location on the map",
+        event : "Show on Map"
+      },
+      {
+        name : "Secure Device",
+        description : "uiebivsvuibiebvscsd",
+        detail : "Detail2",
+        event : "Secure"
+      },
+      {
+        name : "Erase Device",
+        description : "AIUCBIUASCVOICOSDIVVNELKVSN",
+        detail : "Detail3",
+        event : "Erase"
+      }
+    ],
+    phones : [
+      {
+        name : "Nexus 5P",
+        os : "Android",
+        battery : "55",
+        wifi : "TP_LINK",
+        location: { lat: 12.9716, lng: 77.5946 }
+      },
+      {
+        name : "MOTO G5 S+",
+        os : "Android",
+        battery : "20",
+        wifi : "ACT",
+        location: {lat : 20.4625, lng : 85.8830}
       }
     ]
   };
@@ -104,7 +77,7 @@ class DashBoard extends React.Component {
   getLocations = () => {
     var list = []
     {this.state.phones.map((prop, key) => {
-      return list.push(prop.deviceDetails.location);
+      return list.push(prop.location);
     })}
     return list;
   };
@@ -142,7 +115,12 @@ class DashBoard extends React.Component {
         </GridItem>
       </Grid>
         {/* <MobileTabs/> */}
-        <DeviceList changeLocation={this.changeLocation} phones={this.state.phones} className={classes.DeviceList}/>
+        <DeviceList 
+          changeLocation={this.changeLocation} 
+          phones={this.state.phones} 
+          className={classes.DeviceList}
+          features={this.state.features}
+        />
         <Button color="primary" className={classes.button} onClick={this.showAllDevices}>
           Show all Devices
         </Button>

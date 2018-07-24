@@ -49,7 +49,7 @@ class FeatureList extends React.Component {
         
         const { classes, details } = this.props;
         const { clicked } = this.state;
-        // console.log(this.state.featureDetail);
+
         return (
             ( clicked ? 
             <FeatureDetail 

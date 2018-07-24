@@ -11,15 +11,6 @@ const styles = theme => ({
 });
 
 class ControlledExpansionPanels extends React.Component {
-  state = {
-    expanded: null
-  };
-
-  handleChange = panel => (event, expanded) => {
-    this.setState({
-      expanded: expanded ? panel : false,
-    });
-  };
 
   render() {
     const { classes } = this.props;
@@ -28,7 +19,12 @@ class ControlledExpansionPanels extends React.Component {
       <div className={classes.root}>
 
         {this.props.phones.map((prop, key) => {
-          return <Device changeLocation={this.props.changeLocation} details={prop} key={key}/>
+          return <Device 
+            changeLocation={this.props.changeLocation} 
+            details={prop} 
+            features={this.props.features} 
+            key={key}
+          />
         })}
         
       </div>
