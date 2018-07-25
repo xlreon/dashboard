@@ -10,6 +10,7 @@ import GridItem from "components/Grid/GridItem.jsx";
 import CustomDrawer from "components/CustomDrawer/CustomDrawer.jsx";
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import features from './features.jsx';
 
 class DashBoard extends React.Component {
   state = {
@@ -17,34 +18,6 @@ class DashBoard extends React.Component {
     showAll : true,
     settings : null,
     location: [{ lat: 12.9716, lng: 77.5946 }],
-    imeiList : ['1111','2222'],
-    features :
-    [
-      {
-        name : "Play Sound",
-        description : "sncjancojanclancknckan",
-        detail : "Detail1",
-        event : "Stop Ringing"
-      },
-      {
-        name : "Get Location",
-        description : "Show your current location",
-        detail : "Click on this Button to fetch your Location on the map",
-        event : "Show on Map"
-      },
-      {
-        name : "Secure Device",
-        description : "uiebivsvuibiebvscsd",
-        detail : "Detail2",
-        event : "Secure"
-      },
-      {
-        name : "Erase Device",
-        description : "AIUCBIUASCVOICOSDIVVNELKVSN",
-        detail : "Detail3",
-        event : "Erase"
-      }
-    ],
     phones: [],
   };
 
@@ -71,13 +44,30 @@ class DashBoard extends React.Component {
 
   componentDidMount() {
 
+    
+    var body = { email : 'rohan@gmail.com'};
+    
+    var formBody = [];
+    for (var property in body) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(body[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+    
+    axios.post(`http://localhost:8080/imei/get`, 
+      formBody
+    )
+  .then(res => {
+    var imeiList = res.data.body.content;
+
     var phoneList = [];
-
-    {this.state.imeiList.map((prop, key) => {
-      
-      var body = { imei: prop};
-
-      var formBody = [];
+  
+    {imeiList.map((prop, key) => {
+    
+    var body = { imei: prop};
+    
+    var formBody = [];
       for (var property in body) {
         var encodedKey = encodeURIComponent(property);
         var encodedValue = encodeURIComponent(body[property]);
@@ -96,21 +86,15 @@ class DashBoard extends React.Component {
 
     })}
     
+  })
+  .catch(error => console.log(error))
+
+  console.log(this.state.imeiList)
+
+  
+    
     this.getLocations();
 
-
-    // fetch('http://localhost:8080/phone/get', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-    //   },
-    //   body: formBody
-    // })
-    // .then(res => res.json())
-    // .then(res => {
-    //     console.log(res);
-    //   })
-    // .catch(error => console.log("Error",error))
   }
 
   render() {
@@ -124,7 +108,7 @@ class DashBoard extends React.Component {
             open={open}
             handleDrawerToggle = {this.handleDrawerToggle}
             phones={this.state.phones}
-            features={this.state.features}
+            features={features}
             changeLocation={this.changeLocation} 
             showAllDevices={this.showAllDevices}
           />
