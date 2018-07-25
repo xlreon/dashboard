@@ -126,6 +126,7 @@ class DashBoard extends React.Component {
             phones={this.state.phones}
             features={this.state.features}
             changeLocation={this.changeLocation} 
+            showAllDevices={this.showAllDevices}
           />
           <main
             className={classNames(classes.content, classes[`content-left`], {

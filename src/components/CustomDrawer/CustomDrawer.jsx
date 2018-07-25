@@ -89,7 +89,7 @@ class CustomDrawer extends React.Component {
                 className={classes.DeviceList}
                 features={this.props.features}
             />
-            <Button color="primary" className={classes.button} onClick={this.showAllDevices}>
+            <Button color="primary" className={classes.button} onClick={this.props.showAllDevices}>
                 Show all Devices
             </Button>
         </Drawer>
