@@ -131,11 +131,11 @@ class Maps extends React.Component {
               <MenuIcon />
             </Button>
           </GridItem>
-          <GridItem xs={9}>
+          <GridItem xs={10}>
           </GridItem>
-          <GridItem xs={1}>
+          {/* <GridItem xs={1}>
               <MenuButton />
-          </GridItem>
+          </GridItem> */}
         </Grid>
           
         <CustomSkinMap

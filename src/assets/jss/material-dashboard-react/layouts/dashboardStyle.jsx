@@ -73,7 +73,7 @@ const appStyle = theme => ({
   //   justifyContent: 'center',
   // },
   img: {
-    width: "35px",
+    width: "30px",
     top: "17px",
     position: "absolute",
     verticalAlign: "middle",

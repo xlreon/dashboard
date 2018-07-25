@@ -13,12 +13,12 @@ const styles = theme => ({
 class ControlledExpansionPanels extends React.Component {
 
   render() {
-    const { classes } = this.props;
+    const { classes,phones } = this.props;
 
     return (
       <div className={classes.root}>
 
-        {this.props.phones.map((prop, key) => {
+        {phones.map((prop, key) => {
           return <Device 
             changeLocation={this.props.changeLocation} 
             details={prop} 

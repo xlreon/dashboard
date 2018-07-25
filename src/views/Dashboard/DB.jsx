@@ -6,6 +6,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Settings from '@material-ui/icons/Settings';
 import Maps from "views/Maps/Maps.jsx";
 import MobileTabs from 'components/MobileTabs/MobileTabs';
 import DeviceList from 'components/Devices/DeviceList';
@@ -14,11 +15,15 @@ import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboar
 import Grid from "@material-ui/core/Grid";
 import GridItem from "components/Grid/GridItem.jsx";
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 class DashBoard extends React.Component {
   state = {
     open: true,
     showAll : true,
+    settings : null,
     location: [{ lat: 12.9716, lng: 77.5946 }],
     features :
     [
@@ -47,22 +52,23 @@ class DashBoard extends React.Component {
         event : "Erase"
       }
     ],
-    phones : [
-      {
-        name : "Nexus 5P",
-        os : "Android",
-        battery : "55",
-        wifi : "TP_LINK",
-        location: { lat: 12.9716, lng: 77.5946 }
-      },
-      {
-        name : "MOTO G5 S+",
-        os : "Android",
-        battery : "20",
-        wifi : "ACT",
-        location: {lat : 20.4625, lng : 85.8830}
-      }
-    ]
+    phones: [],
+    // phones : [
+    //   {
+    //     name : "Nexus 5P",
+    //     os : "Android",
+    //     battery : "55",
+    //     wifi : "TP_LINK",
+    //     location: { lat: 12.9716, lng: 77.5946 }
+    //   },
+    //   {
+    //     name : "MOTO G5 S+",
+    //     os : "Android",
+    //     battery : "20",
+    //     wifi : "ACT",
+    //     location: {lat : 20.4625, lng : 85.8830}
+    //   }
+    // ]
   };
 
   handleDrawerToggle = () => {
@@ -79,6 +85,7 @@ class DashBoard extends React.Component {
     {this.state.phones.map((prop, key) => {
       return list.push(prop.location);
     })}
+    console.log(list)
     return list;
   };
 
@@ -86,9 +93,54 @@ class DashBoard extends React.Component {
     this.setState({ showAll: true });
   };
 
+  settingsClick = event => {
+    this.setState({ settings: event.currentTarget });
+  };
+
+  settingsClose = () => {
+    this.setState({ settings: null });
+  };
+
+
+  componentDidMount() {
+
+    const body = { imei: '1111' }
+    
+    var formBody = [];
+    for (var property in body) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(body[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+    
+    axios.post(`http://localhost:8080/phone/get`, 
+     formBody
+    )
+    .then(res => {
+      this.setState({phones: [res.data.body.content]});
+      this.getLocations();
+    })
+    .catch(error => console.log(error))
+
+
+    // fetch('http://localhost:8080/phone/get', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    //   },
+    //   body: formBody
+    // })
+    // .then(res => res.json())
+    // .then(res => {
+    //     console.log(res);
+    //   })
+    // .catch(error => console.log("Error",error))
+  }
+
   render() {
     const { classes } = this.props;
-    const { open, location, showAll } = this.state;
+    const { open, location, showAll, settings } = this.state;
 
     const drawer = (
       <Drawer
@@ -104,10 +156,27 @@ class DashBoard extends React.Component {
           <img src={logo} alt="logo" className={classes.img} />
         </GridItem>
         <GridItem xs={9}>
-          <Typography variant="display1" color={'primary'} className={classes.drawerLogo}>Find My Device</Typography>
+          <Typography variant="headline" color={'primary'} className={classes.drawerLogo}>Find My Device</Typography>
         </GridItem>
         <GridItem xs={2} >
           <div className={classes.drawerHeader}>
+            <IconButton
+              aria-owns={settings ? 'simple-menu' : null}
+              aria-haspopup="true"
+              onClick={this.settingsClick}
+            >
+              <Settings />
+            </IconButton>
+            <Menu
+              id="simple-menu"
+              anchorEl={settings}
+              open={Boolean(settings)}
+              onClose={this.settingsClose}
+            >
+              <MenuItem onClick={this.settingsClose}>Profile</MenuItem>
+              <MenuItem onClick={this.settingsClose}>My account</MenuItem>
+              <MenuItem onClick={this.settingsClose}>Logout</MenuItem>
+            </Menu>
             <IconButton onClick={this.handleDrawerToggle}>
               <MenuIcon />
             </IconButton>
