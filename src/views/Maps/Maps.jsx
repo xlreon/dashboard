@@ -24,7 +24,7 @@ const styles = theme => ({
     position: "absolute"
   },
   map : {
-    zIndex:1,
+    zIndex:0,
     position: "relative"
   },
   menuButton: {
@@ -124,19 +124,7 @@ class Maps extends React.Component {
 
     return (
       <div>
-        <Grid container spacing={12} className={classes.floatingButton}>
-          <GridItem xs={2}>
-            <Button variant="fab" color="secondary" aria-label="Add" onClick={this.props.handleDrawerToggle}
-              className={classNames(classes.menuButton, this.props.open && classes.hide)}>
-              <MenuIcon />
-            </Button>
-          </GridItem>
-          <GridItem xs={10}>
-          </GridItem>
-          {/* <GridItem xs={1}>
-              <MenuButton />
-          </GridItem> */}
-        </Grid>
+        
           
         <CustomSkinMap
           locations={this.props.getLocations}

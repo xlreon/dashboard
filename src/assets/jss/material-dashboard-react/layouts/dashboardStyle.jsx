@@ -31,10 +31,6 @@ const appStyle = theme => ({
     display: 'flex',
     width: '100%',
   },
-
-  DeviceList : {
-    // height : '80%'
-  },
   
   menuButton: {
     marginLeft: 12,
@@ -47,38 +43,27 @@ const appStyle = theme => ({
     position: 'relative',
     width: drawerWidth,
   },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    // padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  drawerLogo: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingLeft : 10,
-    // justifyContent: 'center',
-    // padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  // img : {
-  //   width : "35px",
-  //   height : "35px"
+  
 
-  // },
-  // imgContainer : {
-  //   display: 'flex',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
-  img: {
-    width: "30px",
-    top: "17px",
-    position: "absolute",
-    verticalAlign: "middle",
-    border: "0"
+  button: {
+    margin: theme.spacing.unit,
   },
+  floatingButton : {
+    zIndex:1,
+    position: "absolute"
+  },
+  map : {
+    zIndex:1,
+    position: "relative"
+  },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 20,
+  },
+  hide: {
+    display: 'none',
+  },
+  
   content: {
     flexGrow: 1,
     // backgroundColor: theme.palette.background.default,

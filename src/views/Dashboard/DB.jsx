@@ -2,22 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import Settings from '@material-ui/icons/Settings';
 import Maps from "views/Maps/Maps.jsx";
-import MobileTabs from 'components/MobileTabs/MobileTabs';
-import DeviceList from 'components/Devices/DeviceList';
-import logo from "assets/img/pfa.png";
 import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
 import Grid from "@material-ui/core/Grid";
 import GridItem from "components/Grid/GridItem.jsx";
+import CustomDrawer from "components/CustomDrawer/CustomDrawer.jsx";
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 
 class DashBoard extends React.Component {
   state = {
@@ -54,22 +46,6 @@ class DashBoard extends React.Component {
       }
     ],
     phones: [],
-    // phones : [
-    //   {
-    //     name : "Nexus 5P",
-    //     os : "Android",
-    //     battery : "55",
-    //     wifi : "TP_LINK",
-    //     location: { lat: 12.9716, lng: 77.5946 }
-    //   },
-    //   {
-    //     name : "MOTO G5 S+",
-    //     os : "Android",
-    //     battery : "20",
-    //     wifi : "ACT",
-    //     location: {lat : 20.4625, lng : 85.8830}
-    //   }
-    // ]
   };
 
   handleDrawerToggle = () => {
@@ -93,15 +69,6 @@ class DashBoard extends React.Component {
     this.setState({ showAll: true });
   };
 
-  settingsClick = event => {
-    this.setState({ settings: event.currentTarget });
-  };
-
-  settingsClose = () => {
-    this.setState({ settings: null });
-  };
-
-
   componentDidMount() {
 
     var phoneList = [];
@@ -119,7 +86,7 @@ class DashBoard extends React.Component {
       formBody = formBody.join("&");
       
       axios.post(`http://localhost:8080/phone/get`, 
-      formBody
+        formBody
       )
       .then(res => {
         phoneList.push(res.data.body.content);
@@ -148,66 +115,18 @@ class DashBoard extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { open, location, showAll, settings } = this.state;
-
-    const drawer = (
-      <Drawer
-        anchor="left"
-        variant="persistent"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper
-        }}
-      >
-      <Grid container spacing={12}>
-        <GridItem xs={1} className={classes.imgContainer}>
-          <img src={logo} alt="logo" className={classes.img} />
-        </GridItem>
-        <GridItem xs={9}>
-          <Typography variant="headline" color={'primary'} className={classes.drawerLogo}>Find My Device</Typography>
-        </GridItem>
-        <GridItem xs={2} >
-          <div className={classes.drawerHeader}>
-            <IconButton
-              aria-owns={settings ? 'simple-menu' : null}
-              aria-haspopup="true"
-              onClick={this.settingsClick}
-            >
-              <Settings />
-            </IconButton>
-            <Menu
-              id="simple-menu"
-              anchorEl={settings}
-              open={Boolean(settings)}
-              onClose={this.settingsClose}
-            >
-              <MenuItem onClick={this.settingsClose}>Profile</MenuItem>
-              <MenuItem onClick={this.settingsClose}>My account</MenuItem>
-              <MenuItem onClick={this.settingsClose}>Logout</MenuItem>
-            </Menu>
-            <IconButton onClick={this.handleDrawerToggle}>
-              <MenuIcon />
-            </IconButton>
-          </div>
-        </GridItem>
-      </Grid>
-        {/* <MobileTabs/> */}
-        <DeviceList 
-          changeLocation={this.changeLocation} 
-          phones={this.state.phones} 
-          className={classes.DeviceList}
-          features={this.state.features}
-        />
-        <Button color="primary" className={classes.button} onClick={this.showAllDevices}>
-          Show all Devices
-        </Button>
-      </Drawer>
-    );
+    const { open, location, showAll } = this.state;
 
     return (
       <div className={classes.root}>
         <div className={classes.appFrame}>
-          {drawer}
+          <CustomDrawer 
+            open={open}
+            handleDrawerToggle = {this.handleDrawerToggle}
+            phones={this.state.phones}
+            features={this.state.features}
+            changeLocation={this.changeLocation} 
+          />
           <main
             className={classNames(classes.content, classes[`content-left`], {
               [classes.contentShift]: open,
@@ -215,9 +134,20 @@ class DashBoard extends React.Component {
             })}
           >
             <div className={classes.mainPanel} ref="mainPanel">
+                <Grid container spacing={12} className={classes.floatingButton}>
+                  <GridItem xs={2}>
+                    <Button variant="fab" color="secondary" aria-label="Add" onClick={this.handleDrawerToggle}
+                      className={classNames(classes.menuButton, this.state.open && classes.hide)}>
+                      <MenuIcon />
+                    </Button>
+                  </GridItem>
+                  <GridItem xs={10}>
+                  </GridItem>
+                  {/* <GridItem xs={1}>
+                      <MenuButton />
+                  </GridItem> */}
+                </Grid>
                 <Maps 
-                    handleDrawerToggle={this.handleDrawerToggle}
-                    open={this.state.open}
                     locations={showAll ? this.getLocations() : location}
                 />
                 </div>
