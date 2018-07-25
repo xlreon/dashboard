@@ -98,18 +98,14 @@ class DashBoard extends React.Component {
     
   })
   .catch(error => console.log(error))
-
-  console.log(this.state.imeiList)
-
   
-    
-    this.getLocations();
+  this.getLocations();
 
   }
 
   render() {
     const { classes } = this.props;
-    const { open, location, showAll } = this.state;
+    const { open, location, showAll, phones } = this.state;
     
     return (
       // open ?
@@ -118,7 +114,7 @@ class DashBoard extends React.Component {
           <CustomDrawer 
             open={open}
             handleDrawerToggle = {this.handleDrawerToggle}
-            phones={this.state.phones}
+            phones={phones}
             features={features}
             changeLocation={this.changeLocation} 
             showAllDevices={this.showAllDevices}
@@ -131,7 +127,7 @@ class DashBoard extends React.Component {
           >
             <div className={classes.mainPanel} ref="mainPanel">
                 <Grid container spacing={12} className={classes.floatingButton}>
-                  <GridItem xs={2}>
+                  <GridItem xs={4}>
                     <Button variant="fab" color="secondary" aria-label="Add" onClick={() => this.state.open ? this.handleDrawerToggle() : ()=>{}}
                       className={classNames(classes.menuButton, this.state.open && classes.hide)}>
                       {/* <MenuIcon /> */}
@@ -141,17 +137,19 @@ class DashBoard extends React.Component {
                     <IconButton color="primary" aria-label="Back" className={classes.button} style={{zIndex: "2",position: "absolute",bottom: "0",top: "1vh",right: "2vh"}} onClick={this.showDrawer}>
                       <BackIcon />
                     </IconButton>
-                        <Paper 
-                          style={{position: "relative"}}
-                          width="250%"
-                          height="40vh"
-                          phoneImg={android}
-                          phoneName="One Plus 6"
-                        />
+                    <Paper 
+                      style={{position: "relative"}}
+                      width="250%"
+                      height="60vh"
+                      phoneImg={android}
+                      phoneName="One Plus 6"
+                      features={features}
+                      phones={phones}
+                    />
                     </Button>
                     
                   </GridItem>
-                  <GridItem xs={10}>
+                  <GridItem xs={8}>
                   </GridItem>
                 </Grid>
                 <Maps 

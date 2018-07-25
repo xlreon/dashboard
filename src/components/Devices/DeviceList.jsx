@@ -19,11 +19,12 @@ class ControlledExpansionPanels extends React.Component {
       <div className={classes.root}>
 
         {phones.map((prop, key) => {
+          // console.log(key);
           return <Device 
             changeLocation={this.props.changeLocation} 
             details={prop} 
             features={this.props.features} 
-            key={key}
+            id={key}
           />
         })}
         

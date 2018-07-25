@@ -33,7 +33,7 @@ function FeatureItem(props) {
                 <Grid container spacing={24}>
                     <GridItem xs={2}>
                         <ListItemIcon>
-                            <DraftsIcon />
+                            {props.feature.icon}
                         </ListItemIcon>
                     </GridItem>
                     <GridItem xs={8}>

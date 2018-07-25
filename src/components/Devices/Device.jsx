@@ -33,17 +33,22 @@ class Device extends React.Component {
   };
 
   handleChange = panel => (event, expanded) => {
+
+    console.log(panel);
+
     this.setState({
       expanded: expanded ? panel : false,
     });
   };
 
   render() {
-    const { classes,details,key  } = this.props;
+    const { classes,details,id  } = this.props;
     const { expanded } = this.state;
 
+    // console.log(id);
+
     return (
-      <ExpansionPanel expanded={expanded === key} onChange={this.handleChange(key)}>
+      <ExpansionPanel expanded={expanded === id} onChange={this.handleChange(id)}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <CustomCard details={details}/>
         </ExpansionPanelSummary>
