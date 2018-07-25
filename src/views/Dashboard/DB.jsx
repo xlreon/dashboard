@@ -25,6 +25,7 @@ class DashBoard extends React.Component {
     showAll : true,
     settings : null,
     location: [{ lat: 12.9716, lng: 77.5946 }],
+    imeiList : ['1111','2222'],
     features :
     [
       {
@@ -85,7 +86,6 @@ class DashBoard extends React.Component {
     {this.state.phones.map((prop, key) => {
       return list.push(prop.location);
     })}
-    console.log(list)
     return list;
   };
 
@@ -104,24 +104,32 @@ class DashBoard extends React.Component {
 
   componentDidMount() {
 
-    const body = { imei: '1111' }
+    var phoneList = [];
+
+    {this.state.imeiList.map((prop, key) => {
+      
+      var body = { imei: prop};
+
+      var formBody = [];
+      for (var property in body) {
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(body[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
+      }
+      formBody = formBody.join("&");
+      
+      axios.post(`http://localhost:8080/phone/get`, 
+      formBody
+      )
+      .then(res => {
+        phoneList.push(res.data.body.content);
+        this.setState({phones: phoneList});
+      })
+      .catch(error => console.log(error))
+
+    })}
     
-    var formBody = [];
-    for (var property in body) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(body[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
-    
-    axios.post(`http://localhost:8080/phone/get`, 
-     formBody
-    )
-    .then(res => {
-      this.setState({phones: [res.data.body.content]});
-      this.getLocations();
-    })
-    .catch(error => console.log(error))
+    this.getLocations();
 
 
     // fetch('http://localhost:8080/phone/get', {
