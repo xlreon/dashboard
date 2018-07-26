@@ -24,7 +24,7 @@ class ControlledExpansionPanels extends React.Component {
             changeLocation={this.props.changeLocation} 
             details={prop} 
             features={this.props.features} 
-            id={key}
+            key={key}
           />
         })}
         

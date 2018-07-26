@@ -13,6 +13,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Wifi from '@material-ui/icons/Wifi';
 import Android from '@material-ui/icons/Android';
+import IOS from '@material-ui/icons/PhoneIphone';
 import Battery from '@material-ui/icons/Battery60';
 
 const styles = theme => ({
@@ -30,8 +31,14 @@ const styles = theme => ({
   }
 });
 
+function checkOS(os) {
+  console.log(os);
+  return <Android />;
+}
+
 function CustomCard(props) {
   const { classes, theme } = props;
+  const os = props.details.os;
 
   return (
     <div className={classes.root}>
@@ -46,9 +53,9 @@ function CustomCard(props) {
           <List component="nav">
             <ListItem >
               <ListItemIcon>
-                <Android />
+              <Android />
               </ListItemIcon>
-              <ListItemText primary={props.details.os} />
+              <ListItemText primary={props.details.name} />
             </ListItem>
             <ListItem >
               <ListItemIcon>

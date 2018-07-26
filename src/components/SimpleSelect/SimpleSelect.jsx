@@ -42,7 +42,7 @@ class SimpleSelect extends React.Component {
             }}
           >
             {phones.map((prop, key) => {
-                return <MenuItem value={key}>{prop.name}</MenuItem>
+                return <MenuItem value={key} key={key}>{prop.name}</MenuItem>
             })}
           </Select>
         </FormControl>
