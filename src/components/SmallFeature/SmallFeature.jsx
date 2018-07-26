@@ -18,8 +18,8 @@ function SmallFeature(props) {
             <Button onClick={() => {getFeature(feature)}}>
             <div>
                 {feature.icon}
-            </div>
-            <div>
+            {/* </div>
+            <div> */}
                 <Typography component="p">
                     {feature.name}
                 </Typography>

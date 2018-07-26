@@ -18,7 +18,8 @@ const styles = theme => ({
     paddingBottom: 20,
   },
   features : {
-    paddingTop : 20,
+    marginTop: 20,
+    marginLeft : 20
   }
 });
 
@@ -26,7 +27,7 @@ class PaperSheet extends React.Component {
 
   
   state = {
-    device: 0,
+    device: -1,
     phoneList: null,
     name: "",
     battery: "",
@@ -49,7 +50,6 @@ class PaperSheet extends React.Component {
 
   componentDidMount() {
     
-    // console.log(this.props.phones);
     this.setState({
       name: this.props.phones[this.state.device] !== undefined ? this.props.phones[this.state.device]["name"] : "",
       os: this.props.phones[this.state.device] !== undefined ? this.props.phones[this.state.device]["os"] : "",
@@ -153,16 +153,19 @@ class PaperSheet extends React.Component {
             {os}
             </Typography>
             <Typography component="p">
-            {battery}
+            {battery}% Battery
             </Typography>
             <Typography component="p">
             {wifi}
             </Typography>
-            <Grid spacing={24} container className={classes.features}> 
-              {features.map((prop, key) => {
-                  return <Grid item xs={4}><SmallFeature feature={prop} key={key} getFeature={this.getFeature}/></Grid>;
-              })}
-            </Grid></div>)
+            <div className='row'>
+              <Grid spacing={24} container className={classes.features}> 
+                {features.map((prop, key) => {
+                    return <Grid item xs={4}><SmallFeature feature={prop} key={key} getFeature={this.getFeature}/></Grid>;
+                })}
+              </Grid>
+            </div>
+            </div>)
             }
         </Paper>
         </div>
