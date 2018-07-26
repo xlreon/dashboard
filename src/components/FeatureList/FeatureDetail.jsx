@@ -102,7 +102,7 @@ class FeatureDetail extends React.Component {
                     />
                 <Grid container spacing={24} className={classes.grid}>
                     <GridItem xs={2}>
-                        <IconButton onClick={this.props.closePanel}>
+                        <IconButton onClick={this.props.closePanel} style={{marginTop: "-1vh",marginLeft: "-3.5vh"}}>
                             <ChevronLeft />
                         </IconButton>
                     </GridItem>
