@@ -95,10 +95,10 @@ class PaperSheet extends React.Component {
 
   handleChange = event => {
     this.setState({ device: event.target.value ,
-      name: this.props.phones[this.state.device]["name"],
-      os: this.props.phones[this.state.device]["os"],
-      battery: this.props.phones[this.state.device]["battery"],
-      wifi: this.props.phones[this.state.device]["wifi"]
+      name: this.props.phones[event.target.value ]["name"],
+      os: this.props.phones[event.target.value ]["os"],
+      battery: this.props.phones[event.target.value ]["battery"],
+      wifi: this.props.phones[event.target.value ]["wifi"]
     });
   };
 
