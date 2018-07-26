@@ -44,7 +44,9 @@ function FeatureItem(props) {
                             <ArrowForward />
                         </ListItemIcon>
                     </GridItem>
-                    <GridItem xs={12}>
+                    <GridItem xs={2}>
+                    </GridItem>
+                    <GridItem xs={10}>
                         <ListItemIcon>
                             <Typography variant="subheading" color="textSecondary">{props.feature.description}</Typography>
                         </ListItemIcon>

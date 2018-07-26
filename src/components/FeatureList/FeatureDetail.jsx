@@ -18,13 +18,16 @@ const styles = theme => ({
     },
     detailHeader : {
         display: 'flex',
+        paddingTop : '8px',
         alignItems: 'center',
-        // justifyContent: 'flex-start',
+        justifyContent: 'flex-start',
     },
     detailButton : {
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
+        paddingBottom : '10px',
+        paddingTop : '10px',
     },
     grid : {
         paddingTop : 20,
@@ -48,6 +51,11 @@ class FeatureDetail extends React.Component {
     };
 
     featureAPI = (feature) => {
+
+        if (feature === "location")
+        {
+            this.props.changeLocation(this.props.location);
+        }
 
         var body = { featureName : feature};
 
@@ -101,20 +109,24 @@ class FeatureDetail extends React.Component {
                     ]}
                     />
                 <Grid container spacing={24} className={classes.grid}>
-                    <GridItem xs={2}>
+                    <Grid item xs={2}>
                         <IconButton onClick={this.props.closePanel}>
                             <ChevronLeft />
                         </IconButton>
-                    </GridItem>
-                    <GridItem xs={10}>
+                    </Grid>
+                    <Grid item xs={10}>
                         <div className={classes.detailHeader}>
                             <Typography variant="headline">{this.props.feature.name}</Typography>
                         </div>
-                    </GridItem>
-                    <GridItem xs={12}>
+                    </Grid>
+                    <Grid item xs={2}>
+                    </Grid>
+                    <Grid item xs={10}>
                         <Typography variant="subheading" color="textSecondary">{this.props.feature.detail}</Typography>
-                    </GridItem>
-                    <GridItem xs={12}>
+                    </Grid>
+                    <Grid item xs={2}>
+                    </Grid>
+                    <GridItem xs={10}>
                         <div className={classes.detailButton}>
                             <Button 
                                 variant="contained" 
@@ -122,10 +134,7 @@ class FeatureDetail extends React.Component {
                                 className={classes.button} 
                                 onClick={() => {
                                     this.featureAPI(this.props.feature.api);
-                                    if (this.props.button === "Show on Map")
-                                    {
-                                        this.props.changeLocation(this.props.location);
-                                    }
+                                    
                                     
                                 }}
                             >
