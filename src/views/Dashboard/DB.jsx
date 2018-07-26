@@ -58,7 +58,7 @@ class DashBoard extends React.Component {
   componentDidMount() {
 
     
-    var body = { email : 'rohan@gmail.com'};
+    var body = { email : 'uniqtest123@gmail.com'};
     
     var formBody = [];
     for (var property in body) {
