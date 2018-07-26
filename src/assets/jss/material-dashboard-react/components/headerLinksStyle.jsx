@@ -30,21 +30,8 @@ const headerLinksStyle = theme => ({
     fontSize: "14px",
     margin: "0px"
   },
-  buttonLink: {
-    [theme.breakpoints.down("sm")]: {
-      display: "flex",
-      margin: "10px 15px 0",
-      width: "-webkit-fill-available",
-      "& svg": {
-        width: "24px",
-        height: "30px",
-        marginRight: "15px",
-        marginLeft: "-15px"
-      },
-      "& > span": {
-        justifyContent: "flex-start"
-      }
-    }
+  profileButton: {
+    margin : 10
   },
   searchButton: {
     [theme.breakpoints.down("sm")]: {

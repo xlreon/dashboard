@@ -2,87 +2,77 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import FeatureItem from './FeatureItem';
 import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import ArrowForward from '@material-ui/icons/KeyboardArrowRight';
-import { Typography } from '../../../node_modules/@material-ui/core';
-import Grid from "@material-ui/core/Grid";
-import GridItem from "components/Grid/GridItem.jsx";
+import FeatureDetail from './FeatureDetail';
 
 const styles = theme => ({
-  root: {
-    width: '100%',
-    // maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
-  ListItem : {
-      paddingTop : 20,
-      paddingBottom : 20,
-  },
-});
+    root: {
+      width: '100%',
+      // maxWidth: 360,
+      backgroundColor: theme.palette.background.paper,
+    },
+    ListItem : {
+        paddingTop : 20,
+        paddingBottom : 20,
+    },
+  });
 
-function SimpleList(props) {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <List component="nav">
-        <ListItem button className={classes.ListItem}>
-            <Grid container spacing={24}>
-                <GridItem xs={2}>
-                    <ListItemIcon>
-                        <DraftsIcon />
-                    </ListItemIcon>
-                </GridItem>
-                <GridItem xs={8}>
-                    <ListItemText primary="Play Sound"  />
-                </GridItem>
-                <GridItem xs={2}>
-                    <ListItemIcon>
-                        <ArrowForward />
-                    </ListItemIcon>
-                </GridItem>
-                <GridItem xs={12}>
-                    <ListItemIcon>
-                        <Typography variant="subheading" color="textSecondary">dbsvijdsbvjsbdoivdsoivndsvndo oioifenoifnseoifnesoi dfnbiodf</Typography>
-                    </ListItemIcon>
-                </GridItem>
-            </Grid>
-        </ListItem>
-        <Divider />
-        <ListItem button className={classes.ListItem}>
-            <Grid container spacing={24}>
-                <GridItem xs={2}>
-                    <ListItemIcon>
-                        <DraftsIcon />
-                    </ListItemIcon>
-                </GridItem>
-                <GridItem xs={8}>
-                    <ListItemText primary="Secure Device"  />
-                </GridItem>
-                <GridItem xs={2}>
-                    <ListItemIcon>
-                        <ArrowForward />
-                    </ListItemIcon>
-                </GridItem>
-                <GridItem xs={12}>
-                    <ListItemIcon>
-                        <Typography variant="subheading" color="textSecondary">dbsvijdsbvjsbdoivdsoivndsvndo oioifenoifnseoifnesoi dfnbiodf</Typography>
-                    </ListItemIcon>
-                </GridItem>
-            </Grid>
-        </ListItem>
-      </List>
-      
-    </div>
-  );
+class FeatureList extends React.Component {
+
+    state = {
+      clicked: false,
+      feature : null,
+      featureDetail: null,
+      button : null
+    };
+  
+
+    openPanel = (feature) => {
+        // console.log(feature);
+        this.setState({ clicked: true, feature : feature});
+      };
+    
+    closePanel = () => {
+        this.setState({ clicked: false });
+      };
+
+      eventhandler = (event) => {
+        console.log(event);
+    };
+  
+    render() {
+        
+        const { classes, details } = this.props;
+        const { clicked } = this.state;
+
+        return (
+            ( clicked ? 
+            <FeatureDetail 
+                closePanel={this.closePanel} 
+                feature={this.state.feature}
+                changeLocation={this.props.changeLocation}
+                buttonClick={this.eventhandler}
+                location={this.props.location}
+            />
+            :
+            <div className={classes.root}>
+                <List component="nav" >
+                    {details.map((prop, key) => {
+                        return <FeatureItem feature={prop} openPanel={this.openPanel} key={key}/>;
+                    })}
+                </List>
+            </div>
+            )
+        );
+
+    }
+
 }
 
-SimpleList.propTypes = {
+
+FeatureList.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SimpleList);
+export default withStyles(styles)(FeatureList);

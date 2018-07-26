@@ -20,6 +20,9 @@ const appStyle = theme => ({
     width: "100%",
     overflowScrolling: "touch"
   },
+  button: {
+    margin: theme.spacing.unit,
+  },
   appFrame: {
     height: '100%',
     zIndex: 1,
@@ -40,13 +43,27 @@ const appStyle = theme => ({
     position: 'relative',
     width: drawerWidth,
   },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
+  
+
+  button: {
+    margin: theme.spacing.unit,
   },
+  floatingButton : {
+    zIndex:1,
+    position: "absolute"
+  },
+  map : {
+    zIndex:1,
+    position: "relative"
+  },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 20,
+  },
+  hide: {
+    display: 'none',
+  },
+  
   content: {
     flexGrow: 1,
     // backgroundColor: theme.palette.background.default,
