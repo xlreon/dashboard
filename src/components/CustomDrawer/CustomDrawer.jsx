@@ -71,7 +71,7 @@ class CustomDrawer extends React.Component {
                 <img src={logo} alt="logo" className={classes.img} />
             </GridItem>
             <GridItem xs={9}>
-                <Typography variant="headline" color={'primary'} className={classes.drawerLogo}>Find My Device</Typography>
+                <Typography variant="headline" color={'primary'} className={classes.drawerLogo}>UniQ Mobile Finder</Typography>
             </GridItem>
             <GridItem xs={2} >
                 <div className={classes.drawerHeader}>
