@@ -28,6 +28,10 @@ class PaperSheet extends React.Component {
   state = {
     device: 0,
     phoneList: null,
+    name: "",
+    battery: "",
+    wifi: "",
+    os: ""
   };
   
   constructor(props) {
@@ -45,7 +49,13 @@ class PaperSheet extends React.Component {
 
   componentDidMount() {
     
-    console.log(this.props.phones);
+    // console.log(this.props.phones);
+    this.setState({
+      name: this.props.phones[this.state.device] !== undefined ? this.props.phones[this.state.device]["name"] : "",
+      os: this.props.phones[this.state.device] !== undefined ? this.props.phones[this.state.device]["os"] : "",
+      wifi: this.props.phones[this.state.device] !== undefined ? this.props.phones[this.state.device]["wifi"] : "",
+      battery: this.props.phones[this.state.device] !== undefined ? this.props.phones[this.state.device]["battery"] : ""
+    })
     // this.setState({phoneList : this.props.phones});
   }
 
@@ -84,19 +94,17 @@ class PaperSheet extends React.Component {
 
 
   handleChange = event => {
-    this.setState({ device: event.target.value });
+    this.setState({ device: event.target.value ,
+      name: this.props.phones[this.state.device]["name"],
+      os: this.props.phones[this.state.device]["os"],
+      battery: this.props.phones[this.state.device]["battery"],
+      wifi: this.props.phones[this.state.device]["wifi"]
+    });
   };
 
   render() {
     const { classes, width, height, phoneImg, phoneName, features, phones } = this.props;
-    const { device } = this.state;
-    // var currPhone = phones[device]
-    // if (currPhone)
-    // {
-    //   this.setState({phone : currPhone});
-      // console.log(this.state.phones)
-    // }
-
+    const { device,name,os,wifi,battery } = this.state;
     return (
         <div>
           <Snackbar
@@ -131,24 +139,31 @@ class PaperSheet extends React.Component {
               device={this.state.device}
               handleChange={this.handleChange}
             />
-            <img style={{width: "100px",height: "100px"}} src={phoneImg} />
+            { name === "" ?
+              <Typography component="p">
+                Please select a device
+            </Typography>
+              :
+            (
+            <div><img style={{width: "100px",height: "100px"}} src={phoneImg} />
             <Typography component="p">
-              {/* {this.state.phone.name} */}
+              {name}
             </Typography>
             <Typography component="p">
-              Android
+            {os}
             </Typography>
             <Typography component="p">
-              Battery 95%
+            {battery}
             </Typography>
             <Typography component="p">
-              ACT
+            {wifi}
             </Typography>
             <Grid spacing={24} container className={classes.features}> 
               {features.map((prop, key) => {
                   return <Grid item xs={4}><SmallFeature feature={prop} key={key} getFeature={this.getFeature}/></Grid>;
               })}
-            </Grid>
+            </Grid></div>)
+            }
         </Paper>
         </div>
     );
