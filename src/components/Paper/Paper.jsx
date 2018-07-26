@@ -60,7 +60,12 @@ class PaperSheet extends React.Component {
   }
 
   getFeature = (feature) => {
-    // console.log(feature);
+
+    if (feature.api === "location")
+    {
+        this.props.changeLocation(this.props.phones[this.state.device]["location"]);
+    }
+
     var body = { featureName : feature.api};
 
     var formBody = [];
@@ -105,6 +110,8 @@ class PaperSheet extends React.Component {
   render() {
     const { classes, width, height, phoneImg, phoneName, features, phones } = this.props;
     const { device,name,os,wifi,battery } = this.state;
+
+    console.log(phones)
     return (
         <div>
           <Snackbar
