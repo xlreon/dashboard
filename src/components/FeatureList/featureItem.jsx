@@ -29,11 +29,11 @@ function FeatureItem(props) {
     return (
         <div>
             <Divider />
-            <ListItem button className={classes.ListItem} onClick={() => {props.openPanel(props.feature.name, props.feature.detail)}}>
+            <ListItem button className={classes.ListItem} onClick={() => {props.openPanel(props.feature)}}>
                 <Grid container spacing={24}>
                     <GridItem xs={2}>
                         <ListItemIcon>
-                            <DraftsIcon />
+                            {props.feature.icon}
                         </ListItemIcon>
                     </GridItem>
                     <GridItem xs={8}>

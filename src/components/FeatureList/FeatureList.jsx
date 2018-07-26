@@ -16,10 +16,6 @@ const styles = theme => ({
         paddingTop : 20,
         paddingBottom : 20,
     },
-    featureDrawer : {
-        position: 'relative',
-        width: 100,
-    },
   });
 
 class FeatureList extends React.Component {
@@ -27,31 +23,37 @@ class FeatureList extends React.Component {
     state = {
       clicked: false,
       feature : null,
-      featureDetail: null
+      featureDetail: null,
+      button : null
     };
   
 
-    openPanel = (feature,detail) => {
-        console.log(feature);
-        this.setState({ clicked: true, feature : feature, featureDetail : detail});
+    openPanel = (feature) => {
+        // console.log(feature);
+        this.setState({ clicked: true, feature : feature});
       };
     
     closePanel = () => {
         this.setState({ clicked: false });
       };
+
+      eventhandler = (event) => {
+        console.log(event);
+    };
   
     render() {
         
         const { classes, details } = this.props;
         const { clicked } = this.state;
-        // console.log(this.state.featureDetail);
+
         return (
             ( clicked ? 
             <FeatureDetail 
                 closePanel={this.closePanel} 
                 feature={this.state.feature}
-                featureDetail={this.state.featureDetail}
-                details = {details}
+                changeLocation={this.props.changeLocation}
+                buttonClick={this.eventhandler}
+                location={this.props.location}
             />
             :
             <div className={classes.root}>

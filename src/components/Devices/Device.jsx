@@ -30,52 +30,36 @@ const styles = theme => ({
 class Device extends React.Component {
   state = {
     expanded: null,
-    details : 
-      {
-        deviceDetails: {
-          os : "Android",
-          battery : "55",
-          wifi : "TP_LINK"
-        },
-        features : [
-          {
-            name : "Play Sound",
-            description : "sncjancojanclancknckan",
-            detail : "Detail1"
-          },
-          {
-            name : "Secure Device",
-            description : "uiebivsvuibiebvscsd",
-            detail : "Detail2"
-          },
-          {
-            name : "Erase Device",
-            description : "AIUCBIUASCVOICOSDIVVNELKVSN",
-            detail : "Detail3"
-          }
-        ]
-      }
   };
 
   handleChange = panel => (event, expanded) => {
+
+    console.log(panel);
+
     this.setState({
       expanded: expanded ? panel : false,
     });
   };
 
   render() {
-    const { classes } = this.props;
-    const { expanded, details } = this.state;
+    const { classes,details,key  } = this.props;
+    const { expanded } = this.state;
+
+    // console.log(id);
 
     return (
-        <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
-            <ExpansionPanelSummary  expandIcon={<ExpandMoreIcon />}>
-            <CustomCard details={details.deviceDetails}/>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-                <FeatureList details={details.features}/>
-            </ExpansionPanelDetails>
-        </ExpansionPanel>
+      <ExpansionPanel expanded={expanded === key} onChange={this.handleChange(key)}>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <CustomCard details={details}/>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <FeatureList 
+            details={this.props.features} 
+            changeLocation={this.props.changeLocation} 
+            location={this.props.details.location}
+          />
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
     );
   }
 }
