@@ -5,19 +5,36 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Maps from "views/Maps/Maps.jsx";
 import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
-import Grid from "@material-ui/core/Grid";
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+// import Grid from "@material-ui/core/Grid";
+import AppBar from '@material-ui/core/AppBar';
 import IconButton from "@material-ui/core/IconButton";
-import BackIcon from "@material-ui/icons/ArrowBack";
-import GridItem from "components/Grid/GridItem.jsx";
-import Paper from 'components/Paper/Paper.jsx';
-import CustomCard from 'components/Card/Card.jsx';
+// import BackIcon from "@material-ui/icons/ArrowBack";
+// import GridItem from "components/Grid/GridItem.jsx";
+// import Paper from 'components/Papexr/Paper.jsx';
+// import CustomCard from 'components/Card/Card.jsx';
 import CustomDrawer from "components/CustomDrawer/CustomDrawer.jsx";
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import features from './features.jsx';
-import android from "assets/img/android.png";
-import AddIcon from '@material-ui/icons/Add';
-import AppBar from 'components/AppBar/AppBar';
+// import android from "assets/img/android.png";
+// import AddIcon from '@material-ui/icons/Add';
+// import AppBar from 'components/AppBar/AppBar';
+import Settings from 'components/Settings/Settings.jsx';
+
+// const styles = {
+//   appRoot: {
+//     flexGrow: 1,
+//   },
+//   appFlex: {
+//     flexGrow: 1,
+//   },
+//   appMenuButton: {
+//     marginLeft: -12,
+//     marginRight: 20,
+//   },
+// };
 
 class DashBoard extends React.Component {
   state = {
@@ -33,7 +50,7 @@ class DashBoard extends React.Component {
   };
 
   showDrawer = () => {
-    this.setState({ open : true})
+    this.setState({ open : !this.state.open})
   }
 
   changeLocation= (loc) => {
@@ -77,6 +94,7 @@ class DashBoard extends React.Component {
 
     var phoneList = [];
   
+    // console.log(imeiList)
     {imeiList.map((prop, key) => {
     
     var body = { imei: prop};
@@ -93,8 +111,11 @@ class DashBoard extends React.Component {
         formBody
       )
       .then(res => {
+        if (res.data.body.content !== null) {
         phoneList.push(res.data.body.content);
         this.setState({phones: phoneList});
+        }
+        
       })
       .catch(error => console.log(error))
 
@@ -111,10 +132,23 @@ class DashBoard extends React.Component {
     const { classes } = this.props;
     const { open, location, showAll, phones } = this.state;
     
+    // console.log(phones);
     return (
-      // open ?
+      <div>
+      <div className={classes.appRoot}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton className={classes.appMenuButton} color="inherit" aria-label="Menu">
+              <MenuIcon onClick={this.showDrawer}/>
+            </IconButton>
+            <Typography variant="title" color="inherit" className={classes.appFlex}>
+              UniQ Mobile Finder
+            </Typography>
+              <Settings />
+          </Toolbar>
+        </AppBar>
+        </div>
       <div className={classes.root}>
-          <AppBar />
         <div className={classes.appFrame}>
           <CustomDrawer 
           
@@ -132,32 +166,6 @@ class DashBoard extends React.Component {
             })}
           >
             <div className={classes.mainPanel} ref="mainPanel">
-                <Grid container spacing={12} className={classes.floatingButton}>
-                  <GridItem xs={4}>
-                    <Button variant="fab" color="secondary" aria-label="Add" onClick={() => this.state.open ? this.handleDrawerToggle() : ()=>{}}
-                      className={classNames(classes.menuButton, this.state.open && classes.hide)}>
-                      {/* <MenuIcon /> */}
-                      {/* <Paper widht="100px"
-                            height="100px"
-                          /> */}
-                    <IconButton color="primary" aria-label="Back" className={classes.button} style={{zIndex: "2",position: "absolute",bottom: "0",top: "1vh",right: "2vh"}} onClick={this.showDrawer}>
-                      <BackIcon />
-                    </IconButton>
-                    <Paper 
-                      style={{position: "relative"}}
-                      width="250%"
-                      height="60vh"
-                      phoneImg={android}
-                      phoneName="One Plus 6"
-                      features={features}
-                      phones={phones}
-                    />
-                    </Button>
-                    
-                  </GridItem>
-                  <GridItem xs={8}>
-                  </GridItem>
-                </Grid>
                 <Maps 
                     locations={showAll ? this.getLocations() : location}
                 />
@@ -165,12 +173,7 @@ class DashBoard extends React.Component {
           </main>
         </div>
       </div>
-        // : 
-        // <div className={classes.root}>
-        //   <div className={classes.appFrame}>
-        //     <Paper />
-        //   </div>
-        // </div>
+      </div>
     );
   }
 }

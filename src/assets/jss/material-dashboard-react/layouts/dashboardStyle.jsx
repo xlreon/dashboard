@@ -91,6 +91,16 @@ const appStyle = theme => ({
   'contentShift-right': {
     marginRight: 0,
   },
+  appRoot: {
+    flexGrow: 1,
+  },
+  appFlex: {
+    flexGrow: 1,
+  },
+  appMenuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
 });
 
 export default appStyle;
