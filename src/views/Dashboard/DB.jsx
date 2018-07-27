@@ -74,6 +74,8 @@ class DashBoard extends React.Component {
   .then(res => {
     var imeiList = res.data.body.content;
 
+    console.log(imeiList);
+
     var phoneList = [];
   
     {imeiList.map((prop, key) => {
@@ -92,8 +94,10 @@ class DashBoard extends React.Component {
         formBody
       )
       .then(res => {
-        phoneList.push(res.data.body.content);
-        this.setState({phones: phoneList});
+        if (res.data.body.content !== null) {
+          phoneList.push(res.data.body.content);
+          this.setState({phones: phoneList});
+        }
       })
       .catch(error => console.log(error))
 

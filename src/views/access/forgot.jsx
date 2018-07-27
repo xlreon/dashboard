@@ -8,10 +8,38 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import classNames from "classnames";
 import TextField from '@material-ui/core/TextField';
+import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import Center from 'react-center';
+import logo from "assets/img/pfa.png";
+import background from "assets/img/background.png";
+import Particles from 'react-particles-js';
+import particleConfig from 'assets/particleJson.json';
 
 const styles = theme => ({
+  background : {
+    height : '100vh',
+    width : '100%',
+    backgroundImage: `url(${background})`,
+    backgroundRepeat : 'no-repeat',
+    backgroundSize : '100% 100%',
+    overflow : 'hidden',
+    zIndex : 0,
+    display: 'flex',
+    justifyContent : 'center',
+    alignItems : 'center',
+  },
+  particle : {
+    zIndex : 1,
+    position: "absolute",
+    height: "100vh",
+    minWidth: "100%",
+    color : "#ff0000"
+  },
   card: {
     minWidth: 275,
+    zIndex : 2,
+    position : 'relative',
+    borderRadius: '25px'
   },
   content : {
     marginRight : 30,
@@ -34,6 +62,9 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     width: 250,
   },
+  root: {
+    flexGrow: 1,
+  },
   container : {
     display: 'flex',
     justifyContent : 'center',
@@ -43,51 +74,109 @@ const styles = theme => ({
     display: 'flex',
     justifyContent : 'flex-end',
   },
+  space : {
+    width : 250,
+    marginBottom : 10
+  },
   login : {
     display: 'flex',
-    justifyContent : 'flex-end',
+    justifyContent : 'center',
     marginTop : 30
   },
   forgot : {
     display: 'flex',
     justifyContent : 'flex-end',
-    marginTop : 10
+    // marginTop : 10
   },
+  img : {
+    marginBottom : 20,
+    marginTop : 20,
+  }
 });    
 
 class LoginForm extends React.Component {
 
-  send = () => {
+  state = {
+    isEmail: false,
+  };
+
+  login = () => {
     console.log("cliked")
   };
+
+  forgot = () => {
+    console.log("forgot ")
+  };
+
+
+  handleEmail = (event) => {
+    const email = event.target.value;
+    this.setState({ email });
+    if (email.length > 0)
+      this.setState({ isEmail : true });
+    else
+      this.setState({ isEmail : false });
+  }
+
+
+  handleSubmit = () => {
+      // your submit logic
+      console.log(this.state.email);
+  }
 
   render() {
 
     const { classes } = this.props;
-    const bull = <span className={classes.bullet}>•</span>;
+    const { email, pass } = this.state;
 
     return (
-      <div className={classes.container}>
-      <center>
-        <Card className={classes.card}>
-          <CardContent className={classes.content}>
-            <form  noValidate autoComplete="off">
-            <div className='row'>
-              <TextField
-                required
-                id="name"
-                label="Email"
-                className={classes.textField}
-                margin="normal"
-              />
-            </div>
-            <div className={classNames('row',classes.login)} >
-                <Button size="large" color='primary' variant='raised' onClick={() => this.send()}>Send Verification</Button>
-            </div>
-            </form>
-          </CardContent>
-        </Card>
-      </center>
+      <div className={classes.background}>
+
+        <Particles 
+        className={classes.particle}
+        params={particleConfig}
+        />
+      <div className={classes.root}>
+        
+        <div className={classes.container}>
+        {/* <Center> */}
+          <Card className={classes.card}>
+            <CardContent className={classes.content}>
+
+              <div className={classes.container}>
+                <img src={logo} alt="logo" className={classes.img} />
+              </div>
+              <ValidatorForm
+                  ref="form"
+                  onSubmit={this.handleSubmit}
+                  onError={errors => console.log(errors)}
+                  >
+                <div className='row'>
+                  <TextValidator
+                      label="Email"
+                      onChange={this.handleEmail}
+                      name="email"
+                      value={email}
+                      className={classes.space}
+                      validators={['required', 'isEmail']}
+                      errorMessages={['this field is required', 'email is not valid']}
+                      />
+                </div>
+                <div className={classNames('row',classes.login)} >
+                {this.state.isEmail
+                  ?
+                  <Button type="submit" variant='raised' color='primary'>Send Verification</Button>
+                  :
+                  <Button disabled type="submit" variant='raised' color='primary'>Send Verification</Button>}
+                </div>
+              </ValidatorForm>
+
+              
+            </CardContent>
+          </Card>
+        {/* </Center> */}
+        </div>
+      </div>
       </div>
     );
   }
