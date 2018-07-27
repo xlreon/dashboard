@@ -17,6 +17,7 @@ import axios from 'axios';
 import features from './features.jsx';
 import android from "assets/img/android.png";
 import AddIcon from '@material-ui/icons/Add';
+import AppBar from 'components/AppBar/AppBar';
 
 class DashBoard extends React.Component {
   state = {
@@ -113,8 +114,10 @@ class DashBoard extends React.Component {
     return (
       // open ?
       <div className={classes.root}>
+          <AppBar />
         <div className={classes.appFrame}>
           <CustomDrawer 
+          
             open={open}
             handleDrawerToggle = {this.handleDrawerToggle}
             phones={phones}
