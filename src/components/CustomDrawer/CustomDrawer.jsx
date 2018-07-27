@@ -66,7 +66,7 @@ class CustomDrawer extends React.Component {
                 paper: classes.drawerPaper
             }}
         >
-        <Grid container spacing={12}>
+        {/* <Grid container spacing={12}>
             <GridItem xs={1}>
                 <img src={logo} alt="logo" className={classes.img} />
             </GridItem>
@@ -75,23 +75,24 @@ class CustomDrawer extends React.Component {
             </GridItem>
             <GridItem xs={2} >
                 <div className={classes.drawerHeader}>
-                    <Settings />
-                    <IconButton onClick={this.props.handleDrawerToggle}>
+                    <Settings /> */}
+           
+            {/* <MobileT         <IconButton onClick={this.props.handleDrawerToggle}>
                         <MenuIcon />
                     </IconButton>
                 </div>
             </GridItem>
-        </Grid>
-            {/* <MobileTabs/> */}
+        </Grid>abs/> */}
             <DeviceList 
                 changeLocation={this.props.changeLocation} 
                 phones={this.props.phones} 
+                currentPhone={this.props.currentPhone}
                 className={classes.DeviceList}
                 features={this.props.features}
             />
-            <Button color="primary" className={classes.button} onClick={this.props.showAllDevices}>
+            {/* <Button color="primary" className={classes.button} onClick={this.props.showAllDevices}>
                 Show all Devices
-            </Button>
+            </Button> */}
         </Drawer>
       </div>
     );

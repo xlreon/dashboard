@@ -38,14 +38,19 @@ import SimpleSelect from "components/SimpleSelect/SimpleSelect.jsx";
 // };
 
 class DashBoard extends React.Component {
-  state = {
-    open: true,
-    showAll : true,
-    settings : null,
-    location: [{ lat: 12.9716, lng: 77.5946 }],
-    phones: [],
-    currentPhone: 0
-  };
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: true,
+      showAll : true,
+      settings : null,
+      location: [{ lat: 12.9716, lng: 77.5946 }],
+      phones: [],
+      currentPhone: 0
+    };
+  }
+
 
   handleDrawerToggle = () => {
     this.setState({ open: !this.state.open });
@@ -130,14 +135,16 @@ class DashBoard extends React.Component {
 
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
+    console.log("in")
     console.log(event.target.value);
-    this.setState({currentPhone: event.target.value})
+    this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0})
+    console.log(this.state.currentPhone)
   }
-
+  
   render() {
     const { classes } = this.props;
-    const { open, location, showAll, phones } = this.state;
+    const { open, location, showAll, phones, currentPhone } = this.state;
     
     // console.log(phones);
     return (
@@ -154,13 +161,14 @@ class DashBoard extends React.Component {
               <SimpleSelect
                 className={classes.appSelectPhone}
                 phones={phones} 
-                device={this.state.currentPhone}
+                device={currentPhone}
                 handleChange={this.handleChange}
-              />
+                />
               <Settings />
           </Toolbar>
         </AppBar>
         </div>
+        {/* {console.log("current phone -> ",currentPhone !== undefined ? currentPhone : 0)} */}
       <div className={classes.root}>
         <div className={classes.appFrame}>
           <CustomDrawer 

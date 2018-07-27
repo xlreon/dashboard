@@ -19,7 +19,7 @@ const styles = theme => ({
   },
   formControl: {
     margin: theme.spacing.unit,
-    minWidth: 120,
+    minWidth: "100%",
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
@@ -34,13 +34,14 @@ class SimpleSelect extends React.Component {
 
   render() {
     const { classes, phones } = this.props;
-
+    console.log("device",this.props.device);
     return (
       <form className={classes.root} autoComplete="off">
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="age-simple" style={{color: "white"}}>Device</InputLabel>
           <Select
             // className={classes.icon}
+            style={{wdith: "170",color: "white"}}
             IconComponent={ArrowDropDownIcon}
             value={this.props.device}
             onChange={this.props.handleChange}
@@ -50,17 +51,7 @@ class SimpleSelect extends React.Component {
             }}
           >
             {phones.map((prop, key) => {
-                return <div>
-                  <MenuItem value={key} key={key}>
-                      <Grid xs={3}>
-                      <img src={android} style={{display: "block",width: "8vh",height: "8vh",marginRight: "1vh" }}/>
-                      </Grid>
-                      <Grid xs={12}>
-                      {prop.name}
-                      </Grid>
-                      <Divider />
-                  </MenuItem>
-                  </div>
+              return  <MenuItem value={key} key={key}><img src={android} style={{width: "4vh",height: "4vh",marginTop: "1vh" }}/> {prop.name}</MenuItem>
             })}
           </Select>
         </FormControl>
