@@ -22,6 +22,7 @@ import features from './features.jsx';
 // import AddIcon from '@material-ui/icons/Add';
 // import AppBar from 'components/AppBar/AppBar';
 import Settings from 'components/Settings/Settings.jsx';
+import SimpleSelect from "components/SimpleSelect/SimpleSelect.jsx";
 
 // const styles = {
 //   appRoot: {
@@ -43,6 +44,7 @@ class DashBoard extends React.Component {
     settings : null,
     location: [{ lat: 12.9716, lng: 77.5946 }],
     phones: [],
+    currentPhone: 0
   };
 
   handleDrawerToggle = () => {
@@ -128,6 +130,11 @@ class DashBoard extends React.Component {
 
   }
 
+  handleChange = (event) => {
+    console.log(event.target.value);
+    this.setState({currentPhone: event.target.value})
+  }
+
   render() {
     const { classes } = this.props;
     const { open, location, showAll, phones } = this.state;
@@ -144,6 +151,12 @@ class DashBoard extends React.Component {
             <Typography variant="title" color="inherit" className={classes.appFlex}>
               UniQ Mobile Finder
             </Typography>
+              <SimpleSelect
+                className={classes.appSelectPhone}
+                phones={phones} 
+                device={this.state.currentPhone}
+                handleChange={this.handleChange}
+              />
               <Settings />
           </Toolbar>
         </AppBar>
@@ -151,10 +164,10 @@ class DashBoard extends React.Component {
       <div className={classes.root}>
         <div className={classes.appFrame}>
           <CustomDrawer 
-          
             open={open}
             handleDrawerToggle = {this.handleDrawerToggle}
             phones={phones}
+            currentPhone={this.state.currentPhone}
             features={features}
             changeLocation={this.changeLocation} 
             showAllDevices={this.showAllDevices}
