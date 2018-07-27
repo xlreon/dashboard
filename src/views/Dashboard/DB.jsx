@@ -148,6 +148,7 @@ class DashBoard extends React.Component {
                       phoneName="One Plus 6"
                       features={features}
                       phones={phones}
+                      changeLocation={this.changeLocation} 
                     />
                     </Button>
                     
