@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Settings from 'components/Settings/Settings.jsx';
 import Grid from "@material-ui/core/Grid";
+import classNames from "classnames";
 import GridItem from "components/Grid/GridItem.jsx";
 import {
     drawerWidth,
@@ -36,6 +37,11 @@ const styles = theme => ({
         // justifyContent: 'center',
         // padding: '0 8px',
         ...theme.mixins.toolbar,
+    },
+    showAllButton :{
+        display: 'flex',
+        // alignItems: 'center',
+        justifyContent: 'center',
     },
     drawerPaper: {
         position: 'relative',
@@ -66,32 +72,37 @@ class CustomDrawer extends React.Component {
                 paper: classes.drawerPaper
             }}
         >
-        <Grid container spacing={12}>
-            <GridItem xs={1}>
-                <img src={logo} alt="logo" className={classes.img} />
-            </GridItem>
-            <GridItem xs={9}>
-                <Typography variant="headline" color={'primary'} className={classes.drawerLogo}>UniQ Mobile Finder</Typography>
-            </GridItem>
-            <GridItem xs={2} >
-                <div className={classes.drawerHeader}>
-                    <Settings />
-                    <IconButton onClick={this.props.handleDrawerToggle}>
-                        <MenuIcon />
-                    </IconButton>
-                </div>
-            </GridItem>
-        </Grid>
-            {/* <MobileTabs/> */}
+        <div className='row'>
+            <Grid container spacing={12}>
+                <GridItem xs={1}>
+                    <img src={logo} alt="logo" className={classes.img} />
+                </GridItem>
+                <GridItem xs={9}>
+                    <Typography variant="headline" color={'primary'} className={classes.drawerLogo}>UniQ Mobile Finder</Typography>
+                </GridItem>
+                <GridItem xs={2} >
+                    <div className={classes.drawerHeader}>
+                        <Settings />
+                        <IconButton onClick={this.props.handleDrawerToggle}>
+                            <MenuIcon />
+                        </IconButton>
+                    </div>
+                </GridItem>
+            </Grid>
+        </div>
+        <div className='row'>
             <DeviceList 
                 changeLocation={this.props.changeLocation} 
                 phones={this.props.phones} 
                 className={classes.DeviceList}
                 features={this.props.features}
             />
+        </div>
+        <div className={classNames('row', classes.showAllButton)}>
             <Button color="primary" className={classes.button} onClick={this.props.showAllDevices}>
                 Show all Devices
             </Button>
+        </div>
         </Drawer>
       </div>
     );
