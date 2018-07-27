@@ -7,6 +7,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
+import android from "assets/img/android.png";
+import { Grid, Divider } from '../../../node_modules/@material-ui/core';
 
 const styles = theme => ({
   root: {
@@ -21,6 +24,9 @@ const styles = theme => ({
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
   },
+  icon: {
+    color: "white"
+  }
 });
 
 class SimpleSelect extends React.Component {
@@ -32,17 +38,29 @@ class SimpleSelect extends React.Component {
     return (
       <form className={classes.root} autoComplete="off">
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="age-simple">Device</InputLabel>
+          <InputLabel htmlFor="age-simple" style={{color: "white"}}>Device</InputLabel>
           <Select
+            // className={classes.icon}
+            IconComponent={ArrowDropDownIcon}
             value={this.props.device}
             onChange={this.props.handleChange}
-            inputProps={{
+            inputProps={{ 
               name: 'age',
               id: 'age-simple',
             }}
           >
             {phones.map((prop, key) => {
-                return <MenuItem value={key} key={key}>{prop.name}</MenuItem>
+                return <div>
+                  <MenuItem value={key} key={key}>
+                      <Grid xs={3}>
+                      <img src={android} style={{display: "block",width: "8vh",height: "8vh",marginRight: "1vh" }}/>
+                      </Grid>
+                      <Grid xs={12}>
+                      {prop.name}
+                      </Grid>
+                      <Divider />
+                  </MenuItem>
+                  </div>
             })}
           </Select>
         </FormControl>

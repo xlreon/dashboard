@@ -27,7 +27,9 @@ class SimpleMenu extends React.Component {
           aria-haspopup="true"
           onClick={this.handleClick}
         >
-            <Settings />
+            <Settings
+              style={{color: "white"}}
+            />
         </Button>
         <Menu
           id="simple-menu"
