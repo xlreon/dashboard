@@ -232,14 +232,17 @@ class ForgotCard extends React.Component {
                         />
                         </div>
                         <div className={classNames('row',classes.login)} >
-                        {this.state.check.oldPassword &&
-                        this.state.check.password &&
-                        this.state.check.repeatPassword && 
-                        this.state.user.repeatPassword === this.state.user.password
-                        ?
-                        <Button type="submit" variant='raised' color='primary'>Submit</Button>
-                        :
-                        <Button disabled type="submit" variant='raised' color='primary'>Submit</Button>}
+                            <Button 
+                                disabled={this.state.check.oldPassword &&
+                                    this.state.check.password &&
+                                    this.state.check.repeatPassword && 
+                                    this.state.user.repeatPassword === this.state.user.password} 
+                                type="submit" 
+                                variant='raised' 
+                                color='primary'
+                            >
+                                Submit
+                            </Button>
                         </div>
                     </ValidatorForm>
 

@@ -14,6 +14,7 @@ import logo from "assets/img/pfa.png";
 import background from "assets/img/background.png";
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
     
@@ -75,9 +76,8 @@ const styles = theme => ({
         marginTop : 20,
       },
       loginButton : {
-        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-        // backgroundImage: `url(${background})`,
-        // backgroundSize : '100% 100%',
+        // background: 'linear-gradient(45deg, #9480ff 30%, #fffff0 90%)',
+        background: '#9480ff',
         borderRadius: 3,
         border: 0,
         color: 'white',
@@ -92,6 +92,7 @@ class LoginCard extends React.Component {
     state = {
         isEmail: false,
         isPass: false,
+        loading : false,
       };
     
       login = () => {
@@ -143,7 +144,22 @@ class LoginCard extends React.Component {
             if (res.data.status === 3) {
                 console.log("login success")
                 localStorage.setItem("email", this.state.email);
-                this.setState({redirect: true});
+                // this.setState({redirect: true});
+                if (!this.state.loading) {
+                    this.setState(
+                      {
+                        loading: true,
+                      },
+                      () => {
+                        this.timer = setTimeout(() => {
+                          this.setState({
+                            loading: false,
+                            redirect: true
+                          });
+                        }, 2000);
+                      },
+                    );
+                  }
                 // window.location.href = "/forgot";
             }
         })
@@ -155,11 +171,11 @@ class LoginCard extends React.Component {
     render() {
 
         if (this.state.redirect) {
-            return <Redirect push to="/dashboard" />;
+            return <Redirect push to="/selectDevice" />;
         }
 
         const { classes } = this.props;
-        const { email, pass } = this.state;
+        const { email, pass,loading } = this.state;
         return (
             <div>
                 <Card className={classes.card}>
@@ -208,18 +224,10 @@ class LoginCard extends React.Component {
                     </Link>
                 </div>
                     <div className={classNames('row',classes.login)} >
-                    {this.state.isEmail && this.state.isPass
-                    ?
-                    <Button 
-                        type="submit" 
-                        variant='raised' 
-                        color='primary'
-                        className={classes.loginButton}
-                    >
-                    Login
-                    </Button>
-                    :
-                    <Button disabled type="submit" variant='raised' color='primary'>Login</Button>}
+                        <Button disabled={!this.state.isEmail && !this.state.isPass} type="submit" variant='raised' color='primary'>Login</Button>
+                    </div>
+                    <div className={classNames('row',classes.login)} >
+                        {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                     </div>
                 </ValidatorForm>
 

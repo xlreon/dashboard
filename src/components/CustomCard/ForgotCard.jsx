@@ -169,11 +169,7 @@ class ForgotCard extends React.Component {
                             />
                         </div>
                         <div className={classNames('row',classes.login)} >
-                        {this.state.isEmail
-                        ?
-                        <Button type="submit" variant='raised' color='primary'>Send Verification</Button>
-                        :
-                        <Button disabled type="submit" variant='raised' color='primary'>Send Verification</Button>}
+                            <Button disabled={!this.state.isEmail} type="submit" variant='raised' color='primary'>Send Verification</Button>
                         </div>
                     </ValidatorForm>
 
