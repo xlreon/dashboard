@@ -29,7 +29,7 @@ const styles = theme => ({
 
 class Device extends React.Component {
   state = {
-    expanded: null,
+    expanded: true,
   };
 
   handleChange = panel => (event, expanded) => {
@@ -37,7 +37,7 @@ class Device extends React.Component {
     console.log(panel);
 
     this.setState({
-      expanded: expanded ? panel : false,
+      expanded: !this.state.expanded,
     });
   };
 
@@ -48,7 +48,7 @@ class Device extends React.Component {
     // console.log(id);
 
     return (
-      <ExpansionPanel expanded={expanded === key} onChange={this.handleChange(key)}>
+      <ExpansionPanel expanded={expanded} onChange={this.handleChange(key)}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <CustomCard details={details}/>
         </ExpansionPanelSummary>

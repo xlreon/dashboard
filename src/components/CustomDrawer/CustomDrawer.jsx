@@ -72,37 +72,33 @@ class CustomDrawer extends React.Component {
                 paper: classes.drawerPaper
             }}
         >
-        <div className='row'>
-            <Grid container spacing={12}>
-                <GridItem xs={1}>
-                    <img src={logo} alt="logo" className={classes.img} />
-                </GridItem>
-                <GridItem xs={9}>
-                    <Typography variant="headline" color={'primary'} className={classes.drawerLogo}>UniQ Mobile Finder</Typography>
-                </GridItem>
-                <GridItem xs={2} >
-                    <div className={classes.drawerHeader}>
-                        <Settings />
-                        <IconButton onClick={this.props.handleDrawerToggle}>
-                            <MenuIcon />
-                        </IconButton>
-                    </div>
-                </GridItem>
-            </Grid>
-        </div>
-        <div className='row'>
+        {/* <Grid container spacing={12}>
+            <GridItem xs={1}>
+                <img src={logo} alt="logo" className={classes.img} />
+            </GridItem>
+            <GridItem xs={9}>
+                <Typography variant="headline" color={'primary'} className={classes.drawerLogo}>UniQ Mobile Finder</Typography>
+            </GridItem>
+            <GridItem xs={2} >
+                <div className={classes.drawerHeader}>
+                    <Settings /> */}
+           
+            {/* <MobileT         <IconButton onClick={this.props.handleDrawerToggle}>
+                        <MenuIcon />
+                    </IconButton>
+                </div>
+            </GridItem>
+        </Grid>abs/> */}
             <DeviceList 
                 changeLocation={this.props.changeLocation} 
                 phones={this.props.phones} 
+                currentPhone={this.props.currentPhone}
                 className={classes.DeviceList}
                 features={this.props.features}
             />
-        </div>
-        <div className={classNames('row', classes.showAllButton)}>
-            <Button color="primary" className={classes.button} onClick={this.props.showAllDevices}>
+            {/* <Button color="primary" className={classes.button} onClick={this.props.showAllDevices}>
                 Show all Devices
-            </Button>
-        </div>
+            </Button> */}
         </Drawer>
       </div>
     );
