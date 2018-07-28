@@ -96,9 +96,14 @@ const appStyle = theme => ({
   },
   appFlex: {
     flexGrow: 1,
+    display: 'flex',
+    justifyContent : 'center'
+    
   },
   appSelectPhone: {
-    width: "100%"
+    width: "100%",
+    // flexGrow: 1,
+    marginRight : 100
   },
   appMenuButton: {
     marginLeft: -12,

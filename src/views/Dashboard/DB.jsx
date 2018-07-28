@@ -47,7 +47,8 @@ class DashBoard extends React.Component {
       settings : null,
       location: [{ lat: 12.9716, lng: 77.5946 }],
       phones: [],
-      currentPhone: 0
+      currentPhone: 0,
+      anchorEl : null
     };
   }
 
@@ -141,13 +142,19 @@ class DashBoard extends React.Component {
   handleChange = event => {
     console.log("in")
     console.log(event.target.value);
-    this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0})
+    this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0, anchorEl : null})
     console.log(this.state.currentPhone)
   }
+
+  deviceSelect = event => {
+    this.setState({ anchorEl: event.currentTarget });
+    console.log(event.currentTarget)
+    console.log(this.state.anchorEl)
+  };
   
   render() {
     const { classes } = this.props;
-    const { open, location, showAll, phones, currentPhone } = this.state;
+    const { open, location, showAll, phones, currentPhone, anchorEl } = this.state;
     
     // console.log(phones);
     return (
@@ -158,15 +165,20 @@ class DashBoard extends React.Component {
             <IconButton className={classes.appMenuButton} color="inherit" aria-label="Menu">
               <MenuIcon onClick={this.showDrawer}/>
             </IconButton>
-            <Typography variant="title" color="inherit" className={classes.appFlex}>
+            <Typography variant="title" color="inherit" >
               UniQ Mobile Finder
             </Typography>
+            <div className={classes.appFlex}>
               <SimpleSelect
                 className={classes.appSelectPhone}
                 phones={phones} 
                 device={currentPhone}
                 handleChange={this.handleChange}
-                />
+                deviceSelect={this.deviceSelect}
+                anchorEl={anchorEl}
+                currentPhone={currentPhone}
+              />
+            </div>
               <Settings />
           </Toolbar>
         </AppBar>
