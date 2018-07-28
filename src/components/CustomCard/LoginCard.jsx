@@ -200,7 +200,7 @@ class LoginCard extends React.Component {
                     <Link to='/forgot'>
                     <Button 
                         size="small" 
-                        color='secondary' 
+                        color='primary' 
                         onClick={() => this.forgot()}
                     >
                         Forgot Password?

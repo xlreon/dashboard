@@ -14,7 +14,7 @@ import logo from "assets/img/pfa.png";
 import background from "assets/img/background.png";
 import Particles from 'react-particles-js';
 import particleConfig from 'assets/particleJson.json';
-import ForgotCard from 'components/CustomCard/ForgotCard';
+import UpdatePassCard from 'components/CustomCard/UpdatePassCard';
 
 const styles = theme => ({
   background : {
@@ -112,7 +112,7 @@ class LoginForm extends React.Component {
       <div className={classes.root}>
         
         <div className={classes.container}>
-          <ForgotCard />
+          <UpdatePassCard />
         </div>
       </div>
       </div>
