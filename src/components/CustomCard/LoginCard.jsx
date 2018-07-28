@@ -15,6 +15,7 @@ import background from "assets/img/background.png";
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Error from '@material-ui/icons/ErrorOutline';
 
 const styles = theme => ({
     
@@ -159,8 +160,26 @@ class LoginCard extends React.Component {
                         }, 2000);
                       },
                     );
-                  }
+                }
                 // window.location.href = "/forgot";
+            }
+            else 
+            {
+                if (!this.state.loading) {
+                    this.setState(
+                      {
+                        loading: true,
+                      },
+                      () => {
+                        this.timer = setTimeout(() => {
+                          this.setState({
+                            loading: false,
+                            invalid : true
+                          });
+                        }, 2000);
+                      },
+                    );
+                }
             }
         })
         .catch(error => console.log(error))
@@ -223,11 +242,16 @@ class LoginCard extends React.Component {
                     </Button>
                     </Link>
                 </div>
-                    <div className={classNames('row',classes.login)} >
-                        {!loading ?
-                        <Button disabled={!this.state.isEmail && !this.state.isPass} type="submit" variant='raised' color='primary'>Login</Button>
-                        : <CircularProgress size={24} className={classes.buttonProgress} />}
-                    </div>
+                <div className={classNames('row',classes.login)} >
+                    {!loading ?
+                    <Button disabled={!this.state.isEmail && !this.state.isPass} type="submit" variant='raised' color='primary'>Login</Button>
+                    : <CircularProgress size={24} className={classes.buttonProgress} />}
+
+                </div>
+                <div className={classNames(classes.login)} >
+                    
+                    {this.state.invalid ? <Typography color='error'>Invalid Email Address or Password </Typography> : <div></div>}
+                </div>
                 </ValidatorForm>
 
                 
