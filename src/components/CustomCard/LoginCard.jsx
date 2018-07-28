@@ -224,10 +224,9 @@ class LoginCard extends React.Component {
                     </Link>
                 </div>
                     <div className={classNames('row',classes.login)} >
+                        {!loading ?
                         <Button disabled={!this.state.isEmail && !this.state.isPass} type="submit" variant='raised' color='primary'>Login</Button>
-                    </div>
-                    <div className={classNames('row',classes.login)} >
-                        {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                        : <CircularProgress size={24} className={classes.buttonProgress} />}
                     </div>
                 </ValidatorForm>
 
