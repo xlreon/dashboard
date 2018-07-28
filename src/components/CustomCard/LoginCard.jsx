@@ -142,6 +142,7 @@ class LoginCard extends React.Component {
         .then(res => {
             if (res.data.status === 3) {
                 console.log("login success")
+                localStorage.setItem("email", this.state.email);
                 this.setState({redirect: true});
                 // window.location.href = "/forgot";
             }

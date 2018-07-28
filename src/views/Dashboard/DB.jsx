@@ -82,33 +82,13 @@ class DashBoard extends React.Component {
 
   componentDidMount() {
 
+    const email = localStorage.getItem("email")
     
-    var body = { email : 'uniqtest123@gmail.com'};
-    
-    var formBody = [];
-    for (var property in body) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(body[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
-    
-    axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/imei/get`, 
-      formBody
-    )
-  .then(res => {
-    var imeiList = res.data.body.content;
-
-    console.log(imeiList);
-
-    var phoneList = [];
-  
-    // console.log(imeiList)
-    {imeiList.map((prop, key) => {
-    
-    var body = { imei: prop};
-    
-    var formBody = [];
+    if (email)
+    {
+      var body = { email : email};
+      
+      var formBody = [];
       for (var property in body) {
         var encodedKey = encodeURIComponent(property);
         var encodedValue = encodeURIComponent(body[property]);
@@ -116,23 +96,45 @@ class DashBoard extends React.Component {
       }
       formBody = formBody.join("&");
       
-      axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/phone/get`, 
+      axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/imei/get`, 
         formBody
       )
-      .then(res => {
-        if (res.data.body.content !== null) {
-          phoneList.push(res.data.body.content);
-          this.setState({phones: phoneList});
-        }
-      })
-      .catch(error => console.log(error))
+    .then(res => {
+      var imeiList = res.data.body.content;
 
-    })}
+      var phoneList = [];
     
-  })
-  .catch(error => console.log(error))
-  
-  this.getLocations();
+      // console.log(imeiList)
+      {imeiList.map((prop, key) => {
+      
+      var body = { imei: prop};
+      
+      var formBody = [];
+        for (var property in body) {
+          var encodedKey = encodeURIComponent(property);
+          var encodedValue = encodeURIComponent(body[property]);
+          formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+        
+        axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/phone/get`, 
+          formBody
+        )
+        .then(res => {
+          if (res.data.body.content !== null) {
+            phoneList.push(res.data.body.content);
+            this.setState({phones: phoneList});
+          }
+        })
+        .catch(error => console.log(error))
+
+      })}
+      
+    })
+    .catch(error => console.log(error))
+    
+    this.getLocations();
+  }
 
   }
 
