@@ -108,7 +108,7 @@ class ForgotCard extends React.Component {
         }
         formBody = formBody.join("&");
         
-        axios.post(`http://localhost:8080/forgetPassword`, 
+        axios.post(`http://http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/forgetPassword`, 
             formBody
         )
         .then(res => {
