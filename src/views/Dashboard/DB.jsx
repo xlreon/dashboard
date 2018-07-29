@@ -42,6 +42,11 @@ class DashBoard extends React.Component {
         return list.push(prop.data);
       })}
     }
+    {list.map((item) => {
+      item.lat = parseFloat(item.lat)
+      item.lng = parseFloat(item.lng)
+
+    })}
     return list;
   };
 
