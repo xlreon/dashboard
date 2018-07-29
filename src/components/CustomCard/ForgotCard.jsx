@@ -115,6 +115,7 @@ class ForgotCard extends React.Component {
             console.log(res.data);
             if (res.data.status === 1) {
                 console.log(" success")
+                localStorage.setItem("resetEmail",this.state.email);
                 this.setState({ sent : true });
                 // window.location.href = "/forgot";
             }

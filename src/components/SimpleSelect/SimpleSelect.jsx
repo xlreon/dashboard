@@ -16,13 +16,6 @@ const styles = theme => ({
 
 class SimpleMenu extends React.Component {
 
-  constructor(props)
-  {
-    super(props);
-
-    console.log(props.currPhone);
-  }
-
   state={
     text : "Select Device"
   }

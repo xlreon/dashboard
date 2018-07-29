@@ -7,11 +7,13 @@ import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboar
 import CustomDrawer from "components/CustomDrawer/CustomDrawer.jsx";
 import features from './features.jsx';
 import CustomAppBar from 'components/CustomAppBar/CustomAppBar.jsx';
+import { Link, Redirect } from 'react-router-dom';
 
 class DashBoard extends React.Component {
   
   constructor(props) {
     super(props);
+
     this.state = {
       open: true,
       showAll : true,
@@ -51,21 +53,27 @@ class DashBoard extends React.Component {
 
     var phones = JSON.parse(localStorage.getItem("phones"));
     var currentPhone = JSON.parse(localStorage.getItem("currPhone"));
-    // console.log(currentPhone)
     this.setState({phones: phones, currentPhone : currentPhone});
 
   }
 
   handleChange = event => {
-    console.log("in")
-    console.log(event.target.value);
     this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0})
-    console.log(this.state.currentPhone)
   }
 
   
   
   render() {
+
+    var email = localStorage.getItem("email");
+    // console.log(email)
+
+    if(email === "null")
+    {
+      // console.log(email)
+      return <Redirect push to="/login" />;
+    }
+
     const { classes } = this.props;
     const { open, location, showAll, phones, currentPhone } = this.state;
     
@@ -80,7 +88,6 @@ class DashBoard extends React.Component {
           handleChange={this.handleChange}
         />
         </div>
-        {/* {console.log("current phone -> ",currentPhone !== undefined ? currentPhone : 0)} */}
       <div className={classes.root}>
         <div className={classes.appFrame}>
           <CustomDrawer 

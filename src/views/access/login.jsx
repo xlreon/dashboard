@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
+import { Link, Redirect } from 'react-router-dom';
 import background from "assets/img/background.png";
 import Particles from 'react-particles-js';
 import particleConfig from 'assets/particleJson.json';
@@ -38,14 +38,21 @@ const styles = theme => ({
 
 class LoginForm extends React.Component {
 
-  
 
   render() {
 
     const { classes } = this.props;
     
+    var email = localStorage.getItem("email")
+    // console.log(email)
+    if(email !== "null")
+    {
+      return <Redirect push to="/dashboard" />;
+    }
 
     return (
+
+
       <div className={classes.background}>
 
       <Particles 
