@@ -55,7 +55,7 @@ function CustomCard(props) {
               <ListItemIcon>
               <Android />
               </ListItemIcon>
-              <ListItemText primary={props.details.name} />
+              <ListItemText primary={props.details.brand + " " + props.details.model} />
             </ListItem>
             <ListItem >
               <ListItemIcon>
@@ -67,7 +67,7 @@ function CustomCard(props) {
               <ListItemIcon>
                 <Wifi />
               </ListItemIcon>
-              <ListItemText primary={props.details.wifi} />
+              <ListItemText primary={props.details.ssid} />
             </ListItem>
           </List>
         </Grid>

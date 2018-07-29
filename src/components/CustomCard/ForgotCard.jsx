@@ -96,40 +96,36 @@ class ForgotCard extends React.Component {
     }
     
     handleSubmit = () => {
-        console.log(this.state.email);
-        this.setState({ redirect : true });
+        
 
-        // var body = { email: this.state.email, password : this.state.pass};
+        var body = { email: this.state.email};
         
-        // var formBody = [];
-        // for (var property in body) {
-        //     var encodedKey = encodeURIComponent(property);
-        //     var encodedValue = encodeURIComponent(body[property]);
-        //     formBody.push(encodedKey + "=" + encodedValue);
-        // }
-        // formBody = formBody.join("&");
+        var formBody = [];
+        for (var property in body) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(body[property]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
         
-        // axios.post(`http://localhost:8080/loginWeb`, 
-        //     formBody
-        // )
-        // .then(res => {
-        //     if (res.data.status === 3) {
-        //         console.log("login success")
-        //         localStorage.setItem("email", this.state.email);
-        //         this.setState({redirect: true});
-        //         // window.location.href = "/forgot";
-        //     }
-        // })
-        // .catch(error => console.log(error))
+        axios.post(`http://localhost:8080/forgetPassword`, 
+            formBody
+        )
+        .then(res => {
+            console.log(res.data);
+            if (res.data.status === 1) {
+                console.log(" success")
+                this.setState({ sent : true });
+                // window.location.href = "/forgot";
+            }
+        })
+        .catch(error => console.log(error))
 
         
     }
 
     render() {
 
-        if (this.state.redirect) {
-            return <Redirect push to="/updatePass" />;
-        }
 
         const { classes } = this.props;
         const { email } = this.state;
@@ -161,8 +157,9 @@ class ForgotCard extends React.Component {
                             <Button disabled={!this.state.isEmail} type="submit" variant='raised' color='primary'>Send Verification</Button>
                         </div>
                     </ValidatorForm>
-
-                    
+                    <div className={classNames(classes.login)} >
+                      {this.state.sent ? <Typography color='default'>Verification Mail sent to your Email </Typography> : <div></div>}
+                    </div>
                     </CardContent>
                 </Card>
                 

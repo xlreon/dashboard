@@ -117,8 +117,8 @@ class ForgotCard extends React.Component {
     }
     
     handleSubmit = () => {
-        console.log(this.state.email);
-        this.setState({ redirect : true });
+        console.log(this.state.user.password);
+        // this.setState({ redirect : true });
 
         // var body = { email: this.state.email, password : this.state.pass};
         

@@ -37,7 +37,7 @@ class DashBoard extends React.Component {
     if (this.state.phones.length)
     {
       {this.state.phones.map((prop, key) => {
-        return list.push(prop.location);
+        return list.push(prop.data);
       })}
     }
     return list;

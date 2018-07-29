@@ -47,7 +47,7 @@ class Device extends React.Component {
 
         const { phone  } = props;
 
-        var body = phone.location;
+        var body = phone.data;
         // console.log(body)
             
         var formBody = [];
@@ -70,9 +70,9 @@ class Device extends React.Component {
                             location = item.formatted_address;
                         }
                     })
-                    // console.log(location)
-                    this.setState({location : location});
                 }
+                console.log(location)
+                this.setState({location : location});
 
         })
         .catch(error => console.log(error))
@@ -95,7 +95,7 @@ class Device extends React.Component {
                         </ListItemIcon>
                     </Grid>
                     <Grid item xs={4}>  
-                        <Typography>{phone.name}</Typography>
+                        <Typography>{phone.brand + " " + phone.model}</Typography>
                     </Grid>
                     <Grid item xs={6}>
                         <Typography>{this.state.location}</Typography>

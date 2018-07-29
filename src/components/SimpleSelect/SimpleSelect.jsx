@@ -57,7 +57,7 @@ class SimpleMenu extends React.Component {
           <MenuItem onClick={handleChange}>Logout</MenuItem> */}
           {phones.map((prop, key) => {
             return <MenuItem onClick={handleChange} value={key} key={key}> 
-              <img src={android} style={{width: "4vh",height: "4vh",marginTop: "1vh" }}/> {prop.name}
+              <img src={android} style={{width: "4vh",height: "4vh",marginTop: "1vh" }}/> {prop.model}
             </MenuItem>
           })} 
         </Menu>

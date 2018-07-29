@@ -101,7 +101,7 @@ class SelectDevice extends React.Component {
                 )
                 .then(res => {
                 if (res.data.body.content !== null) {
-                    phoneList.push(res.data.body.content);
+                    phoneList.push(res.data.body);
                     this.setState({phones: phoneList});
                     localStorage.setItem("phones",JSON.stringify(phoneList));
 
