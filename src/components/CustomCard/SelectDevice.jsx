@@ -16,7 +16,7 @@ import Grid from '@material-ui/core/Grid';
 import PhoneIcon from '@material-ui/icons/PhonelinkLock';
 import classNames from "classnames";
 import Divider  from '@material-ui/core/Divider';
-
+import md5 from 'md5';
 const styles = theme => ({
     
       card: {
@@ -104,7 +104,8 @@ class SelectDevice extends React.Component {
                     phoneList.push(res.data.body);
                     this.setState({phones: phoneList});
                     localStorage.setItem("phones",JSON.stringify(phoneList));
-
+                    localStorage.setItem('prevHash',md5(JSON.stringify(res.data.body)))
+                    console.log(localStorage.getItem('prevHash'))
                     // console.log(this.state.phones)
                 }
                 })

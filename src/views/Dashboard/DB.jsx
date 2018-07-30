@@ -9,7 +9,10 @@ import features from './features.jsx';
 import CustomAppBar from 'components/CustomAppBar/CustomAppBar.jsx';
 import axios from 'axios';
 import md5 from 'md5';
+<<<<<<< HEAD
 import Snackbar from '@material-ui/core/Snackbar';
+=======
+>>>>>>> 85c8aa5fe02d10329d1cec3a7a07b558cbd88984
 
 class DashBoard extends React.Component {
   
@@ -84,7 +87,11 @@ class DashBoard extends React.Component {
 
   componentDidMount() {
 
+<<<<<<< HEAD
     setInterval(() => this.recurGetInfo(),3000);
+=======
+    setInterval(() => this.recurGetInfo(),30000);
+>>>>>>> 85c8aa5fe02d10329d1cec3a7a07b558cbd88984
 
     var phones = JSON.parse(localStorage.getItem("phones"));
     var currentPhone = JSON.parse(localStorage.getItem("currPhone"));
@@ -92,7 +99,11 @@ class DashBoard extends React.Component {
     this.setState({phones: phones, currentPhone : currentPhone});
       setInterval(() => {
         this.recurPhoneGet()
+<<<<<<< HEAD
       },3000)
+=======
+      },30000)
+>>>>>>> 85c8aa5fe02d10329d1cec3a7a07b558cbd88984
     
   }
 
@@ -107,7 +118,11 @@ class DashBoard extends React.Component {
             }
             formBody = formBody.join("&");
             
+<<<<<<< HEAD
             axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/feature`, 
+=======
+            axios.post(`http://localhost:8080/feature`, 
+>>>>>>> 85c8aa5fe02d10329d1cec3a7a07b558cbd88984
                 formBody
             )
             .then(res => { 
@@ -141,7 +156,11 @@ class DashBoard extends React.Component {
             }
             formBody = formBody.join("&");
             
+<<<<<<< HEAD
             axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/imei/get`, 
+=======
+            axios.post(`http://localhost:8080/imei/get`, 
+>>>>>>> 85c8aa5fe02d10329d1cec3a7a07b558cbd88984
                 formBody
             )
             .then(res => {
@@ -161,7 +180,11 @@ class DashBoard extends React.Component {
                 }
                 formBody = formBody.join("&");
                 
+<<<<<<< HEAD
                 axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/phone/get`, 
+=======
+                axios.post(`http://localhost:8080/phone/get`, 
+>>>>>>> 85c8aa5fe02d10329d1cec3a7a07b558cbd88984
                 formBody
                 )
                 .then(res => {

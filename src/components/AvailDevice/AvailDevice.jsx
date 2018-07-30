@@ -48,10 +48,11 @@ class Device extends React.Component {
         const { phone  } = props;
 
         var body = phone.data;
+        var gps = phone.gps;
         // console.log(body)
             
         var formBody = [];
-            for (var property in body) {
+        for (var property in body) {
             var encodedKey = encodeURIComponent(property);
             var encodedValue = encodeURIComponent(body[property]);
             formBody.push(encodedKey + "=" + encodedValue);
@@ -60,6 +61,7 @@ class Device extends React.Component {
             
         axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/geoloc`, formBody)
         .then(res => {
+            // console.log(res)
             const data = res.data.body.content;
             if (data !== null) {
                 var location = null;
@@ -76,6 +78,34 @@ class Device extends React.Component {
 
         })
         .catch(error => console.log(error))
+    })
+    .catch(err => {
+        console.log("get lat lng error")
+        console.log(err)
+    })
+}
+else 
+{
+
+    axios.post(`http://localhost:8080/geoloc`, formBody)
+    .then(res => {
+        const data = res.data.body.content;
+        if (data !== null) {
+            var location = null;
+            data.map((item) => {
+                if (item.location_type == "APPROXIMATE") 
+                {
+                    if((item.formatted_address.match(/,/g) || []).length === 2)
+                        location = item.formatted_address;
+                    }
+                })
+            }
+            console.log(location)
+            this.setState({location : location});
+
+    })
+    .catch(error => console.log(error))
+}
 
     }
 
