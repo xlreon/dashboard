@@ -9,6 +9,8 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
+import { Link, Redirect } from 'react-router-dom';
+import LockPhone from 'components/LockPhone/LockPhone';
 
 const styles = theme => ({
     root: {
@@ -40,6 +42,7 @@ class FeatureDetail extends React.Component {
     state = {
         open: false,
         message: null,
+
     };
     
     handleClick = (msg) => {
@@ -55,6 +58,18 @@ class FeatureDetail extends React.Component {
         if (feature === "location")
         {
             this.props.changeLocation(this.props.location);
+        }
+
+        if (feature === "theft")
+        {
+            localStorage.setItem("info","theft");
+            this.setState({theft : true});
+        }
+
+        if (feature === "contact")
+        {
+            localStorage.setItem("info","contact");
+            this.setState({contact : true});
         }
 
         var body = { featureName : feature};
@@ -81,7 +96,14 @@ class FeatureDetail extends React.Component {
     };
 
     render() {
+
+        if (this.state.theft)
+            return <Redirect push to="/info" />;
+        if (this.state.contact)
+            return <Redirect push to="/info" />;
+
         const { classes } = this.props;
+        const { phone,note,password } = this.state;
         return (
             <div>
                 <Snackbar
@@ -122,11 +144,18 @@ class FeatureDetail extends React.Component {
                     <Grid item xs={2}>
                     </Grid>
                     <Grid item xs={10}>
+                        {this.props.feature.detail === "noDetail" ?
+                        <LockPhone phone={phone} note={note} password={password} />
+                        :
                         <Typography variant="subheading" color="textSecondary">{this.props.feature.detail}</Typography>
+                        }
                     </Grid>
                     <Grid item xs={2}>
                     </Grid>
                     <GridItem xs={10}>
+                    {this.props.feature.detail === "noDetail" ?
+                        <div></div>
+                        :
                         <div className={classes.detailButton}>
                             <Button 
                                 variant="contained" 
@@ -134,13 +163,12 @@ class FeatureDetail extends React.Component {
                                 className={classes.button} 
                                 onClick={() => {
                                     this.featureAPI(this.props.feature.api);
-                                    
-                                    
                                 }}
                             >
                                 {this.props.feature.event}
                             </Button>
                         </div>
+                    }
                     </GridItem>
                 </Grid>
                 

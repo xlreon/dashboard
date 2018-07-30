@@ -43,16 +43,15 @@ class SimpleMenu extends React.Component {
           open={Boolean(anchorEl)}
           // onClose={handleChange}
         >
-          {/* <MenuItem onClick={handleChange}>
-            <img src={android} style={{width: "4vh",height: "4vh",marginTop: "1vh" }}/> Android
-          </MenuItem>
-          <MenuItem onClick={handleChange}>My account</MenuItem>
-          <MenuItem onClick={handleChange}>Logout</MenuItem> */}
-          {phones.map((prop, key) => {
+        {  phones !== undefined ?
+        // console.log("phone",typeof(phones))
+          phones.map((prop, key) => {
             return <MenuItem onClick={handleChange} value={key} key={key}> 
               <img src={android} style={{width: "4vh",height: "4vh",marginTop: "1vh" }}/> {prop.model}
             </MenuItem>
-          })} 
+          })
+        :
+        ""}
         </Menu>
       </div>
     );
