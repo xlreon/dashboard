@@ -13,8 +13,11 @@ import Snackbar from '@material-ui/core/Snackbar';
 
 class DashBoard extends React.Component {
   
+  
+
   constructor(props) {
     super(props);
+    this.flag = false
     this.state = {
       open: true,
       showAll : true,
@@ -43,9 +46,9 @@ class DashBoard extends React.Component {
     {
       {this.state.phones.map((prop, key) => {
         
-        if (prop.data === JSON.stringify({})) {
-          this.setState({foundLocation: false})
-        }
+        // if (prop.data === JSON.stringify({})) {
+        //   this.setState({foundLocation: false})
+        // }
 
         console.log(prop.gps)
         if (prop.gps === "true") {
@@ -53,23 +56,26 @@ class DashBoard extends React.Component {
             prop.data[property] = Number(prop.data[property])
           } 
           // this.setState({foundLocation: true})
+          this.flag = false
           return list.push(prop.data);
         }
         else {
-          var body = prop.data
-          var formBody = [];
-          for (var property in body) {
-              var encodedKey = encodeURIComponent(property);
-              var encodedValue = encodeURIComponent(body[property]);
-              formBody.push(encodedKey + "=" + encodedValue);
-          }
-          formBody = formBody.join("&");
-          axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/getLatLng`, formBody)
-                      .then(res => {
-                        // this.setState({foundLocation: true})
-                        return list.push(res.data);
-                      })
-                      .catch(err => console.log('Get lat long error'))
+          this.flag = true
+          return list;
+          // var body = prop.data
+          // var formBody = [];
+          // for (var property in body) {
+          //     var encodedKey = encodeURIComponent(property);
+          //     var encodedValue = encodeURIComponent(body[property]);
+          //     formBody.push(encodedKey + "=" + encodedValue);
+          // }
+          // formBody = formBody.join("&");
+          // axios.post(`http://localhost:8080/getLatLng`, formBody)
+          //             .then(res => {
+          //               // this.setState({foundLocation: true})
+          //               return list.push(res.data);
+          //             })
+          //             .catch(err => console.log('Get lat long error'))
         }
         // return list.push(prop.data);
       })
@@ -107,7 +113,7 @@ class DashBoard extends React.Component {
             }
             formBody = formBody.join("&");
             
-            axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/feature`, 
+            axios.post(`http://localhost:8080/feature`, 
                 formBody
             )
             .then(res => { 
@@ -141,7 +147,7 @@ class DashBoard extends React.Component {
             }
             formBody = formBody.join("&");
             
-            axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/imei/get`, 
+            axios.post(`http://localhost:8080/imei/get`, 
                 formBody
             )
             .then(res => {
@@ -161,7 +167,7 @@ class DashBoard extends React.Component {
                 }
                 formBody = formBody.join("&");
                 
-                axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/phone/get`, 
+                axios.post(`http://localhost:8080/phone/get`, 
                 formBody
                 )
                 .then(res => {
@@ -176,6 +182,7 @@ class DashBoard extends React.Component {
                     
                     if (prevHash !== currHash) {
                       localStorage.setItem("phones",JSON.stringify(phoneList));
+                      localStorage.setItem("prevHash",currHash)
                       this.setState({phones: phoneList});
                     }
                   }
@@ -226,13 +233,13 @@ class DashBoard extends React.Component {
           >
             <div className={classes.mainPanel} ref="mainPanel">
                 <Maps 
-                    locations={showAll ? this.getLocations() : location}
+                    locations={this.getLocations().length > 0 ? this.getLocations() : location}
                 />
                 </div>
           <Snackbar
-          open={!this.state.foundLocation}
-          onClose={this.handleClose}
-          TransitionComponent={this.state.Transition}
+          open={this.flag}
+          // onClose={this.handleClose}
+          // TransitionComponent={this.state.Transition}
           ContentProps={{
             'aria-describedby': 'message-id',
           }}
