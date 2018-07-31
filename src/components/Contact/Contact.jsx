@@ -21,6 +21,8 @@ import Grid from '@material-ui/core/Grid';
 import SimpleSelect from '../SimpleSelect/SimpleSelect';
 import { Divider } from '../../../node_modules/@material-ui/core';
 import "video-react/dist/video-react.css";
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import IconButton from "@material-ui/core/IconButton";
 
 const styles = theme => ({
     
@@ -31,8 +33,8 @@ const styles = theme => ({
         borderRadius: '25px'
       },
       content : {
-        marginRight : 30,
-        marginLeft : 30
+        // marginRight : 30,
+        // marginLeft : 30
       },
       bullet: {
         display: 'inline-block',
@@ -171,18 +173,25 @@ class Contact extends React.Component {
             <div>
                 <Card className={classes.card}>
                 <CardContent className={classes.content}>
-                  <div className={classes.container}>
-                    <SimpleSelect
-                        className={classes.appSelectPhone}
-                        phones={phones} 
-                        device={currentPhone}
-                        handleChange={this.handleChange}
-                        deviceSelect={this.deviceSelect}
-                        anchorEl={anchorEl}
-                        currentPhone={currentPhone}
-                        handleClose={this.handleClose}
-                    />
-                  </div>
+                <Grid container spacing={24}>
+                    <Grid xs={2} item>
+                      <IconButton onClick={() => {window.history.back();}}>
+                            <ChevronLeft />
+                        </IconButton>
+                    </Grid>
+                    <Grid xs={10} item className={classes.container}>
+                      <SimpleSelect
+                          className={classes.appSelectPhone}
+                          phones={phones} 
+                          device={currentPhone}
+                          handleChange={this.handleChange}
+                          deviceSelect={this.deviceSelect}
+                          anchorEl={anchorEl}
+                          currentPhone={currentPhone}
+                          handleClose={this.handleClose}
+                      />
+                    </Grid>
+                  </Grid>
                   <Typography variant="title" className={classes.contact} color='primary'>Contacts :</Typography>
                     {/* <Grid container spacing={24}> */}
                       {contact !== null ?
