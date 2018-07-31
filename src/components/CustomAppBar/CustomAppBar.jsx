@@ -14,13 +14,14 @@ const styles = theme => ({
     appFlex: {
         flexGrow: 1,
         display: 'flex',
+        alignItems : 'center',
         justifyContent : 'center'
     
     },
     appSelectPhone: {
         width: "100%",
         // flexGrow: 1,
-        marginRight : 100
+        // marginRight : 100
     },
     appMenuButton: {
         marginLeft: -12,
@@ -39,6 +40,9 @@ class CustomAppBar extends React.Component {
         anchorEl : null
     }
 
+    handleClose = () => {
+        this.setState({ anchorEl: null });
+    };
     
     deviceSelect = event => {
         this.setState({ anchorEl: event.currentTarget });
@@ -57,7 +61,7 @@ class CustomAppBar extends React.Component {
 
         return (
         <div>
-            <AppBar position="static">
+            <AppBar position="static" color="default">
                 <Toolbar>
                     <IconButton className={classes.appMenuButton} color="inherit" aria-label="Menu">
                         <MenuIcon onClick={handleDrawerToggle}/>
@@ -75,7 +79,7 @@ class CustomAppBar extends React.Component {
                         deviceSelect={this.deviceSelect}
                         anchorEl={anchorEl}
                         currentPhone={currentPhone}
-                        color={'white'}
+                        handleClose={this.handleClose}
                     />
                     </div>
                     <Settings />

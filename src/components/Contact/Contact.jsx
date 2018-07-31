@@ -131,6 +131,10 @@ class Contact extends React.Component {
                     console.log(item.name)
                 })
             }
+            else 
+            {
+              this.setState({contact : []})
+            }
         })
         .catch(error => console.log(error))
 
@@ -142,6 +146,9 @@ class Contact extends React.Component {
         contact : null,
     }
 
+    handleClose = () => {
+      this.setState({ anchorEl: null });
+    };
     
     deviceSelect = event => {
         this.setState({ anchorEl: event.currentTarget });
@@ -158,6 +165,8 @@ class Contact extends React.Component {
         const { classes } = this.props;
         const { phones, currentPhone, anchorEl, contact } = this.state;
         
+        console.log(contact)
+
         return (
             <div>
                 <Card className={classes.card}>
@@ -171,13 +180,15 @@ class Contact extends React.Component {
                         deviceSelect={this.deviceSelect}
                         anchorEl={anchorEl}
                         currentPhone={currentPhone}
-                        color={'black'}
+                        handleClose={this.handleClose}
                     />
                   </div>
-                  <Typography variant="display1" className={classes.contact} color='primary'>Contacts :</Typography>
+                  <Typography variant="title" className={classes.contact} color='primary'>Contacts :</Typography>
                     {/* <Grid container spacing={24}> */}
                       {contact !== null ?
-                        contact.map((item) => {
+                      <div>
+                        {contact.length === 0 ? <Typography color="error" className={classes.container}>No contacts found!</Typography>: ""}
+                        {contact.map((item) => {
                           return <div className={classNames('row',classes.contact)} >
                             <Button 
                               variant="raised"
@@ -186,8 +197,9 @@ class Contact extends React.Component {
                             {item.name}
                             </Button>
                           </div>;
-                        })
-                        : ""}
+                        })}
+                      </div>
+                      : <Typography color="error" className={classes.container}>Could not fetch data!</Typography>}
 
                 
                 </CardContent>

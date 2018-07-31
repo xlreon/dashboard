@@ -27,7 +27,7 @@ class SimpleMenu extends React.Component {
 
   
   render() {
-    const { classes, phones, anchorEl, deviceSelect, handleChange, color, currentPhone } = this.props;
+    const { classes, phones, anchorEl, deviceSelect, handleChange, currentPhone, handleClose } = this.props;
 
     return (
       <div>
@@ -35,26 +35,18 @@ class SimpleMenu extends React.Component {
           aria-owns={anchorEl ? 'simple-menu' : null}
           aria-haspopup="true"
           onClick={deviceSelect}
-          className={classes.button}
+          // className={classes.button}
         >
-          { color === "black" ?
           <div className={classes.select}><Typography className={classes.black} variant='subheading'>
-            {phones !== undefined ? phones[currentPhone].model : "Select Device"}
+            {phones !== undefined && phones.length > 0 ? phones[currentPhone].model : "Select Device"}
           </Typography>
           <ArrowDropDownIcon className={classes.black}/></div>
-          :
-          <div className={classes.select}>
-          <Typography className={classes.white} variant='subheading'>
-            {phones.length > 0 ? phones[currentPhone].model : "Select Device"}
-            {/* {this.state.text} */}
-          </Typography>
-          <ArrowDropDownIcon className={classes.white}/></div>}
         </Button>
         <Menu
           id="simple-menu"
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
-          // onClose={handleChange}
+          onClose={handleClose}
         >
         {  phones !== undefined ?
         // console.log("phone",typeof(phones))
