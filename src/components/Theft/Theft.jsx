@@ -20,6 +20,8 @@ import img from "assets/img/android.png";
 import Grid from '@material-ui/core/Grid';
 import SimpleSelect from '../SimpleSelect/SimpleSelect';
 import { Divider } from '../../../node_modules/@material-ui/core';
+import "video-react/dist/video-react.css";
+import { Player } from 'video-react';
 
 const styles = theme => ({
     
@@ -89,6 +91,11 @@ const styles = theme => ({
         height: 48,
         padding: '0 30px',
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+      },
+      video : {
+        height : 100,
+        width : 100,
+        // margin : 10
       }
 });     
 
@@ -208,13 +215,20 @@ class Theft extends React.Component {
                         : ""}
                     </Grid>
                     <Divider />
-                    <Grid container spacing={24}>
+                    {/* <Grid container spacing={24}> */}
                       {videos !== null ?
                         videos.map((video) => {
-                          return <Grid xs={3} className={classes.container}>{video.name}</Grid>;
+                          return <div className='row'>
+                            <Player
+                              // playsInline
+                              poster={img}
+                              src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
+                              className={classes.video}
+                            />
+                          </div>;
                         })
                         : ""}
-                    </Grid>
+                    {/* </Grid> */}
 
                 
                 </CardContent>
