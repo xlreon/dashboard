@@ -18,6 +18,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Error from '@material-ui/icons/ErrorOutline';
 import img from "assets/img/android.png";
 import Grid from '@material-ui/core/Grid';
+import SimpleSelect from '../SimpleSelect/SimpleSelect';
+import { Divider } from '../../../node_modules/@material-ui/core';
+import "video-react/dist/video-react.css";
 
 const styles = theme => ({
     
@@ -77,7 +80,6 @@ const styles = theme => ({
       img : {
         height : 100,
         width : 100,
-        // marginRight : 10,
         },
       loginButton : {
         // background: 'linear-gradient(45deg, #9480ff 30%, #fffff0 90%)',
@@ -88,54 +90,104 @@ const styles = theme => ({
         height: 48,
         padding: '0 30px',
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+      },
+      contact : {
+        margin : 10
       }
+
 });     
 
 class Contact extends React.Component {
 
-    state = {
-
-    };
-    
     componentDidMount() {
+      
+        var phones = localStorage.getItem("phones")
+        this.setState({phones : JSON.parse(phones)});
+        var imei = localStorage.getItem('imeiList');
+        var email = localStorage.getItem('email');
 
-        // var body = { imei: prop};
+        var imeiList = imei.split(",");
+
+        var body = { imei: imeiList[this.state.currentPhone], email : email, type : 'text'};
             
-        //     var formBody = [];
-        //         for (var property in body) {
-        //         var encodedKey = encodeURIComponent(property);
-        //         var encodedValue = encodeURIComponent(body[property]);
-        //         formBody.push(encodedKey + "=" + encodedValue);
-        //         }
-        //         formBody = formBody.join("&");
+        var formBody = [];
+            for (var property in body) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(body[property]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+        
+        axios.post(`http://localhost:8080/file/db/get`, 
+        formBody
+        )
+        .then(res => {
+            console.log(res.data)
+            if (res.data.body.content !== null) {
+
+                this.setState({contact : res.data.body.content })
                 
-        //         axios.post(`http://localhost:8080/phone/get`, 
-        //         formBody
-        //         )
-        //         .then(res => {
-        //         if (res.data.body.content !== null) {
-        //             phoneList.push(res.data.body);
-        //             this.setState({phones: phoneList});
-        //             localStorage.setItem("phones",JSON.stringify(phoneList));
-        //             localStorage.setItem('prevHash',md5(JSON.stringify(res.data.body)))
-        //             console.log(localStorage.getItem('prevHash'))
-        //             // console.log(this.state.phones)
-        //         }
-        //         })
-        //         .catch(error => console.log(error))
+                res.data.body.content.map((item)=>{
+                    console.log(item.name)
+                })
+            }
+        })
+        .catch(error => console.log(error))
+
+    }
+    
+    state = {
+        anchorEl : null,
+        currentPhone : 0,
+        contact : null,
+    }
+
+    
+    deviceSelect = event => {
+        this.setState({ anchorEl: event.currentTarget });
+        // console.log(event.currentTarget)
+        console.log(this.state.anchorEl)
+    };
+
+    handleChange = (event) => {
+        this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0,anchorEl : null})
     }
 
     render() {
         
         const { classes } = this.props;
-        const { email, pass,loading } = this.state;
-        const image = <Grid xs={3} className={classes.container}><img src={img} className={classes.img}/></Grid>;
+        const { phones, currentPhone, anchorEl, contact } = this.state;
+        
         return (
             <div>
                 <Card className={classes.card}>
                 <CardContent className={classes.content}>
-
-                    
+                  <div className={classes.container}>
+                    <SimpleSelect
+                        className={classes.appSelectPhone}
+                        phones={phones} 
+                        device={currentPhone}
+                        handleChange={this.handleChange}
+                        deviceSelect={this.deviceSelect}
+                        anchorEl={anchorEl}
+                        currentPhone={currentPhone}
+                        color={'black'}
+                    />
+                  </div>
+                  <Typography variant="display1" className={classes.contact} color='primary'>Contacts :</Typography>
+                    {/* <Grid container spacing={24}> */}
+                      {contact !== null ?
+                        contact.map((item) => {
+                          return <div className={classNames('row',classes.contact)} >
+                            <Button 
+                              variant="raised"
+                              size="large"
+                            >
+                            {item.name}
+                            </Button>
+                          </div>;
+                        })
+                        : ""}
 
                 
                 </CardContent>
@@ -145,7 +197,6 @@ class Contact extends React.Component {
         );
     }
 }
-
 
 Contact.propTypes = {
   classes: PropTypes.object.isRequired,

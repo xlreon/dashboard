@@ -92,10 +92,11 @@ const styles = theme => ({
         padding: '0 30px',
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
       },
-      video : {
-        height : 100,
-        width : 100,
-        // margin : 10
+      heading : {
+        margin :10
+      },
+      flex : {
+        display : 'flex'
       }
 });     
 
@@ -103,14 +104,24 @@ class Theft extends React.Component {
 
     componentDidMount() {
       
-        var phones = localStorage.getItem("phones")
-        this.setState({phones : JSON.parse(phones)});
+      var phones = localStorage.getItem("phones")
+      this.setState({phones : JSON.parse(phones)});
+        
+
+      this.getItems(0);
+
+    }
+
+    getItems(index) {
+
+        console.log(index)
+
         var imei = localStorage.getItem('imeiList');
         var email = localStorage.getItem('email');
 
         var imeiList = imei.split(",");
 
-        var body = { imei: imeiList[this.state.currentPhone], email : email, type : 'image'};
+        var body = { imei: imeiList[index], email : email, type : 'image'};
             
         var formBody = [];
             for (var property in body) {
@@ -124,19 +135,22 @@ class Theft extends React.Component {
         formBody
         )
         .then(res => {
-            console.log(res.data)
             if (res.data.body.content !== null) {
 
                 this.setState({images : res.data.body.content })
                 
-                // res.data.body.content.map((item)=>{
-                //     console.log(item.name)
-                // })
+                res.data.body.content.map((item)=>{
+                    console.log(item.name)
+                })
+            }
+            else 
+            {
+              this.setState({images : []})
             }
         })
         .catch(error => console.log(error))
 
-        var body = { imei: imeiList[this.state.currentPhone], email : email, type : 'video'};
+        var body = { imei: imeiList[index], email : email, type : 'video'};
             
         var formBody = [];
             for (var property in body) {
@@ -150,7 +164,8 @@ class Theft extends React.Component {
         formBody
         )
         .then(res => {
-            console.log(res.data)
+          console.log(res.data)
+
             if (res.data.body.content !== null) {
 
                 this.setState({videos : res.data.body.content })
@@ -159,11 +174,12 @@ class Theft extends React.Component {
                 //     console.log(item.name)
                 // })
             }
+            else 
+            {
+              this.setState({videos : []})
+            }
         })
         .catch(error => console.log(error))
-
-
-
     }
     
     state = {
@@ -182,15 +198,15 @@ class Theft extends React.Component {
 
     handleChange = (event) => {
         this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0,anchorEl : null})
+        this.getItems(event.target.value);
     }
 
     render() {
         
         const { classes } = this.props;
         const { phones, currentPhone, anchorEl, images, videos } = this.state;
-
-        console.log(videos)
         
+        console.log(videos)
         return (
             <div>
                 <Card className={classes.card}>
@@ -207,30 +223,33 @@ class Theft extends React.Component {
                         color={'black'}
                     />
                   </div>
-                    <Grid container spacing={24}>
+                  <Typography variant="title" className={classes.heading} color='primary'>Images :</Typography>
+                    {images !== null && images.length === 0  ? <div className={classes.heading}><Typography color="error" className={classes.container}>No images found!</Typography></div> :
+                    <Grid container spacing={24} className={classes.heading}>
                       {images !== null ?
-                        images.map((image) => {
-                          return <Grid xs={3} className={classes.container}><img src={image.name} alt="image" className={classes.img}/></Grid>;
-                        })
+                        <div className={classes.flex}>
+                          {images.map((image) => {
+                            return <Grid xs={3} className={classes.container}><img src={img} alt="image" className={classes.img}/></Grid>;
+                          })}
+                        </div>
                         : ""}
-                    </Grid>
+                    </Grid> }
                     <Divider />
-                    {/* <Grid container spacing={24}> */}
-                      {videos !== null ?
-                        videos.map((video) => {
+                    <Typography variant="title" className={classes.heading} color='primary' >Videos :</Typography>
+                    {videos !== null ?
+                      <div>
+                      {videos.length === 0 ? <Typography color="error" className={classes.container}>No videos found!</Typography>: ""}
+                        {videos.map((video) => {
                           return <div className='row'>
                             <Player
                               // playsInline
-                              poster={img}
+                              // poster={img}
                               src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
-                              className={classes.video}
                             />
                           </div>;
-                        })
-                        : ""}
-                    {/* </Grid> */}
-
-                
+                        })}
+                      </div>
+                      : ""}
                 </CardContent>
             </Card>
                 
