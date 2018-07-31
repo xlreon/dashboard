@@ -98,9 +98,12 @@ class FeatureDetail extends React.Component {
             feature = "preventOff";
         }
 
+        var imei = localStorage.getItem('imeiList');
+        var imeiList = imei.split(",");
 
+        // console.log(imeiList[this.props.currentPhone])
 
-        var body = { featureName : feature};
+        var body = { featureName : feature, imei : imeiList[this.props.currentPhone]};
 
         var formBody = [];
         for (var property in body) {
@@ -130,7 +133,7 @@ class FeatureDetail extends React.Component {
         if (this.state.contact)
             return <Redirect push to="/info" />;
 
-        const { classes } = this.props;
+        const { classes, currentPhone } = this.props;
         return (
             <div>
                 <Snackbar
@@ -172,7 +175,7 @@ class FeatureDetail extends React.Component {
                     </Grid>
                     <Grid item xs={10}>
                         {this.props.feature.detail === "noDetail" ?
-                        <LockPhone />
+                        <LockPhone currentPhone={currentPhone}/>
                         :
                         <Typography variant="subheading" color="textSecondary">{this.props.feature.detail}</Typography>
                         }

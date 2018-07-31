@@ -16,6 +16,9 @@ import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Error from '@material-ui/icons/ErrorOutline';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = theme => ({
     
@@ -91,16 +94,47 @@ const styles = theme => ({
 class LockPhone extends React.Component {
 
     state = {
-        // phone : null,
-        // note : null,
-        // password : null
+        open: false,
+        message: null,
         lock : {}
       };
 
     
     
     handleSubmit = (event) => {
-        console.log(this.state.lock["password"] , this.state.lock["note"], this.state.lock["phone"])
+        // console.log(this.state.lock["password"] , this.state.lock["note"], this.state.lock["phone"])
+
+        var imei = localStorage.getItem('imeiList');
+        var imeiList = imei.split(",");
+
+        // console.log(imeiList[this.props.currentPhone])
+
+        var body = { 
+          imei : imeiList[this.props.currentPhone],
+          password : this.state.lock["password"],
+          message : this.state.lock["note"],
+          phone : this.state.lock["phone"]
+        };
+
+        var formBody = [];
+        for (var property in body) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(body[property]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+
+        axios.post(`http://localhost:8080/feature/setRemotePassword`, 
+            formBody
+        )
+        .then(res => {
+            this.handleClick("Set Remote Password API call : Success");
+            console.log(res);
+        })
+        .catch(error => {
+            this.handleClick("Set Remote Password API call : Failure");
+            console.log(error);
+        })
     }
 
     handleChange = (event) => {
@@ -113,6 +147,14 @@ class LockPhone extends React.Component {
 
         // console.log(user, check)
     }
+
+    handleClick = (msg) => {
+        this.setState({ open: true, message : msg });
+    };
+
+    handleClose = () => {
+        this.setState({ open: false });
+    };
     
 
     render() {
@@ -120,6 +162,30 @@ class LockPhone extends React.Component {
         const { phone, note, password } = this.state;
         return (
             <div>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                    }}
+                    open={this.state.open}
+                    autoHideDuration={6000}
+                    onClose={this.handleClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">{this.state.message}</span>}
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="Close"
+                            color="inherit"
+                            className={classes.close}
+                            onClick={this.handleClose}
+                        >
+                        <CloseIcon />
+                        </IconButton>,
+                    ]}
+                    />
                 <ValidatorForm
                     ref="form"
                     onSubmit={this.handleSubmit}

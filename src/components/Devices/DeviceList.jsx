@@ -15,22 +15,16 @@ class ControlledExpansionPanels extends React.Component {
   render() {
     const { classes,phones } = this.props;
 
-    const allPhones = []
-    allPhones.push(phones[this.props.currentPhone]);
     return (
       <div className={classes.root}>
-        {allPhones[0] !== undefined ? allPhones.map((prop, key) => {
-          // console.log(prop);
-          return <Device 
-            changeLocation={this.props.changeLocation} 
-            details={prop} 
-            features={this.props.features} 
-            key={key}
-          />
-        })
-        :
-        ""
-      }
+      {phones[this.props.currentPhone] !== undefined ?
+        <Device 
+          changeLocation={this.props.changeLocation} 
+          details={phones[this.props.currentPhone]} 
+          features={this.props.features} 
+          currentPhone={this.props.currentPhone}
+        />
+        : ""}
         
       </div>
     );
