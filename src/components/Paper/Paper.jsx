@@ -76,7 +76,7 @@ class PaperSheet extends React.Component {
     }
     formBody = formBody.join("&");
 
-    axios.post(`http://localhost:8080:8080/feature`, 
+    axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080:8080/feature`, 
         formBody
     )
     .then(res => {

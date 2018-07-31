@@ -72,7 +72,7 @@ class DashBoard extends React.Component {
           //     formBody.push(encodedKey + "=" + encodedValue);
           // }
           // formBody = formBody.join("&");
-          // axios.post(`http://localhost:8080/getLatLng`, formBody)
+          // axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/getLatLng`, formBody)
           //             .then(res => {
           //               // this.setState({foundLocation: true})
           //               return list.push(res.data);
@@ -123,7 +123,7 @@ class DashBoard extends React.Component {
             }
             formBody = formBody.join("&");
             
-            axios.post(`http://localhost:8080/feature`, 
+            axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/feature`, 
                 formBody
             )
             .then(res => { 
@@ -155,7 +155,7 @@ class DashBoard extends React.Component {
             }
             formBody = formBody.join("&");
             
-            axios.post(`http://localhost:8080/imei/get`, 
+            axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/imei/get`, 
                 formBody
             )
             .then(res => {
@@ -175,7 +175,7 @@ class DashBoard extends React.Component {
                 }
                 formBody = formBody.join("&");
                 
-                axios.post(`http://localhost:8080/phone/get`, 
+                axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/phone/get`, 
                 formBody
                 )
                 .then(res => {
@@ -220,7 +220,7 @@ class DashBoard extends React.Component {
   //           }
   //           formBody = formBody.join("&");
             
-  //           axios.post(`http://localhost:8080/imei/get`, 
+  //           axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/imei/get`, 
   //               formBody
   //           )
   //           .then(res => {
@@ -240,7 +240,7 @@ class DashBoard extends React.Component {
   //               }
   //               formBody = formBody.join("&");
                 
-  //               axios.post(`http://localhost:8080/phone/get`, 
+  //               axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/phone/get`, 
   //               formBody
   //               )
   //               .then(res => {

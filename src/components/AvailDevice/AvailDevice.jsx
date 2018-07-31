@@ -52,7 +52,7 @@ class Device extends React.Component {
         formBody = formBody.join("&");
         
         if(gps == "false") {
-            axios.post(`http://localhost:8080/getLatLng`, formBody)
+            axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/getLatLng`, formBody)
             .then(res => {
                 var innerFormBody = [];
                 for (var property in res.data) {
@@ -61,7 +61,7 @@ class Device extends React.Component {
                     innerFormBody.push(encodedKey + "=" + encodedValue);
                 }
                 innerFormBody = innerFormBody.join("&");
-        axios.post(`http://localhost:8080/geoloc`, innerFormBody)
+        axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/geoloc`, innerFormBody)
         .then(res => {
             // console.log(res)
             const data = res.data.body.content;
