@@ -20,7 +20,7 @@ class DashBoard extends React.Component {
       open: true,
       showAll : true,
       settings : null,
-      location: [{ lat: 12.9716, lng: 77.5946 }],
+      location: null,
       phones: [],
       currentPhone: 0,
     };
@@ -33,24 +33,24 @@ class DashBoard extends React.Component {
 
   changeLocation= (loc) => {
     console.log(loc);
-    this.setState({ location : [loc], showAll: false });
+    this.setState({ location : loc });
   };
 
-  getLocations = () => {
-    var list = []
-    if (this.state.phones.length)
-    {
-      {this.state.phones.map((prop, key) => {
-        return list.push(prop.data);
-      })}
-    }
-    {list.map((item) => {
-      item.lat = parseFloat(item.lat)
-      item.lng = parseFloat(item.lng)
+  // getLocations = () => {
+  //   var list = []
+  //   if (this.state.phones.length)
+  //   {
+  //     {this.state.phones.map((prop, key) => {
+  //       return list.push(prop.data);
+  //     })}
+  //   }
+  //   {list.map((item) => {
+  //     item.lat = parseFloat(item.lat)
+  //     item.lng = parseFloat(item.lng)
 
-    })}
-    return list;
-  };
+  //   })}
+  //   return list;
+  // };
 
   showAllDevices = () => {
     this.setState({ showAll: true });
@@ -62,10 +62,19 @@ class DashBoard extends React.Component {
 
     var phones = JSON.parse(localStorage.getItem("phones"));
     var currentPhone = JSON.parse(localStorage.getItem("currPhone"));
-    this.setState({phones: phones, currentPhone : currentPhone});
-      setInterval(() => {
-        this.recurPhoneGet()
-      },30000)
+
+    phones.map((phn) => {
+      phn.data.lat = parseFloat(phn.data.lat);
+      phn.data.lng = parseFloat(phn.data.lng);
+    })
+
+    this.setState({phones: phones, currentPhone : currentPhone, location : phones[currentPhone].data});
+
+    // console.log(phones[currentPhone].data)
+    setInterval(() => {
+      this.recurPhoneGet()
+    },30000)
+
     
   }
 
@@ -92,7 +101,7 @@ class DashBoard extends React.Component {
   }
 
   handleChange = event => {
-    this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0})
+    this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0, location : this.state.phones[event.target.value].data})
   }
 
   recurPhoneGet = () => {
@@ -139,7 +148,7 @@ class DashBoard extends React.Component {
                     phoneList.push(res.data.body);
                     // localStorage.setItem("phones",JSON.stringify(phoneList));
                     localStorage.setItem('currHash',md5(JSON.stringify(res.data.body)))
-                    console.log(localStorage.getItem('currHash'))
+                    // console.log(localStorage.getItem('currHash'))
                     // console.log(this.state.phones)
                     var prevHash = localStorage.getItem('prevHash');
                     var currHash = localStorage.getItem('currHash')
@@ -164,18 +173,17 @@ class DashBoard extends React.Component {
   render() {
 
     var email = localStorage.getItem("email");
-    // console.log(email)
 
     if(email === "null")
     {
-      // console.log(email)
       return <Redirect push to="/login" />;
     }
 
-    const { classes } = this.props;
-    const { open, location, showAll, phones, currentPhone } = this.state;
     
-    // console.log(phones);
+    const { classes } = this.props;
+    const { open, location, phones, currentPhone } = this.state;
+    // console.log(location);
+    
     return (
       <div>
       <div className={classes.appRoot}>
@@ -204,9 +212,11 @@ class DashBoard extends React.Component {
             })}
           >
             <div className={classes.mainPanel} ref="mainPanel">
+              {/* {location !== null ? */}
                 <Maps 
-                    locations={showAll ? this.getLocations() : location}
+                    location={location } 
                 />
+                {/* : ""} */}
                 </div>
           </main>
         </div>
