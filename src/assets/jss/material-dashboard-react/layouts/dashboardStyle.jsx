@@ -7,6 +7,7 @@ import {
 const appStyle = theme => ({
   root: {
     flexGrow: 1,
+    overflow : 'hidden'
   },
   mainPanel: {
     // [theme.breakpoints.up("md")]: {
@@ -93,6 +94,7 @@ const appStyle = theme => ({
   },
   appRoot: {
     flexGrow: 1,
+    overflow : 'hidden'
   },
 });
 

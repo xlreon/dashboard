@@ -22,7 +22,7 @@ const features = [
         description : "Device will ring even if it’s in silent mode",
         detail : "Click this button to ring your device",
         event : "Switch On",
-        api : "ring",
+        api : "alarmOn",
         icon : <Ring />
     },
     {
@@ -38,14 +38,14 @@ const features = [
         description : "All your contents will be removed",
         detail : "Click this button to erase all the data on your Device. Once cleared, you wont be getting the data. Use Carefully!",
         event : "Format",
-        api : "format",
+        api : "wipe",
         icon : <Format />
     },
     {
         name : "Prevent Power Off",
-        description : "Wipe Your Device",
+        description : "Prevent Power off",
         detail : "Click this button to prevent intruder from switching off your phone",
-        event : "Submit",
+        event : "Prevent SwitchOff",
         api : "prevent",
         icon : <Clear />
     },

@@ -44,6 +44,10 @@ class FeatureDetail extends React.Component {
         message: null,
 
     };
+
+    componentDidMount() {
+        this.setState({ event : this.props.feature.event});
+    }
     
     handleClick = (msg) => {
         this.setState({ open: true, message : msg });
@@ -72,6 +76,30 @@ class FeatureDetail extends React.Component {
             this.setState({contact : true});
         }
 
+
+        if (this.state.event === "Switch On")
+        {
+            this.setState({event: "Switch Off"});
+            feature = "alarmOn";
+        }
+        else if (this.state.event === "Switch Off")
+        {
+            this.setState({event: "Switch On"});
+            feature = "alarmOff";
+        }
+        else if (this.state.event === "Prevent SwitchOff")
+        {
+            this.setState({event: "Allow SwitchOff"});
+            feature = "preventOn";
+        }
+        else if (this.state.event === "Allow SwitchOff")
+        {
+            this.setState({event: "Prevent SwitchOff"});
+            feature = "preventOff";
+        }
+
+
+
         var body = { featureName : feature};
 
         var formBody = [];
@@ -82,7 +110,7 @@ class FeatureDetail extends React.Component {
         }
         formBody = formBody.join("&");
 
-        axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/feature`, 
+        axios.post(`http://localhost:8080/feature`, 
             formBody
         )
         .then(res => {
@@ -103,7 +131,6 @@ class FeatureDetail extends React.Component {
             return <Redirect push to="/info" />;
 
         const { classes } = this.props;
-        const { phone,note,password } = this.state;
         return (
             <div>
                 <Snackbar
@@ -145,7 +172,7 @@ class FeatureDetail extends React.Component {
                     </Grid>
                     <Grid item xs={10}>
                         {this.props.feature.detail === "noDetail" ?
-                        <LockPhone phone={phone} note={note} password={password} />
+                        <LockPhone />
                         :
                         <Typography variant="subheading" color="textSecondary">{this.props.feature.detail}</Typography>
                         }
@@ -165,7 +192,7 @@ class FeatureDetail extends React.Component {
                                     this.featureAPI(this.props.feature.api);
                                 }}
                             >
-                                {this.props.feature.event}
+                                {this.state.event}
                             </Button>
                         </div>
                     }
