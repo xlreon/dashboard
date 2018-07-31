@@ -78,35 +78,6 @@ class Device extends React.Component {
 
         })
         .catch(error => console.log(error))
-    })
-    .catch(err => {
-        console.log("get lat lng error")
-        console.log(err)
-    })
-}
-else 
-{
-
-    axios.post(`http://localhost:8080/geoloc`, formBody)
-    .then(res => {
-        const data = res.data.body.content;
-        if (data !== null) {
-            var location = null;
-            data.map((item) => {
-                if (item.location_type == "APPROXIMATE") 
-                {
-                    if((item.formatted_address.match(/,/g) || []).length === 2)
-                        location = item.formatted_address;
-                    }
-                })
-            }
-            console.log(location)
-            this.setState({location : location});
-
-    })
-    .catch(error => console.log(error))
-}
-
     }
 
 
