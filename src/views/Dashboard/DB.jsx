@@ -125,9 +125,8 @@ class DashBoard extends React.Component {
             )
             .then(res => {
             var imeiList = res.data.body.content;
-        
+            localStorage.setItem("imeiList", imeiList);
             
-            // console.log(imeiList)
             {imeiList.map((prop, key) => {
             
             var body = { imei: prop};

@@ -19,6 +19,7 @@ import Error from '@material-ui/icons/ErrorOutline';
 import img from "assets/img/android.png";
 import Grid from '@material-ui/core/Grid';
 import SimpleSelect from '../SimpleSelect/SimpleSelect';
+import { Divider } from '../../../node_modules/@material-ui/core';
 
 const styles = theme => ({
     
@@ -94,8 +95,15 @@ const styles = theme => ({
 class Theft extends React.Component {
 
     componentDidMount() {
+      
+        var phones = localStorage.getItem("phones")
+        this.setState({phones : JSON.parse(phones)});
+        var imei = localStorage.getItem('imeiList');
+        var email = localStorage.getItem('email');
 
-        var body = { imei: '1111', email : 'uniquetest123@gmail.com', type : 'image'};
+        var imeiList = imei.split(",");
+
+        var body = { imei: imeiList[this.state.currentPhone], email : email, type : 'image'};
             
         var formBody = [];
             for (var property in body) {
@@ -109,25 +117,53 @@ class Theft extends React.Component {
         formBody
         )
         .then(res => {
+            console.log(res.data)
             if (res.data.body.content !== null) {
+
+                this.setState({images : res.data.body.content })
                 
-                res.data.body.content.map((item)=>{
-                    console.log(item.name)
-                })
+                // res.data.body.content.map((item)=>{
+                //     console.log(item.name)
+                // })
             }
         })
         .catch(error => console.log(error))
 
-        var phones = localStorage.getItem("phones")
+        var body = { imei: imeiList[this.state.currentPhone], email : email, type : 'video'};
+            
+        var formBody = [];
+            for (var property in body) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(body[property]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+        
+        axios.post(`http://localhost:8080/file/db/get`, 
+        formBody
+        )
+        .then(res => {
+            console.log(res.data)
+            if (res.data.body.content !== null) {
 
-        this.setState({phones : JSON.parse(phones)});
+                this.setState({videos : res.data.body.content })
+                
+                // res.data.body.content.map((item)=>{
+                //     console.log(item.name)
+                // })
+            }
+        })
+        .catch(error => console.log(error))
+
 
 
     }
     
     state = {
         anchorEl : null,
-        currentPhone : 0
+        currentPhone : 0,
+        images : null,
+        videos : null,
     }
 
     
@@ -138,23 +174,21 @@ class Theft extends React.Component {
     };
 
     handleChange = (event) => {
-        this.setState({anchorEl : null});
-        // this.props.handleChange(event);
-        this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0})
+        this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0,anchorEl : null})
     }
 
     render() {
         
         const { classes } = this.props;
-        const { phones, currentPhone, anchorEl } = this.state;
-        const image = <Grid xs={3} className={classes.container}><img src={img} className={classes.img}/></Grid>;
+        const { phones, currentPhone, anchorEl, images, videos } = this.state;
+
+        console.log(videos)
         
-        console.log(phones)
         return (
             <div>
                 <Card className={classes.card}>
                 <CardContent className={classes.content}>
-
+                  <div className={classes.container}>
                     <SimpleSelect
                         className={classes.appSelectPhone}
                         phones={phones} 
@@ -163,15 +197,23 @@ class Theft extends React.Component {
                         deviceSelect={this.deviceSelect}
                         anchorEl={anchorEl}
                         currentPhone={currentPhone}
+                        color={'black'}
                     />
-
+                  </div>
                     <Grid container spacing={24}>
-                        {image}
-                        {image}
-                        {image}
-                        {image}
-                        {image}
-                        {image}
+                      {images !== null ?
+                        images.map((image) => {
+                          return <Grid xs={3} className={classes.container}><img src={image.name} alt="image" className={classes.img}/></Grid>;
+                        })
+                        : ""}
+                    </Grid>
+                    <Divider />
+                    <Grid container spacing={24}>
+                      {videos !== null ?
+                        videos.map((video) => {
+                          return <Grid xs={3} className={classes.container}>{video.name}</Grid>;
+                        })
+                        : ""}
                     </Grid>
 
                 

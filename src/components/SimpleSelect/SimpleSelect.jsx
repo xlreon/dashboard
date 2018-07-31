@@ -9,20 +9,25 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
-  text : {
+  white : {
     color: 'white'
+  },
+  black : {
+    color: 'black'
+  },
+  select : {
+    display : "flex",
+  },
+  button : {
+    marginBottom : 20
   }
 });
 
 class SimpleMenu extends React.Component {
 
-  state={
-    text : "Select Device"
-  }
-
-
+  
   render() {
-    const { classes, phones, anchorEl, deviceSelect, handleChange, currPhone } = this.props;
+    const { classes, phones, anchorEl, deviceSelect, handleChange, color, currentPhone } = this.props;
 
     return (
       <div>
@@ -30,12 +35,20 @@ class SimpleMenu extends React.Component {
           aria-owns={anchorEl ? 'simple-menu' : null}
           aria-haspopup="true"
           onClick={deviceSelect}
+          className={classes.button}
         >
-          <Typography className={classes.text} variant='subheading'>
-            {/* {phones[currPhone].name} */}
-            {this.state.text}
+          { color === "black" ?
+          <div className={classes.select}><Typography className={classes.black} variant='subheading'>
+            {phones !== undefined ? phones[currentPhone].model : "Select Device"}
           </Typography>
-          <ArrowDropDownIcon className={classes.text}/>
+          <ArrowDropDownIcon className={classes.black}/></div>
+          :
+          <div className={classes.select}>
+          <Typography className={classes.white} variant='subheading'>
+            {phones.length > 0 ? phones[currentPhone].model : "Select Device"}
+            {/* {this.state.text} */}
+          </Typography>
+          <ArrowDropDownIcon className={classes.white}/></div>}
         </Button>
         <Menu
           id="simple-menu"

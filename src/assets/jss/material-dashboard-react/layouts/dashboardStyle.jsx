@@ -22,7 +22,7 @@ const appStyle = theme => ({
     overflowScrolling: "touch"
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing.unit, 
   },
   appFrame: {
     height: '100%',

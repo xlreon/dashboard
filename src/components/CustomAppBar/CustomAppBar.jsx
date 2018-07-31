@@ -75,6 +75,7 @@ class CustomAppBar extends React.Component {
                         deviceSelect={this.deviceSelect}
                         anchorEl={anchorEl}
                         currentPhone={currentPhone}
+                        color={'white'}
                     />
                     </div>
                     <Settings />
