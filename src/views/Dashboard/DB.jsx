@@ -7,9 +7,10 @@ import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboar
 import CustomDrawer from "components/CustomDrawer/CustomDrawer.jsx";
 import features from './features.jsx';
 import CustomAppBar from 'components/CustomAppBar/CustomAppBar.jsx';
+import Snackbar from '@material-ui/core/Snackbar';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import md5 from 'md5';
-import Snackbar from '@material-ui/core/Snackbar';
 
 class DashBoard extends React.Component {
   
@@ -18,12 +19,13 @@ class DashBoard extends React.Component {
   constructor(props) {
     super(props);
     this.flag = false
+
     this.state = {
       open: true,
       showAll : true,
       foundLocation: true,
       settings : null,
-      location: [{ lat: 12.9716, lng: 77.5946 }],
+      location: null,
       phones: [],
       currentPhone: 0,
     };
@@ -36,7 +38,7 @@ class DashBoard extends React.Component {
 
   changeLocation= (loc) => {
     console.log(loc);
-    this.setState({ location : [loc], showAll: false });
+    this.setState({ location : loc });
   };
 
   getLocations = () => {
@@ -90,15 +92,23 @@ class DashBoard extends React.Component {
 
   componentDidMount() {
 
-    setInterval(() => this.recurGetInfo(),3000);
+    setInterval(() => this.recurGetInfo(),30000);
 
     var phones = JSON.parse(localStorage.getItem("phones"));
     var currentPhone = JSON.parse(localStorage.getItem("currPhone"));
-    // console.log(currentPhone)
-    this.setState({phones: phones, currentPhone : currentPhone});
-      setInterval(() => {
-        this.recurPhoneGet()
-      },3000)
+
+    phones.map((phn) => {
+      phn.data.lat = parseFloat(phn.data.lat);
+      phn.data.lng = parseFloat(phn.data.lng);
+    })
+
+    this.setState({phones: phones, currentPhone : currentPhone, location : phones[currentPhone].data});
+
+    // console.log(phones[currentPhone].data)
+    setInterval(() => {
+      this.recurPhoneGet()
+    },30000)
+
     
   }
 
@@ -125,10 +135,71 @@ class DashBoard extends React.Component {
   }
 
   handleChange = event => {
-    console.log("in")
-    console.log(event.target.value);
-    this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0})
-    console.log(this.state.currentPhone)
+    if(this.state.phones[event.target.value].data !== null)
+      this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0, location : this.state.phones[event.target.value].data});
+  }
+
+  recurPhoneGet = () => {
+    const email = localStorage.getItem("email")
+        
+    var phoneList = [];
+        if (email)
+        {
+            var body = { email : email};
+            
+            var formBody = [];
+            for (var property in body) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(body[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            
+            axios.post(`http://localhost:8080/imei/get`, 
+                formBody
+            )
+            .then(res => {
+            var imeiList = res.data.body.content;
+            localStorage.setItem("imeiList", imeiList);
+            
+            {imeiList.map((prop, key) => {
+            
+            var body = { imei: prop};
+            
+            var formBody = [];
+                for (var property in body) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(body[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+                }
+                formBody = formBody.join("&");
+                
+                axios.post(`http://localhost:8080/phone/get`, 
+                formBody
+                )
+                .then(res => {
+                if (res.data.body.content !== null) {
+                    phoneList.push(res.data.body);
+                    // localStorage.setItem("phones",JSON.stringify(phoneList));
+                    localStorage.setItem('currHash',md5(JSON.stringify(res.data.body)))
+                    // console.log(localStorage.getItem('currHash'))
+                    // console.log(this.state.phones)
+                    var prevHash = localStorage.getItem('prevHash');
+                    var currHash = localStorage.getItem('currHash')
+                    
+                    if (prevHash !== currHash) {
+                      localStorage.setItem("phones",JSON.stringify(phoneList));
+                      this.setState({phones: phoneList});
+                    }
+                  }
+                })
+                .catch(error => console.log(error))
+        
+            })}
+            
+            })
+            .catch(error => console.log(error))
+        }
   }
 
   recurPhoneGet = () => {
@@ -199,10 +270,19 @@ class DashBoard extends React.Component {
   
   
   render() {
-    const { classes } = this.props;
-    const { open, location, showAll, phones, currentPhone } = this.state;
+
+    var email = localStorage.getItem("email");
+
+    if(email === "null")
+    {
+      return <Redirect push to="/login" />;
+    }
+
     
-    // console.log(phones);
+    const { classes } = this.props;
+    const { open, location, phones, currentPhone } = this.state;
+    // console.log(location);
+    
     return (
       <div>
       <div className={classes.appRoot}>
@@ -213,7 +293,6 @@ class DashBoard extends React.Component {
           handleChange={this.handleChange}
         />
         </div>
-        {/* {console.log("current phone -> ",currentPhone !== undefined ? currentPhone : 0)} */}
       <div className={classes.root}>
         <div className={classes.appFrame}>
           <CustomDrawer 
@@ -232,9 +311,12 @@ class DashBoard extends React.Component {
             })}
           >
             <div className={classes.mainPanel} ref="mainPanel">
+              {/* {location !== null ? */}
                 <Maps 
-                    locations={this.getLocations().length > 0 ? this.getLocations() : location}
+                    // locations={this.getLocations().length > 0 ? this.getLocations() : location}
+                    location={location } 
                 />
+                {/* : ""} */}
                 </div>
           <Snackbar
           open={this.flag}

@@ -3,6 +3,7 @@ import Button from '@material-ui/core/IconButton';
 import Settings from '@material-ui/icons/Settings';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { Link, Redirect } from 'react-router-dom';
 
 class SimpleMenu extends React.Component {
   state = {
@@ -17,8 +18,17 @@ class SimpleMenu extends React.Component {
     this.setState({ anchorEl: null });
   };
 
+  handleLogout = () => {
+    localStorage.setItem("email", null);
+    this.setState({redirect : true});
+  };
+
   render() {
     const { anchorEl } = this.state;
+
+    if (this.state.redirect) {
+      return <Redirect push to="/login" />;
+    }
 
     return (
       <div>
@@ -27,9 +37,7 @@ class SimpleMenu extends React.Component {
           aria-haspopup="true"
           onClick={this.handleClick}
         >
-            <Settings
-              style={{color: "white"}}
-            />
+            <Settings />
         </Button>
         <Menu
           id="simple-menu"
@@ -39,7 +47,7 @@ class SimpleMenu extends React.Component {
         >
           <MenuItem onClick={this.handleClose}>Profile</MenuItem>
           <MenuItem onClick={this.handleClose}>My account</MenuItem>
-          <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+          <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
         </Menu>
       </div>
     );

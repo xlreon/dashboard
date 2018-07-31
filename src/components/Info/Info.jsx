@@ -5,7 +5,8 @@ import { Link, Redirect } from 'react-router-dom';
 import background from "assets/img/background.png";
 import Particles from 'react-particles-js';
 import particleConfig from 'assets/particleJson.json';
-import LoginCard from 'components/CustomCard/LoginCard.jsx'
+import Theft from 'components/Theft/Theft.jsx';
+import Contact from 'components/Contact/Contact.jsx';
 
 const styles = theme => ({
   background : {
@@ -36,19 +37,13 @@ const styles = theme => ({
   },
 });    
 
-class LoginForm extends React.Component {
+class Info extends React.Component {
 
 
   render() {
 
     const { classes } = this.props;
     
-    var email = localStorage.getItem("email")
-    // console.log(email)
-    if(email !== "null")
-    {
-      return <Redirect push to="/dashboard" />;
-    }
 
     return (
 
@@ -62,9 +57,10 @@ class LoginForm extends React.Component {
       <div className={classes.root}>
         
         <div className={classes.container}>
-        {/* <Center> */}
-          <LoginCard />
-        {/* </Center> */}
+            {localStorage.getItem("info") === "theft" ? 
+            <Theft />
+            :
+            <Contact />}
         </div>
       </div>
       </div>
@@ -72,8 +68,8 @@ class LoginForm extends React.Component {
   }
 }
 
-LoginForm.propTypes = {
+Info.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(LoginForm);
+export default withStyles(styles)(Info);

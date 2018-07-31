@@ -9,6 +9,8 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
+import { Link, Redirect } from 'react-router-dom';
+import LockPhone from 'components/LockPhone/LockPhone';
 
 const styles = theme => ({
     root: {
@@ -40,7 +42,12 @@ class FeatureDetail extends React.Component {
     state = {
         open: false,
         message: null,
+
     };
+
+    componentDidMount() {
+        this.setState({ event : this.props.feature.event});
+    }
     
     handleClick = (msg) => {
         this.setState({ open: true, message : msg });
@@ -56,6 +63,42 @@ class FeatureDetail extends React.Component {
         {
             this.props.changeLocation(this.props.location);
         }
+
+        if (feature === "theft")
+        {
+            localStorage.setItem("info","theft");
+            this.setState({theft : true});
+        }
+
+        if (feature === "contact")
+        {
+            localStorage.setItem("info","contact");
+            this.setState({contact : true});
+        }
+
+
+        if (this.state.event === "Switch On")
+        {
+            this.setState({event: "Switch Off"});
+            feature = "alarmOn";
+        }
+        else if (this.state.event === "Switch Off")
+        {
+            this.setState({event: "Switch On"});
+            feature = "alarmOff";
+        }
+        else if (this.state.event === "Prevent SwitchOff")
+        {
+            this.setState({event: "Allow SwitchOff"});
+            feature = "preventOn";
+        }
+        else if (this.state.event === "Allow SwitchOff")
+        {
+            this.setState({event: "Prevent SwitchOff"});
+            feature = "preventOff";
+        }
+
+
 
         var body = { featureName : feature};
 
@@ -81,6 +124,12 @@ class FeatureDetail extends React.Component {
     };
 
     render() {
+
+        if (this.state.theft)
+            return <Redirect push to="/info" />;
+        if (this.state.contact)
+            return <Redirect push to="/info" />;
+
         const { classes } = this.props;
         return (
             <div>
@@ -122,11 +171,18 @@ class FeatureDetail extends React.Component {
                     <Grid item xs={2}>
                     </Grid>
                     <Grid item xs={10}>
+                        {this.props.feature.detail === "noDetail" ?
+                        <LockPhone />
+                        :
                         <Typography variant="subheading" color="textSecondary">{this.props.feature.detail}</Typography>
+                        }
                     </Grid>
                     <Grid item xs={2}>
                     </Grid>
                     <GridItem xs={10}>
+                    {this.props.feature.detail === "noDetail" ?
+                        <div></div>
+                        :
                         <div className={classes.detailButton}>
                             <Button 
                                 variant="contained" 
@@ -134,13 +190,12 @@ class FeatureDetail extends React.Component {
                                 className={classes.button} 
                                 onClick={() => {
                                     this.featureAPI(this.props.feature.api);
-                                    
-                                    
                                 }}
                             >
-                                {this.props.feature.event}
+                                {this.state.event}
                             </Button>
                         </div>
+                    }
                     </GridItem>
                 </Grid>
                 

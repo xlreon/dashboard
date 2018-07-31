@@ -7,6 +7,7 @@ import {
 const appStyle = theme => ({
   root: {
     flexGrow: 1,
+    overflow : 'hidden'
   },
   mainPanel: {
     // [theme.breakpoints.up("md")]: {
@@ -21,7 +22,7 @@ const appStyle = theme => ({
     overflowScrolling: "touch"
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing.unit, 
   },
   appFrame: {
     height: '100%',
@@ -93,6 +94,7 @@ const appStyle = theme => ({
   },
   appRoot: {
     flexGrow: 1,
+    overflow : 'hidden'
   },
 });
 

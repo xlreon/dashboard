@@ -13,7 +13,7 @@ import Center from 'react-center';
 import logo from "assets/img/pfa.png";
 import background from "assets/img/background.png";
 import axios from 'axios';
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Error from '@material-ui/icons/ErrorOutline';
 
