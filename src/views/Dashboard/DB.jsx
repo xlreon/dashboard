@@ -160,10 +160,11 @@ class DashBoard extends React.Component {
             )
             .then(res => {
             var imeiList = res.data.body.content;
+            console.log(imeiList)
             localStorage.setItem("imeiList", imeiList);
             
             {imeiList.map((prop, key) => {
-            
+            if(prop!==null) {
             var body = { imei: prop};
             
             var formBody = [];
@@ -189,70 +190,6 @@ class DashBoard extends React.Component {
                     
                     if (prevHash !== currHash) {
                       localStorage.setItem("phones",JSON.stringify(phoneList));
-                      this.setState({phones: phoneList});
-                    }
-                  }
-                })
-                .catch(error => console.log(error))
-        
-            })}
-            
-            })
-            .catch(error => console.log(error))
-        }
-  }
-
-  recurPhoneGet = () => {
-    const email = localStorage.getItem("email")
-        
-    var phoneList = [];
-        if (email)
-        {
-            var body = { email : email};
-            
-            var formBody = [];
-            for (var property in body) {
-                var encodedKey = encodeURIComponent(property);
-                var encodedValue = encodeURIComponent(body[property]);
-                formBody.push(encodedKey + "=" + encodedValue);
-            }
-            formBody = formBody.join("&");
-            
-            axios.post(`http://localhost:8080/imei/get`, 
-                formBody
-            )
-            .then(res => {
-            var imeiList = res.data.body.content;
-        
-            
-            // console.log(imeiList)
-            {imeiList.map((prop, key) => {
-            
-            var body = { imei: prop};
-            
-            var formBody = [];
-                for (var property in body) {
-                var encodedKey = encodeURIComponent(property);
-                var encodedValue = encodeURIComponent(body[property]);
-                formBody.push(encodedKey + "=" + encodedValue);
-                }
-                formBody = formBody.join("&");
-                
-                axios.post(`http://localhost:8080/phone/get`, 
-                formBody
-                )
-                .then(res => {
-                if (res.data.body.content !== null) {
-                    phoneList.push(res.data.body);
-                    // localStorage.setItem("phones",JSON.stringify(phoneList));
-                    localStorage.setItem('currHash',md5(JSON.stringify(res.data.body)))
-                    console.log(localStorage.getItem('currHash'))
-                    // console.log(this.state.phones)
-                    var prevHash = localStorage.getItem('prevHash');
-                    var currHash = localStorage.getItem('currHash')
-                    
-                    if (prevHash !== currHash) {
-                      localStorage.setItem("phones",JSON.stringify(phoneList));
                       localStorage.setItem("prevHash",currHash)
                       this.setState({phones: phoneList});
                     }
@@ -260,12 +197,77 @@ class DashBoard extends React.Component {
                 })
                 .catch(error => console.log(error))
         
+              }
             })}
-            
             })
             .catch(error => console.log(error))
         }
   }
+
+  // recurPhoneGet = () => {
+  //   const email = localStorage.getItem("email")
+        
+  //   var phoneList = [];
+  //       if (email)
+  //       {
+  //           var body = { email : email};
+            
+  //           var formBody = [];
+  //           for (var property in body) {
+  //               var encodedKey = encodeURIComponent(property);
+  //               var encodedValue = encodeURIComponent(body[property]);
+  //               formBody.push(encodedKey + "=" + encodedValue);
+  //           }
+  //           formBody = formBody.join("&");
+            
+  //           axios.post(`http://localhost:8080/imei/get`, 
+  //               formBody
+  //           )
+  //           .then(res => {
+  //           var imeiList = res.data.body.content;
+        
+            
+  //           // console.log(imeiList)
+  //           {imeiList.map((prop, key) => {
+            
+  //           var body = { imei: prop};
+            
+  //           var formBody = [];
+  //               for (var property in body) {
+  //               var encodedKey = encodeURIComponent(property);
+  //               var encodedValue = encodeURIComponent(body[property]);
+  //               formBody.push(encodedKey + "=" + encodedValue);
+  //               }
+  //               formBody = formBody.join("&");
+                
+  //               axios.post(`http://localhost:8080/phone/get`, 
+  //               formBody
+  //               )
+  //               .then(res => {
+  //               if (res.data.body.content !== null) {
+  //                   phoneList.push(res.data.body);
+  //                   // localStorage.setItem("phones",JSON.stringify(phoneList));
+  //                   localStorage.setItem('currHash',md5(JSON.stringify(res.data.body)))
+  //                   console.log(localStorage.getItem('currHash'))
+  //                   // console.log(this.state.phones)
+  //                   var prevHash = localStorage.getItem('prevHash');
+  //                   var currHash = localStorage.getItem('currHash')
+                    
+  //                   if (prevHash !== currHash) {
+  //                     localStorage.setItem("phones",JSON.stringify(phoneList));
+  //                     localStorage.setItem("prevHash",currHash)
+  //                     this.setState({phones: phoneList});
+  //                   }
+  //                 }
+  //               })
+  //               .catch(error => console.log(error))
+        
+  //           })}
+            
+  //           })
+  //           .catch(error => console.log(error))
+  //       }
+  // }
 
   
   
