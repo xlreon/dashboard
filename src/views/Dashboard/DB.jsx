@@ -97,13 +97,16 @@ class DashBoard extends React.Component {
     var phones = JSON.parse(localStorage.getItem("phones"));
     var currentPhone = JSON.parse(localStorage.getItem("currPhone"));
 
-    phones.map((phn) => {
-      phn.data.lat = parseFloat(phn.data.lat);
-      phn.data.lng = parseFloat(phn.data.lng);
-    })
+    if (phones !== null)
+    {
+      phones.map((phn) => {
+        phn.data.lat = parseFloat(phn.data.lat);
+        phn.data.lng = parseFloat(phn.data.lng);
+      })
 
-    this.setState({phones: phones, currentPhone : currentPhone, location : phones[currentPhone].data});
-
+      this.setState({phones: phones, currentPhone : currentPhone, location : phones[currentPhone].data});
+    }
+    
     // console.log(phones[currentPhone].data)
     setInterval(() => {
       this.recurPhoneGet()
