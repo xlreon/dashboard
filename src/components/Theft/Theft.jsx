@@ -242,7 +242,7 @@ class Theft extends React.Component {
                       {images !== null ?
                         <div className={classes.flex}>
                           {images.map((image) => {
-                            return <Grid xs={3} className={classes.container}><img src={img} alt="image" className={classes.img}/></Grid>;
+                            return <Grid xs={3} className={classes.container}><img src={image.location} alt="image" className={classes.img}/></Grid>;
                           })}
                         </div>
                         : <Typography color="error" className={classes.container}>Could not fetch data!</Typography>}
@@ -257,7 +257,7 @@ class Theft extends React.Component {
                             <Player
                               // playsInline
                               // poster={img}
-                              src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
+                              src={video.location}
                             />
                           </div>;
                         })}

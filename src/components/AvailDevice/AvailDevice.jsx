@@ -51,37 +51,27 @@ class Device extends React.Component {
         }
         formBody = formBody.join("&");
         
-        if(gps == "false") {
-            axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/getLatLng`, formBody)
+        if(gps == "true") {
+            axios.post(`http://localhost:8080/geoloc`, formBody)
             .then(res => {
-                var innerFormBody = [];
-                for (var property in res.data) {
-                    var encodedKey = encodeURIComponent(property);
-                    var encodedValue = encodeURIComponent(res.data[property]);
-                    innerFormBody.push(encodedKey + "=" + encodedValue);
-                }
-                innerFormBody = innerFormBody.join("&");
-        axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/geoloc`, innerFormBody)
-        .then(res => {
-            // console.log(res)
-            const data = res.data.body.content;
-            if (data !== null) {
-                var location = null;
-                data.map((item) => {
-                    if (item.location_type == "APPROXIMATE") 
-                    {
-                        if((item.formatted_address.match(/,/g) || []).length === 2)
-                            location = item.formatted_address;
-                        }
-                    })
-                }
-                console.log(location)
-                this.setState({location : location});
+                // console.log(res)
+                const data = res.data.body.content;
+                if (data !== null) {
+                    var location = null;
+                    data.map((item) => {
+                        if (item.location_type == "APPROXIMATE") 
+                        {
+                            if((item.formatted_address.match(/,/g) || []).length === 2)
+                                location = item.formatted_address;
+                            }
+                        })
+                    }
+                    console.log(location)
+                    this.setState({location : location});
 
-        })
-        .catch(error => console.log(error))
-    })
-    }
+            })
+            .catch(error => console.log(error))
+        }
 }
 
 
