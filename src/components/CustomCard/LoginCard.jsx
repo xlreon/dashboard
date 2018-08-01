@@ -125,8 +125,8 @@ class LoginCard extends React.Component {
     }
     
     handleSubmit = () => {
-        console.log(this.state.email);
-        console.log(this.state.pass);
+        // console.log(this.state.email);
+        // console.log(this.state.pass);
 
         var body = { email: this.state.email, password : this.state.pass};
         
