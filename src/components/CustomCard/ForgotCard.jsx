@@ -122,6 +122,7 @@ class ForgotCard extends React.Component {
         })
         .catch(error => console.log(error))
 
+        localStorage.setItem("resetEmail",this.state.email);
         
     }
 

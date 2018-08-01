@@ -17,6 +17,7 @@ import background from "assets/img/background.png";
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom'
 import Dialog from 'components/Dialogs/Dialog.jsx';
+import Succesful from 'components/Dialogs/updateSuccessful';
 
 const styles = theme => ({
     
@@ -96,6 +97,7 @@ class ForgotCard extends React.Component {
         user: {},
         check: {},
         open: false,
+        success: false,
     };
     
     handleOpenDialog = () => {
@@ -104,6 +106,10 @@ class ForgotCard extends React.Component {
     
     handleCloseDialog = () => {
         this.setState({ open: false });
+    };
+
+    handleRedirect = () => {
+        this.setState({ redirect: true });
     };
     
     
@@ -117,33 +123,57 @@ class ForgotCard extends React.Component {
     }
     
     handleSubmit = () => {
-        console.log(this.state.user.password);
-        console.log(localStorage.getItem("resetEmail"))
-        // this.setState({ redirect : true });
+        var pass = this.state.user.oldPassword;
+        var email = localStorage.getItem("resetEmail");
 
-        // var body = { email: this.state.email, password : this.state.pass};
+        var body = { email: email, password : pass};
         
-        // var formBody = [];
-        // for (var property in body) {
-        //     var encodedKey = encodeURIComponent(property);
-        //     var encodedValue = encodeURIComponent(body[property]);
-        //     formBody.push(encodedKey + "=" + encodedValue);
-        // }
-        // formBody = formBody.join("&");
+        var formBody = [];
+        for (var property in body) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(body[property]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
         
-        // axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/loginWeb`, 
-        //     formBody
-        // )
-        // .then(res => {
-        //     if (res.data.status === 3) {
-        //         console.log("login success")
-        //         localStorage.setItem("email", this.state.email);
-        //         this.setState({redirect: true});
-        //         // window.location.href = "/forgot";
-        //     }
-        // })
-        // .catch(error => console.log(error))
+        axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/loginWeb`, 
+            formBody
+        )
+        .then(res => {
+            if (res.data.status === 3) {
+                
+                var body = { email: email, password : this.state.user.password};
+        
+                var formBody = [];
+                for (var property in body) {
+                    var encodedKey = encodeURIComponent(property);
+                    var encodedValue = encodeURIComponent(body[property]);
+                    formBody.push(encodedKey + "=" + encodedValue);
+                }
+                formBody = formBody.join("&");
+                
+                axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/password/update`, 
+                    formBody
+                )
+                .then(res => {
+                    console.log(res.data);
+                    if (res.data.status === 9) {
+                        
+                        console.log("update successfull")
+                        this.setState({ success : true});
+                        
+                    }
+                })
+                .catch(error => console.log(error))
+            }
+            else
+            {
+                this.setState({invalid : true});
+            }
+        })
+        .catch(error => console.log(error))
 
+        this.setState({ open: false });
         
     }
 
@@ -234,10 +264,10 @@ class ForgotCard extends React.Component {
                         </div>
                         <div className={classNames('row',classes.login)} >
                             <Button 
-                                disabled={this.state.check.oldPassword &&
-                                    this.state.check.password &&
-                                    this.state.check.repeatPassword && 
-                                    this.state.user.repeatPassword === this.state.user.password} 
+                                disabled={!this.state.check.oldPassword ||
+                                    !this.state.check.password ||
+                                    !this.state.check.repeatPassword || 
+                                    this.state.user.repeatPassword !== this.state.user.password} 
                                 type="submit" 
                                 variant='raised' 
                                 color='primary'
@@ -246,7 +276,10 @@ class ForgotCard extends React.Component {
                             </Button>
                         </div>
                     </ValidatorForm>
-
+                    
+                    <div className={classNames(classes.login)} >
+                      {this.state.invalid ? <Typography color='error'>Invalid Old Password</Typography> : <div></div>}
+                    </div>
                     
                     </CardContent>
                 </Card>
@@ -254,6 +287,10 @@ class ForgotCard extends React.Component {
                     open ={this.state.open}
                     handleSubmit={this.handleSubmit}
                     handleCloseDialog={this.handleCloseDialog}
+                />
+                <Succesful 
+                    open ={this.state.success}
+                    handleRedirect={this.handleRedirect}
                 />
             </div>
         );
