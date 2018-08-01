@@ -123,11 +123,12 @@ class ForgotCard extends React.Component {
     }
     
     handleSubmit = () => {
-        var pass = this.state.user.oldPassword;
+
         var email = localStorage.getItem("resetEmail");
 
-        var body = { email: email, password : pass};
-        
+                
+        var body = { email: email, password : this.state.user.password};
+
         var formBody = [];
         for (var property in body) {
             var encodedKey = encodeURIComponent(property);
@@ -136,39 +137,16 @@ class ForgotCard extends React.Component {
         }
         formBody = formBody.join("&");
         
-        axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/loginWeb`, 
+        axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/password/update`, 
             formBody
         )
         .then(res => {
-            if (res.data.status === 3) {
+            console.log(res.data);
+            if (res.data.status === 9) {
                 
-                var body = { email: email, password : this.state.user.password};
-        
-                var formBody = [];
-                for (var property in body) {
-                    var encodedKey = encodeURIComponent(property);
-                    var encodedValue = encodeURIComponent(body[property]);
-                    formBody.push(encodedKey + "=" + encodedValue);
-                }
-                formBody = formBody.join("&");
+                console.log("update successfull")
+                this.setState({ success : true});
                 
-                axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/password/update`, 
-                    formBody
-                )
-                .then(res => {
-                    console.log(res.data);
-                    if (res.data.status === 9) {
-                        
-                        console.log("update successfull")
-                        this.setState({ success : true});
-                        
-                    }
-                })
-                .catch(error => console.log(error))
-            }
-            else
-            {
-                this.setState({invalid : true});
             }
         })
         .catch(error => console.log(error))
@@ -228,18 +206,6 @@ class ForgotCard extends React.Component {
                         >
                         <div className='row'>
                         <TextValidator
-                            label="Old Password"
-                            onChange={this.handleChange}
-                            name="oldPassword"
-                            type="password"
-                            className={classes.space}
-                            validators={['required']}
-                            errorMessages={['this field is required']}
-                            value={user.oldPassword}
-                        />
-                        </div>
-                        <div className='row'>
-                        <TextValidator
                             label="Password"
                             onChange={this.handleChange}
                             name="password"
@@ -264,8 +230,7 @@ class ForgotCard extends React.Component {
                         </div>
                         <div className={classNames('row',classes.login)} >
                             <Button 
-                                disabled={!this.state.check.oldPassword ||
-                                    !this.state.check.password ||
+                                disabled={!this.state.check.password ||
                                     !this.state.check.repeatPassword || 
                                     this.state.user.repeatPassword !== this.state.user.password} 
                                 type="submit" 
@@ -276,10 +241,6 @@ class ForgotCard extends React.Component {
                             </Button>
                         </div>
                     </ValidatorForm>
-                    
-                    <div className={classNames(classes.login)} >
-                      {this.state.invalid ? <Typography color='error'>Invalid Old Password</Typography> : <div></div>}
-                    </div>
                     
                     </CardContent>
                 </Card>
