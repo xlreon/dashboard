@@ -29,6 +29,7 @@ const styles = theme => ({
     
       card: {
         minWidth: 275,
+        width : 500,
         zIndex : 2,
         position : 'relative',
         borderRadius: '25px'
@@ -36,6 +37,8 @@ const styles = theme => ({
       content : {
         // marginRight : 30,
         // marginLeft : 30
+        height : '80vh',
+        overflow : 'scroll'
       },
       bullet: {
         display: 'inline-block',
@@ -95,10 +98,17 @@ const styles = theme => ({
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
       },
       heading : {
-        margin :10
+        margin :10,
+        width : '90%'
       },
       flex : {
         display : 'flex'
+      },
+      player :{
+        height : 200
+      },
+      break : {
+        height : 10
       }
 });     
 
@@ -116,72 +126,77 @@ class Theft extends React.Component {
 
     getItems(index) {
 
-        console.log(index)
+      
+      var imei = localStorage.getItem('imeiList');
+      var email = localStorage.getItem('email');
+      
+      var imeiList = imei.split(",");
+      // console.log("imeilist",imeiList)
 
-        var imei = localStorage.getItem('imeiList');
-        var email = localStorage.getItem('email');
+        if (imeiList.length > 0)
+        {
 
-        var imeiList = imei.split(",");
+          var body = { imei: imeiList[index], email : email, type : 'image'};
+              
+          var formBody = [];
+              for (var property in body) {
+              var encodedKey = encodeURIComponent(property);
+              var encodedValue = encodeURIComponent(body[property]);
+              formBody.push(encodedKey + "=" + encodedValue);
+          }
+          formBody = formBody.join("&");
+          
+          axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/file/db/get`, 
+          formBody
+          )
+          .then(res => {
+              if (res.data.body.content !== null) {
 
-        var body = { imei: imeiList[index], email : email, type : 'image'};
-            
-        var formBody = [];
-            for (var property in body) {
-            var encodedKey = encodeURIComponent(property);
-            var encodedValue = encodeURIComponent(body[property]);
-            formBody.push(encodedKey + "=" + encodedValue);
+                  this.setState({images : res.data.body.content })
+                  
+                  // res.data.body.content.map((item)=>{
+                  //     console.log(item.name)
+                  // })
+              }
+              else 
+              {
+                this.setState({images : []})
+              }
+          })
+          .catch(error => console.log(error))
+
+          var body = { imei: imeiList[index], email : email, type : 'video'};
+              
+          var formBody = [];
+              for (var property in body) {
+              var encodedKey = encodeURIComponent(property);
+              var encodedValue = encodeURIComponent(body[property]);
+              formBody.push(encodedKey + "=" + encodedValue);
+          }
+          formBody = formBody.join("&");
+          
+          axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/file/db/get`, 
+          formBody
+          )
+          .then(res => {
+            console.log(res.data)
+
+              if (res.data.body.content !== null) {
+
+                  this.setState({videos : res.data.body.content })
+                  
+                  // res.data.body.content.map((item)=>{
+                  //     console.log(item.name)
+                  // })
+              }
+              else 
+              {
+                this.setState({videos : []})
+              }
+          })
+          .catch(error => console.log(error))
+
         }
-        formBody = formBody.join("&");
-        
-        axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/file/db/get`, 
-        formBody
-        )
-        .then(res => {
-            if (res.data.body.content !== null) {
-
-                this.setState({images : res.data.body.content })
-                
-                res.data.body.content.map((item)=>{
-                    console.log(item.name)
-                })
-            }
-            else 
-            {
-              this.setState({images : []})
-            }
-        })
-        .catch(error => console.log(error))
-
-        var body = { imei: imeiList[index], email : email, type : 'video'};
-            
-        var formBody = [];
-            for (var property in body) {
-            var encodedKey = encodeURIComponent(property);
-            var encodedValue = encodeURIComponent(body[property]);
-            formBody.push(encodedKey + "=" + encodedValue);
-        }
-        formBody = formBody.join("&");
-        
-        axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/file/db/get`, 
-        formBody
-        )
-        .then(res => {
-          console.log(res.data)
-
-            if (res.data.body.content !== null) {
-
-                this.setState({videos : res.data.body.content })
-                
-                // res.data.body.content.map((item)=>{
-                //     console.log(item.name)
-                // })
-            }
-            else 
-            {
-              this.setState({videos : []})
-            }
-        })
-        .catch(error => console.log(error))
     }
     
     state = {
@@ -240,11 +255,11 @@ class Theft extends React.Component {
                     {images !== null && images.length === 0  ? <div className={classes.heading}><Typography color="error" className={classes.container}>No images found!</Typography></div> :
                     <Grid container spacing={24} className={classes.heading}>
                       {images !== null ?
-                        <div className={classes.flex}>
-                          {images.map((image) => {
-                            return <Grid xs={3} className={classes.container}><img src={image.location} alt="image" className={classes.img}/></Grid>;
-                          })}
-                        </div>
+                        // <div className={classes.flex}>
+                          images.map((image) => {
+                            return <Grid item xs={4} className={classes.container}><img src={image.location} alt="image" className={classes.img}/></Grid>;
+                          })
+                        // </div>
                         : <Typography color="error" className={classes.container}>Could not fetch data!</Typography>}
                     </Grid> }
                     <Divider />
@@ -253,12 +268,14 @@ class Theft extends React.Component {
                       <div>
                       {videos.length === 0 ? <Typography color="error" className={classes.container}>No videos found!</Typography>: ""}
                         {videos.map((video) => {
-                          return <div className='row'>
+                          return <div className={classNames('row')} >
                             <Player
                               // playsInline
                               // poster={img}
+                              className={classes.player}
                               src={video.location}
                             />
+                            <div className={classes.break}></div>
                           </div>;
                         })}
                       </div>
