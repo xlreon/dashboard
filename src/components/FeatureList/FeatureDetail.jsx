@@ -45,6 +45,7 @@ class FeatureDetail extends React.Component {
         open: false,
         message: null,
         authentication : false,
+        pass : null
     };
 
     componentDidMount() {
@@ -69,6 +70,48 @@ class FeatureDetail extends React.Component {
 
     handleCloseAuth = () => {
         this.setState({ checkID: false });
+    };
+
+    handlePassChange =  event => {
+        this.setState({
+          pass : event.target.value,
+        });
+    };
+
+    handlePassSubmit = () => {
+
+        var email = localStorage.getItem("email");
+        var pass = this.state.pass;
+
+        // console.log(email, pass);
+
+        var body = { email: email, password : pass};
+        
+        var formBody = [];
+        for (var property in body) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(body[property]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+        
+        axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/loginWeb`, 
+            formBody
+        )
+        .then(res => {
+            if (res.data.status === 3) {
+
+                this.callFeature('wipe');
+                this.handleCloseAuth();
+            }
+            else
+            {
+                this.setState({invalid : true});
+            }
+        })
+        .catch(error => console.log(error))
+
+        
     };
 
     featureAPI = (feature) => {
@@ -112,10 +155,14 @@ class FeatureDetail extends React.Component {
             feature = "preventOff";
         }
 
+        this.callFeature(feature);
+
+    };
+
+    callFeature(feature) {
+
         var imei = localStorage.getItem('imeiList');
         var imeiList = imei.split(",");
-
-        // console.log(imeiList[this.props.currentPhone])
 
         var body = { featureName : feature, imei : imeiList[this.props.currentPhone]};
 
@@ -138,7 +185,7 @@ class FeatureDetail extends React.Component {
             this.handleClick(feature + " API call : Failure");
             console.log(error);
         })
-    };
+    }
 
     render() {
 
@@ -230,6 +277,10 @@ class FeatureDetail extends React.Component {
                 <Authentication 
                     open={this.state.checkID}
                     onClose={this.handleCloseAuth}
+                    pass={this.state.pass}
+                    handlePassChange={this.handlePassChange}
+                    handlePassSubmit={this.handlePassSubmit}
+                    invalid={this.state.invalid}
                 />
             </div>
         );

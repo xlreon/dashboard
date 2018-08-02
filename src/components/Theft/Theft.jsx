@@ -260,7 +260,7 @@ class Theft extends React.Component {
                             return <Grid item xs={4} className={classes.container}><img src={image.location} alt="image" className={classes.img}/></Grid>;
                           })
                         // </div>
-                        : <Typography color="error" className={classes.container}>Could not fetch data!</Typography>}
+                        : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
                     </Grid> }
                     <Divider />
                     <Typography variant="title" className={classes.heading} color='primary' >Videos :</Typography>
