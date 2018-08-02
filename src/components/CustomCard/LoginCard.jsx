@@ -124,6 +124,7 @@ class LoginCard extends React.Component {
             this.setState({ isPass : false });
     }
     
+    headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
     handleSubmit = () => {
         // console.log(this.state.email);
         // console.log(this.state.pass);
@@ -137,9 +138,10 @@ class LoginCard extends React.Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        
+        console.log(this.headers)
         axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/loginWeb`, 
-            formBody
+            formBody,
+            this.headers
         )
         .then(res => {
             if (res.data.status === 3) {

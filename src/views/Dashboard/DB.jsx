@@ -115,7 +115,7 @@ class DashBoard extends React.Component {
     
   }
 
-  headers = {headers: {'Access-Control-Allow-Origin': '*'}}
+  headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
 
   recurGetInfo = () => {
     var body = { featureName : "info"};
@@ -130,7 +130,7 @@ class DashBoard extends React.Component {
             
             axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/feature`, 
                 formBody,
-                headers
+                this.headers
             )
             .then(res => { 
               console.log('Get information notification sent.');
@@ -163,7 +163,7 @@ class DashBoard extends React.Component {
             
             axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/imei/get`, 
                 formBody,
-                headers
+                this.headers
             )
             .then(res => {
             var imeiList = res.data.body.content;
@@ -184,7 +184,7 @@ class DashBoard extends React.Component {
                 
                 axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/phone/get`, 
                 formBody,
-                headers
+                this.headers
                 )
                 .then(res => {
                 if (res.data.body.content !== null) {
