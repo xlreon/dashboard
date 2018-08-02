@@ -105,6 +105,10 @@ class DashBoard extends React.Component {
       
       this.setState({phones: phones, currentPhone : currentPhone, location : phones[currentPhone].data});
     }
+
+  }
+
+  componentWillMount(){
     
     setInterval(() => this.recurGetInfo(),30000);
     
@@ -197,10 +201,16 @@ class DashBoard extends React.Component {
                     var currHash = localStorage.getItem('currHash')
                     
                     if (prevHash !== currHash) {
-                      console.log("data changed", phoneList[this.state.currentPhone].data)
                       localStorage.setItem("phones",JSON.stringify(phoneList));
                       localStorage.setItem("prevHash",currHash)
-                      this.setState({phones: phoneList, location : phoneList[this.state.currentPhone].data});
+                      
+                      var newLoc = phoneList[this.state.currentPhone].data
+                      
+                      newLoc.lat = parseFloat(newLoc.lat);
+                      newLoc.lng = parseFloat(newLoc.lng);
+                      console.log("data changed", newLoc)
+
+                      this.setState({location : newLoc, phones: phoneList});
 
                       
                     }
