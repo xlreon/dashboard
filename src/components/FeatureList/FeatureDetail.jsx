@@ -256,7 +256,7 @@ class FeatureDetail extends React.Component {
                         <div className={classes.detailButton}>
                                 {console.log(this.props.feature.api)}
                             {
-                            this.props.feature.api !== "theft" && this.props.feature.api !== "contact" && this.props.feature.api !== "wipe"
+                            this.props.feature.api !== "theft" && this.props.feature.api !== "contact" && this.props.feature.api !== "wipe" && this.props.feature.api !== "location"
                             ?
                             <Switch className={classes.button} checkedChildren="On" unCheckedChildren="Off"
                                 onClick={() => {
