@@ -173,15 +173,17 @@ class DashBoard extends React.Component {
                 if (res.data.body.content !== null) {
                     phoneList.push(res.data.body);
                     // localStorage.setItem("phones",JSON.stringify(phoneList));
-                    localStorage.setItem('currHash',md5(JSON.stringify(res.data.body)))
+                    localStorage.setItem('currHash'+key,md5(JSON.stringify(res.data.body)))
                     // console.log(localStorage.getItem('currHash'))
-                    console.log(this.state.phones)
-                    var prevHash = localStorage.getItem('prevHash');
-                    var currHash = localStorage.getItem('currHash')
+                    // console.log(this.state.phones)
+                    var prevHash = localStorage.getItem('prevHash'+key);
+                    var currHash = localStorage.getItem('currHash'+key);
+
+                    console.log(prevHash," ", currHash)
                     
                     if (prevHash !== currHash) {
                       localStorage.setItem("phones",JSON.stringify(phoneList));
-                      localStorage.setItem("prevHash",currHash)
+                      localStorage.setItem("prevHash"+key,currHash)
                       
                       var newLoc = phoneList[this.state.currentPhone].data
                       
@@ -217,6 +219,14 @@ class DashBoard extends React.Component {
     const { classes } = this.props;
     const { open, location, phones, currentPhone } = this.state;
     // console.log(location);
+
+    var origin = JSON.parse(localStorage.getItem("initialLoc"));
+        
+    origin.lat = parseFloat(origin.lat);
+    origin.lng = parseFloat(origin.lng);
+
+    console.log(location)
+    console.log(origin)
     
     return (
       <div>
@@ -247,14 +257,14 @@ class DashBoard extends React.Component {
             })}
           >
             <div className={classes.mainPanel} ref="mainPanel">
-              {/* {location !== null ? */}
-                {/* <Maps 
+              {md5(JSON.stringify(location)) === md5(JSON.stringify(origin)) ?
+                <Maps 
                     // locations={this.getLocations().length > 0 ? this.getLocations() : location}
-                    location={location } 
-                /> */}
-                <MapsDirection  location={location}/>
-                {/* : ""} */}
-                </div>
+                    location={location} 
+                />
+                :
+                <MapsDirection location={location} origin={origin} />}
+            </div>
           <Snackbar
           open={this.flag}
           // onClose={this.handleClose}

@@ -27,17 +27,11 @@ class Maps extends React.Component {
                 componentDidMount() {
                     const google = window.google;
                     const DirectionsService = new google.maps.DirectionsService();
-        
-                    var origin = JSON.parse(localStorage.getItem("initialLoc"));
-        
-                    origin.lat = parseFloat(origin.lat);
-                    origin.lng = parseFloat(origin.lng);
-        
-                    console.log(origin)
-                    console.log(this.props.location)
+
+                    // console.log(this.props.origin, this.props.location)
         
                     DirectionsService.route({
-                        origin: origin,
+                        origin: this.props.origin,
                         destination: this.props.location,
                         travelMode: google.maps.TravelMode.DRIVING,
                     }, (result, status) => {
@@ -60,9 +54,9 @@ class Maps extends React.Component {
             {props.directions && <DirectionsRenderer directions={props.directions} />}
           </GoogleMap>
         );
-        
+
         return (
-            <MapWithADirectionsRenderer location={this.props.location}/>
+            <MapWithADirectionsRenderer location={this.props.location} origin={this.props.origin}/>
         );
     }
 

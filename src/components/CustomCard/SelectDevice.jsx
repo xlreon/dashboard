@@ -110,8 +110,8 @@ class SelectDevice extends React.Component {
                     this.setState({phones: phoneList});
 
                     localStorage.setItem("phones",JSON.stringify(phoneList));
-                    localStorage.setItem('prevHash',md5(JSON.stringify(res.data.body)))
-                    // console.log(localStorage.getItem('prevHash'))
+                    localStorage.setItem('prevHash'+key,md5(JSON.stringify(res.data.body)))
+                    // console.log('hash'+key,localStorage.getItem('prevHash'+key))
 
                 }
                 })

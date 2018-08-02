@@ -43,6 +43,8 @@ class Maps extends React.Component {
 
     const {classes } = this.props;
 
+    console.log("in maps", this.props.location)
+
     const CustomSkinMap = withScriptjs(
       withGoogleMap(props => (
         <GoogleMap
