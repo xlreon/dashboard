@@ -115,6 +115,8 @@ class DashBoard extends React.Component {
     
   }
 
+  headers = {headers: {'Access-Control-Allow-Origin': '*'}}
+
   recurGetInfo = () => {
     var body = { featureName : "info"};
             
@@ -127,7 +129,8 @@ class DashBoard extends React.Component {
             formBody = formBody.join("&");
             
             axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/feature`, 
-                formBody
+                formBody,
+                headers
             )
             .then(res => { 
               console.log('Get information notification sent.');
@@ -159,7 +162,8 @@ class DashBoard extends React.Component {
             formBody = formBody.join("&");
             
             axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/imei/get`, 
-                formBody
+                formBody,
+                headers
             )
             .then(res => {
             var imeiList = res.data.body.content;
@@ -179,7 +183,8 @@ class DashBoard extends React.Component {
                 formBody = formBody.join("&");
                 
                 axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/phone/get`, 
-                formBody
+                formBody,
+                headers
                 )
                 .then(res => {
                 if (res.data.body.content !== null) {
@@ -206,73 +211,6 @@ class DashBoard extends React.Component {
             .catch(error => console.log(error))
         }
   }
-
-  // recurPhoneGet = () => {
-  //   const email = localStorage.getItem("email")
-        
-  //   var phoneList = [];
-  //       if (email)
-  //       {
-  //           var body = { email : email};
-            
-  //           var formBody = [];
-  //           for (var property in body) {
-  //               var encodedKey = encodeURIComponent(property);
-  //               var encodedValue = encodeURIComponent(body[property]);
-  //               formBody.push(encodedKey + "=" + encodedValue);
-  //           }
-  //           formBody = formBody.join("&");
-            
-  //           axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/imei/get`, 
-  //               formBody
-  //           )
-  //           .then(res => {
-  //           var imeiList = res.data.body.content;
-        
-            
-  //           // console.log(imeiList)
-  //           {imeiList.map((prop, key) => {
-            
-  //           var body = { imei: prop};
-            
-  //           var formBody = [];
-  //               for (var property in body) {
-  //               var encodedKey = encodeURIComponent(property);
-  //               var encodedValue = encodeURIComponent(body[property]);
-  //               formBody.push(encodedKey + "=" + encodedValue);
-  //               }
-  //               formBody = formBody.join("&");
-                
-  //               axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/phone/get`, 
-  //               formBody
-  //               )
-  //               .then(res => {
-  //               if (res.data.body.content !== null) {
-  //                   phoneList.push(res.data.body);
-  //                   // localStorage.setItem("phones",JSON.stringify(phoneList));
-  //                   localStorage.setItem('currHash',md5(JSON.stringify(res.data.body)))
-  //                   console.log(localStorage.getItem('currHash'))
-  //                   // console.log(this.state.phones)
-  //                   var prevHash = localStorage.getItem('prevHash');
-  //                   var currHash = localStorage.getItem('currHash')
-                    
-  //                   if (prevHash !== currHash) {
-  //                     localStorage.setItem("phones",JSON.stringify(phoneList));
-  //                     localStorage.setItem("prevHash",currHash)
-  //                     this.setState({phones: phoneList});
-  //                   }
-  //                 }
-  //               })
-  //               .catch(error => console.log(error))
-        
-  //           })}
-            
-  //           })
-  //           .catch(error => console.log(error))
-  //       }
-  // }
-
-  
   
   render() {
 
