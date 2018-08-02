@@ -24,12 +24,13 @@ import "video-react/dist/video-react.css";
 import { Player } from 'video-react';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import IconButton from "@material-ui/core/IconButton";
+import ImageView from 'components/Dialogs/imageView.jsx';
 
 const styles = theme => ({
     
       card: {
         minWidth: 275,
-        width : 500,
+        width : 800,
         zIndex : 2,
         position : 'relative',
         borderRadius: '25px'
@@ -105,10 +106,19 @@ const styles = theme => ({
         display : 'flex'
       },
       player :{
-        height : 200
+        height : 200,
+        // width : 200
       },
       break : {
         height : 10
+      },
+      inline : {
+        display : 'inline',
+        width: 100,
+        height : 100
+      },
+      video : {
+        margin : 50,
       }
 });     
 
@@ -208,6 +218,7 @@ class Theft extends React.Component {
         currentPhone : 0,
         images : null,
         videos : null,
+        imageOpen : false
     }
 
     handleClose = () => {
@@ -225,11 +236,21 @@ class Theft extends React.Component {
         this.getItems(event.target.value);
     }
 
+    handleImageClose = () => {
+      this.setState({ imageOpen : false });
+    };
+
+    imageClick = (img) => {
+      this.setState({ imageOpen : true, image : img});
+    };
+
     render() {
         
         const { classes } = this.props;
         const { phones, currentPhone, anchorEl, images, videos } = this.state;
         
+        console.log(images)
+
         console.log(videos)
         return (
             <div>
@@ -261,22 +282,29 @@ class Theft extends React.Component {
                       {images !== null ?
                         // <div className={classes.flex}>
                           images.map((image) => {
-                            return <Grid item xs={4} className={classes.container}><img src={image.location} alt="image" className={classes.img}/></Grid>;
+                            return <Grid item xs={2} className={classes.container}><Button onClick={() => {this.imageClick(image.location)}}><img src={image.location} alt="image" className={classes.img}/></Button></Grid>;
                           })
                         // </div>
                         : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
                     </Grid> }
+                    {/* // images !== null ?
+                    //   images.map((image) => {
+                    //     <div className={classes.inline}>
+                    //       <img src={image.location} alt="image" className={classes.img}/>
+                    //     </div>
+                    //   })
+                    //   : <Typography color="error" className={classes.container}>Fetching data...</Typography>} */}
                     <Divider />
                     <Typography variant="title" className={classes.heading} color='primary' >Videos :</Typography>
                     {videos !== null ?
-                      <div>
+                      <div className={classes.video}>
                       {videos.length === 0 ? <Typography color="error" className={classes.container}>No videos found!</Typography>: ""}
                         {videos.map((video) => {
                           return <div className={classNames('row')} >
                             <Player
                               // playsInline
                               // poster={img}
-                              className={classes.player}
+                              // className={classes.player}
                               src={video.location}
                             />
                             <div className={classes.break}></div>
@@ -285,9 +313,13 @@ class Theft extends React.Component {
                       </div>
                       : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
                   {/* </div> */}
-
                 </CardContent>
             </Card>
+            <ImageView 
+              open={this.state.imageOpen}
+              onClose={this.handleImageClose}
+              image={this.state.image}
+            />
                 
             </div>
         );

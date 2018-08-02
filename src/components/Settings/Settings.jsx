@@ -60,6 +60,7 @@ class SimpleMenu extends React.Component {
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
+          <MenuItem onClick={() => {window.location='http://uniqmobilefinder.com/help'}}>Help</MenuItem>
           <MenuItem onClick={this.update}>Update device</MenuItem>
           <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
         </Menu>
