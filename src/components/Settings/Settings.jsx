@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/IconButton';
-import Settings from '@material-ui/icons/Settings';
+// import Settings from '@material-ui/icons/Settings';
+import Face from '@material-ui/icons/PermIdentity';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link, Redirect } from 'react-router-dom';
@@ -51,7 +52,7 @@ class SimpleMenu extends React.Component {
           aria-haspopup="true"
           onClick={this.handleClick}
         >
-            <Settings className={classes.iconColor}/>
+            <Face className={classes.iconColor}/>
         </Button>
         <Menu
           id="simple-menu"
@@ -59,8 +60,6 @@ class SimpleMenu extends React.Component {
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-          <MenuItem onClick={this.handleClose}>My account</MenuItem>
           <MenuItem onClick={this.update}>Update device</MenuItem>
           <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
         </Menu>
