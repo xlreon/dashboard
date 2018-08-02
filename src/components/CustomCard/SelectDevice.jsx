@@ -17,6 +17,8 @@ import PhoneIcon from '@material-ui/icons/PhonelinkLock';
 import classNames from "classnames";
 import Divider  from '@material-ui/core/Divider';
 import md5 from 'md5';
+import Hidden from "@material-ui/core/Hidden";
+
 const styles = theme => ({
     
       card: {
@@ -24,11 +26,11 @@ const styles = theme => ({
         zIndex : 2,
         position : 'relative',
         borderRadius: '25px',
-        width: '80vh'
+        width: '70%'
       },
       content : {
-        // marginRight : 30,
-        // marginLeft : 30
+        // marginRight : 10,
+        // marginLeft : 10
       },
       root: {
         flexGrow: 1,
@@ -48,8 +50,8 @@ const styles = theme => ({
       icon : {
         width: 80,
         height: 80,
-        marginTop : 20,
-        marginRight : 20,
+        // marginTop : 20,
+        // marginRight : 20,
     },
 });     
 
@@ -145,30 +147,58 @@ class SelectDevice extends React.Component {
         }
 
         return (
-            <div>
+            <div className={classes.container}>
                 <Card className={classes.card}>
-                    <Grid container spacing={24}>
-                        <Grid item xs={10}>
-                            <div className={classNames('row',classes.header)} >
-                                <div>
-                                    <Typography variant='title' className={classes.title}>Select a Phone or tablet</Typography>
-                                </div>
-                                <div>
-                                    <Typography variant='subheading'>Then try some simple steps, like showing the location or locking the screen, to help you secure it. For your security, you may need to sign in after selecting a device.
-                                    </Typography>
-                                </div>
-                            </div>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <PhoneIcon className={classes.icon}/>
-                        </Grid>
-                    </Grid>
-                    <List component="nav">
-                        {phones.map((prop, key) => {
-                            return <AvailDevice phone={prop} id={key} key={key} handleClick={this.handleClick}/>;
-                        })}
-                        
-                    </List>
+                    <CardContent className={classes.content}>
+                        <Hidden smDown implementation="css">
+                            <Grid container spacing={24}>
+                                <Grid item xs={10}>
+                                    <div className={classNames('row',classes.header)} >
+                                        <div>
+                                            <Typography variant='title' className={classes.title}>Select a Phone or tablet</Typography>
+                                        </div>
+                                        <div>
+                                            <Typography variant='subheading'>Then try some simple steps, like showing the location or locking the screen, to help you secure it. For your security, you may need to sign in after selecting a device.
+                                            </Typography>
+                                        </div>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <PhoneIcon className={classes.icon}/>
+                                </Grid>
+                            </Grid>
+                            <List component="nav">
+                                {phones.map((prop, key) => {
+                                    return <AvailDevice phone={prop} id={key} key={key} handleClick={this.handleClick}/>;
+                                })}
+                                
+                            </List>
+                        </Hidden>
+                        <Hidden mdUp implementation="css">
+                            <Grid container spacing={24}>
+                                <Grid item xs={12}>
+                                    <div className={classNames('row',classes.header)} >
+                                        <div>
+                                            <Typography variant='title' className={classes.title}>Select a Phone or tablet</Typography>
+                                        </div>
+                                        <div>
+                                            <Typography variant='subheading'>Then try some simple steps, like showing the location or locking the screen, to help you secure it. For your security, you may need to sign in after selecting a device.
+                                            </Typography>
+                                        </div>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={12} className={classes.container}>
+                                    <PhoneIcon className={classes.icon}/>
+                                </Grid>
+                            </Grid>
+                            <List component="nav">
+                                {phones.map((prop, key) => {
+                                    return <AvailDevice phone={prop} id={key} key={key} handleClick={this.handleClick}/>;
+                                })}
+                                
+                            </List>
+                        </Hidden>
+                    </CardContent>
                 </Card>
                 
             </div>

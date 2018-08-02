@@ -225,8 +225,8 @@ class DashBoard extends React.Component {
     origin.lat = parseFloat(origin.lat);
     origin.lng = parseFloat(origin.lng);
 
-    console.log(location)
-    console.log(origin)
+    // console.log(location)
+    // console.log(origin)
     
     return (
       <div>
