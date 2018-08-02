@@ -78,6 +78,8 @@ class FeatureDetail extends React.Component {
         });
     };
 
+    headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
+
     handlePassSubmit = () => {
 
         var email = localStorage.getItem("email");
@@ -96,7 +98,8 @@ class FeatureDetail extends React.Component {
         formBody = formBody.join("&");
         
         axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/loginWeb`, 
-            formBody
+            formBody,
+            this.headers
         )
         .then(res => {
             if (res.data.status === 3) {
@@ -175,7 +178,8 @@ class FeatureDetail extends React.Component {
         formBody = formBody.join("&");
 
         axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/feature`, 
-            formBody
+            formBody,
+            this.headers
         )
         .then(res => {
             this.handleClick(feature + " API call : Success");

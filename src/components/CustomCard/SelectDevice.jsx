@@ -59,6 +59,8 @@ class SelectDevice extends React.Component {
         phones: [],
     };
 
+    headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
+
     componentDidMount() {
 
         const email = localStorage.getItem("email")
@@ -76,7 +78,8 @@ class SelectDevice extends React.Component {
             formBody = formBody.join("&");
             
             axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/imei/get`, 
-                formBody
+                formBody,
+                this.headers
             )
             .then(res => {
             var imeiList = res.data.body.content;
@@ -97,7 +100,8 @@ class SelectDevice extends React.Component {
                 formBody = formBody.join("&");
                 
                 axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/phone/get`, 
-                formBody
+                    formBody,
+                    this.headers
                 )
                 .then(res => {
                 if (res.data.body.content !== null) {

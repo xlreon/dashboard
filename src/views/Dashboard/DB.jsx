@@ -12,8 +12,6 @@ import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import md5 from 'md5';
 
-const headers = {headers: {'Access-Control-Allow-Origin': '*'}}
-
 class DashBoard extends React.Component {
 
   constructor(props) {
@@ -115,29 +113,29 @@ class DashBoard extends React.Component {
     
   }
 
-  
+  headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
 
   recurGetInfo = () => {
     var body = { featureName : "info"};
             
-    var formBody = [];
-    for (var property in body) {
-        var encodedKey = encodeURIComponent(property);
-        var encodedValue = encodeURIComponent(body[property]);
-        formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
-    
-    axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/feature`, 
-        formBody,
-        headers
-    )
-    .then(res => { 
-      console.log('Get information notification sent.');
-    })
-    .catch(err => {
-      console.log('Get information notification failed to send')
-    })
+            var formBody = [];
+            for (var property in body) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(body[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            
+            axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/feature`, 
+                formBody,
+                this.headers
+            )
+            .then(res => { 
+              console.log('Get information notification sent.');
+            })
+            .catch(err => {
+              console.log('Get information notification failed to send')
+            })
   }
 
   handleChange = event => {
@@ -163,7 +161,7 @@ class DashBoard extends React.Component {
             
             axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/imei/get`, 
                 formBody,
-                headers
+                this.headers
             )
             .then(res => {
             var imeiList = res.data.body.content;
@@ -183,8 +181,8 @@ class DashBoard extends React.Component {
                 formBody = formBody.join("&");
                 
                 axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/phone/get`, 
-                formBody,
-                headers
+                  formBody,
+                  this.headers
                 )
                 .then(res => {
                 if (res.data.body.content !== null) {
