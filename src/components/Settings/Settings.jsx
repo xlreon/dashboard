@@ -4,6 +4,14 @@ import Settings from '@material-ui/icons/Settings';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+  iconColor : {
+      color: "white"
+  }
+});
 
 class SimpleMenu extends React.Component {
   state = {
@@ -30,6 +38,7 @@ class SimpleMenu extends React.Component {
 
   render() {
     const { anchorEl } = this.state;
+    const { classes } = this.props;
 
     if (this.state.redirect) {
       return <Redirect push to="/login" />;
@@ -42,7 +51,7 @@ class SimpleMenu extends React.Component {
           aria-haspopup="true"
           onClick={this.handleClick}
         >
-            <Settings />
+            <Settings className={classes.iconColor}/>
         </Button>
         <Menu
           id="simple-menu"
@@ -60,4 +69,8 @@ class SimpleMenu extends React.Component {
   }
 }
 
-export default SimpleMenu;
+SimpleMenu.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(SimpleMenu);

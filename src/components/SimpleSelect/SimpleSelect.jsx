@@ -37,10 +37,10 @@ class SimpleMenu extends React.Component {
           onClick={deviceSelect}
           // className={classes.button}
         >
-          <div className={classes.select}><Typography className={classes.black} variant='subheading'>
+          <div className={classes.select}><Typography className={classes.white} variant='subheading'>
             {phones !== undefined && phones.length > 0 ? phones[currentPhone].model : "Select Device"}
           </Typography>
-          <ArrowDropDownIcon className={classes.black}/></div>
+          <ArrowDropDownIcon className={classes.white}/></div>
         </Button>
         <Menu
           id="simple-menu"
