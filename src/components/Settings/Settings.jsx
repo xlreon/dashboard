@@ -23,6 +23,11 @@ class SimpleMenu extends React.Component {
     this.setState({redirect : true});
   };
 
+  update = () => {
+    this.props.recurPhoneGet();
+    this.setState({ anchorEl: null });
+  }
+
   render() {
     const { anchorEl } = this.state;
 
@@ -47,6 +52,7 @@ class SimpleMenu extends React.Component {
         >
           <MenuItem onClick={this.handleClose}>Profile</MenuItem>
           <MenuItem onClick={this.handleClose}>My account</MenuItem>
+          <MenuItem onClick={this.update}>Update device</MenuItem>
           <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
         </Menu>
       </div>

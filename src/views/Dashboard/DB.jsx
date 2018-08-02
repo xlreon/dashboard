@@ -11,6 +11,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import md5 from 'md5';
+import MapsDirection from 'components/MapsDirection/MapsDirection';
 
 class DashBoard extends React.Component {
 
@@ -35,8 +36,9 @@ class DashBoard extends React.Component {
   }
 
   changeLocation= (loc) => {
-    console.log(loc);
+    console.log(this.state.location);
     this.setState({ location : loc });
+    console.log(this.state.location);
   };
 
   getLocations = () => {
@@ -90,22 +92,22 @@ class DashBoard extends React.Component {
 
   componentDidMount() {
 
-    setInterval(() => this.recurGetInfo(),30000);
-
+    
     var phones = JSON.parse(localStorage.getItem("phones"));
     var currentPhone = JSON.parse(localStorage.getItem("currPhone"));
-
+    
     if (phones !== null)
     {
       phones.map((phn) => {
         phn.data.lat = parseFloat(phn.data.lat);
         phn.data.lng = parseFloat(phn.data.lng);
       })
-
+      
       this.setState({phones: phones, currentPhone : currentPhone, location : phones[currentPhone].data});
     }
     
-    // console.log(phones[currentPhone].data)
+    setInterval(() => this.recurGetInfo(),30000);
+    
     setInterval(() => {
       this.recurPhoneGet()
     },30000)
@@ -165,7 +167,7 @@ class DashBoard extends React.Component {
             )
             .then(res => {
             var imeiList = res.data.body.content;
-            console.log(imeiList)
+            // console.log(imeiList)
             localStorage.setItem("imeiList", imeiList);
             
             {imeiList.map((prop, key) => {
@@ -190,14 +192,17 @@ class DashBoard extends React.Component {
                     // localStorage.setItem("phones",JSON.stringify(phoneList));
                     localStorage.setItem('currHash',md5(JSON.stringify(res.data.body)))
                     // console.log(localStorage.getItem('currHash'))
-                    // console.log(this.state.phones)
+                    console.log(this.state.phones)
                     var prevHash = localStorage.getItem('prevHash');
                     var currHash = localStorage.getItem('currHash')
                     
                     if (prevHash !== currHash) {
+                      console.log("data changed", phoneList[this.state.currentPhone].data)
                       localStorage.setItem("phones",JSON.stringify(phoneList));
                       localStorage.setItem("prevHash",currHash)
-                      this.setState({phones: phoneList});
+                      this.setState({phones: phoneList, location : phoneList[this.state.currentPhone].data});
+
+                      
                     }
                   }
                 })
@@ -232,6 +237,7 @@ class DashBoard extends React.Component {
           phones={phones}
           currentPhone={currentPhone}
           handleChange={this.handleChange}
+          recurPhoneGet={this.recurPhoneGet}
         />
         </div>
       <div className={classes.root}>
@@ -253,10 +259,11 @@ class DashBoard extends React.Component {
           >
             <div className={classes.mainPanel} ref="mainPanel">
               {/* {location !== null ? */}
-                <Maps 
+                {/* <Maps 
                     // locations={this.getLocations().length > 0 ? this.getLocations() : location}
                     location={location } 
-                />
+                /> */}
+                <MapsDirection  location={location}/>
                 {/* : ""} */}
                 </div>
           <Snackbar

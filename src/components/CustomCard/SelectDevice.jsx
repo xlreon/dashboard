@@ -105,12 +105,14 @@ class SelectDevice extends React.Component {
                 )
                 .then(res => {
                 if (res.data.body.content !== null) {
+
                     phoneList.push(res.data.body);
                     this.setState({phones: phoneList});
+
                     localStorage.setItem("phones",JSON.stringify(phoneList));
                     localStorage.setItem('prevHash',md5(JSON.stringify(res.data.body)))
-                    console.log(localStorage.getItem('prevHash'))
-                    // console.log(this.state.phones)
+                    // console.log(localStorage.getItem('prevHash'))
+
                 }
                 })
                 .catch(error => console.log(error))
@@ -127,7 +129,9 @@ class SelectDevice extends React.Component {
     handleClick = (phone) => {
         
         localStorage.setItem("currPhone",JSON.stringify(phone));
-        // console.log(localStorage.getItem("phone"));
+
+        localStorage.setItem('initialLoc',JSON.stringify(this.state.phones[phone].data));
+
         this.setState({redirect :true});
     };
 

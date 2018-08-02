@@ -82,7 +82,7 @@ class CustomAppBar extends React.Component {
                         handleClose={this.handleClose}
                     />
                     </div>
-                    <Settings />
+                    <Settings recurPhoneGet={this.props.recurPhoneGet}/>
                 </Toolbar>
             </AppBar>
         </div>
