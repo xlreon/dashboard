@@ -87,6 +87,7 @@ class CustomAppBar extends React.Component {
                         anchorEl={anchorEl}
                         currentPhone={currentPhone}
                         handleClose={this.handleClose}
+                        color={'white'}
                     />
                     </div>
                     <Settings recurPhoneGet={this.props.recurPhoneGet}/>
