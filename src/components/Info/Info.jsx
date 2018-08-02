@@ -50,10 +50,10 @@ class Info extends React.Component {
 
       <div className={classes.background}>
 
-      <Particles 
+      {/* <Particles 
         className={classes.particle}
         params={particleConfig}
-        />
+        /> */}
       <div className={classes.root}>
         
         <div className={classes.container}>

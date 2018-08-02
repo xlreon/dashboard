@@ -279,7 +279,7 @@ class Theft extends React.Component {
                           </div>;
                         })}
                       </div>
-                      : <Typography color="error" className={classes.container}>Could not fetch data!</Typography>}
+                      : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
                   {/* </div> */}
 
                 </CardContent>
