@@ -138,7 +138,7 @@ class LoginCard extends React.Component {
         }
         formBody = formBody.join("&");
         
-        axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/loginWeb`, 
+        axios.post(`http://localhost:8080/loginWeb`, 
             formBody
         )
         .then(res => {
