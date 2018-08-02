@@ -52,7 +52,7 @@ class Device extends React.Component {
         formBody = formBody.join("&");
         
         if(gps == "true") {
-            axios.post(`http://localhost:8080/geoloc`, formBody)
+            axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/geoloc`, formBody)
             .then(res => {
                 // console.log(res)
                 const data = res.data.body.content;

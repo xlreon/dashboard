@@ -129,9 +129,9 @@ class Contact extends React.Component {
 
                 this.setState({contact : res.data.body.content })
                 
-                res.data.body.content.map((item)=>{
-                    console.log(item.name)
-                })
+                // res.data.body.content.map((item)=>{
+                //     console.log(item.location)
+                // })
             }
             else 
             {
@@ -199,16 +199,17 @@ class Contact extends React.Component {
                         {contact.length === 0 ? <Typography color="error" className={classes.container}>No contacts found!</Typography>: ""}
                         {contact.map((item) => {
                           return <div className={classNames('row',classes.contact)} >
+                            <a href={item.location}>
                             <Button 
                               variant="raised"
                               size="large"
                             >
                             {item.name}
-                            </Button>
+                            </Button></a>
                           </div>;
                         })}
                       </div>
-                      : <Typography color="error" className={classes.container}>Could not fetch data!</Typography>}
+                      : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
 
                 
                 </CardContent>

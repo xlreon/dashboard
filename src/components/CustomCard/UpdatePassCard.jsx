@@ -246,6 +246,7 @@ class ForgotCard extends React.Component {
                 </Card>
                 <Dialog 
                     open ={this.state.open}
+                    text={"Once you change the password, you wont be able to undo"}
                     handleSubmit={this.handleSubmit}
                     handleCloseDialog={this.handleCloseDialog}
                 />

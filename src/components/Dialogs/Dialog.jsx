@@ -32,7 +32,7 @@ class AlertDialogSlide extends React.Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
-              Once you change the password, you wont be able to undo.
+              {this.props.text}
             </DialogContentText>
           </DialogContent>
           <DialogActions>

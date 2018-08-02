@@ -11,6 +11,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 import { Link, Redirect } from 'react-router-dom';
 import LockPhone from 'components/LockPhone/LockPhone';
+import Dialog from 'components/Dialogs/Dialog.jsx';
+import Authentication from 'components/Dialogs/authentication.jsx';
 
 const styles = theme => ({
     root: {
@@ -42,7 +44,7 @@ class FeatureDetail extends React.Component {
     state = {
         open: false,
         message: null,
-
+        authentication : false,
     };
 
     componentDidMount() {
@@ -55,6 +57,18 @@ class FeatureDetail extends React.Component {
 
     handleClose = () => {
         this.setState({ open: false });
+    };
+
+    handleSubmitDialog = () => {
+        this.setState({ authentication: false, checkID : true });
+    };
+    
+    handleCloseDialog = () => {
+        this.setState({ authentication: false });
+    };
+
+    handleCloseAuth = () => {
+        this.setState({ checkID: false });
     };
 
     featureAPI = (feature) => {
@@ -192,7 +206,12 @@ class FeatureDetail extends React.Component {
                                 color="primary" 
                                 className={classes.button} 
                                 onClick={() => {
-                                    this.featureAPI(this.props.feature.api);
+                                    if (this.props.feature.api === "wipe")
+                                    {
+                                        this.setState({authentication : true})
+                                    }
+                                    else
+                                        this.featureAPI(this.props.feature.api);
                                 }}
                             >
                                 {this.state.event}
@@ -201,7 +220,17 @@ class FeatureDetail extends React.Component {
                     }
                     </GridItem>
                 </Grid>
-                
+
+                <Dialog 
+                    open ={this.state.authentication}
+                    text={"All data will be permanently erased from this device. After your device has been erased, you can’t locate it. If your device is offline, erasing will begin when it next comes online. To erase your device, you may need to sign in again."}
+                    handleSubmit={this.handleSubmitDialog}
+                    handleCloseDialog={this.handleCloseDialog}
+                />
+                <Authentication 
+                    open={this.state.checkID}
+                    onClose={this.handleCloseAuth}
+                />
             </div>
         );
     }
