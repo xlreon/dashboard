@@ -68,8 +68,8 @@ class CustomAppBar extends React.Component {
 
         return (
         <div>
-            <AppBar position="static">
-                <Toolbar className={classes.root}>
+            <AppBar position='fixed'>
+                <Toolbar className={classes.root} >
                     <IconButton className={classes.appMenuButton} aria-label="Menu">
                         <MenuIcon onClick={handleDrawerToggle}/>
                     </IconButton>
