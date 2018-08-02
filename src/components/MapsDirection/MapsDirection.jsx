@@ -29,9 +29,10 @@ class Maps extends React.Component {
                     const DirectionsService = new google.maps.DirectionsService();
         
                     var origin = JSON.parse(localStorage.getItem("initialLoc"));
-        
-                    origin.lat = parseFloat(origin.lat);
-                    origin.lng = parseFloat(origin.lng);
+                    if(origin) {
+                        origin.lat = parseFloat(origin.lat);
+                        origin.lng = parseFloat(origin.lng);
+                    }
         
                     console.log(origin)
                     console.log(this.props.location)
