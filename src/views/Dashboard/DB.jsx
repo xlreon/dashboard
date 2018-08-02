@@ -47,39 +47,18 @@ class DashBoard extends React.Component {
     if (this.state.phones.length)
     {
       {this.state.phones.map((prop, key) => {
-        
-        // if (prop.data === JSON.stringify({})) {
-        //   this.setState({foundLocation: false})
-        // }
-
         console.log(prop.gps)
         if (prop.gps === "true") {
           for (var property in prop.data) {
             prop.data[property] = Number(prop.data[property])
           } 
-          // this.setState({foundLocation: true})
           this.flag = false
           return list.push(prop.data);
         }
         else {
           this.flag = true
           return list;
-          // var body = prop.data
-          // var formBody = [];
-          // for (var property in body) {
-          //     var encodedKey = encodeURIComponent(property);
-          //     var encodedValue = encodeURIComponent(body[property]);
-          //     formBody.push(encodedKey + "=" + encodedValue);
-          // }
-          // formBody = formBody.join("&");
-          // axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/getLatLng`, formBody)
-          //             .then(res => {
-          //               // this.setState({foundLocation: true})
-          //               return list.push(res.data);
-          //             })
-          //             .catch(err => console.log('Get lat long error'))
         }
-        // return list.push(prop.data);
       })
     }
     }

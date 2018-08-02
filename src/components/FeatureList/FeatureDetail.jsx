@@ -13,6 +13,8 @@ import { Link, Redirect } from 'react-router-dom';
 import LockPhone from 'components/LockPhone/LockPhone';
 import Dialog from 'components/Dialogs/Dialog.jsx';
 import Authentication from 'components/Dialogs/authentication.jsx';
+import { Switch } from 'antd';
+import 'antd/dist/antd.css';
 
 const styles = theme => ({
     root: {
@@ -252,6 +254,20 @@ class FeatureDetail extends React.Component {
                         <div></div>
                         :
                         <div className={classes.detailButton}>
+                                {console.log(this.props.feature.api)}
+                            {
+                            this.props.feature.api !== "theft" && this.props.feature.api !== "contact" && this.props.feature.api !== "wipe"
+                            ?
+                            <Switch className={classes.button} checkedChildren="On" unCheckedChildren="Off"
+                                onClick={() => {
+                                    if (this.props.feature.api === "wipe")
+                                    {
+                                        this.setState({authentication : true})
+                                    }
+                                    else
+                                        this.featureAPI(this.props.feature.api);
+                                }}/>
+                            :
                             <Button 
                                 variant="contained" 
                                 color="primary" 
@@ -267,6 +283,7 @@ class FeatureDetail extends React.Component {
                             >
                                 {this.state.event}
                             </Button>
+                        }
                         </div>
                     }
                     </GridItem>
