@@ -54,6 +54,7 @@ class FeatureList extends React.Component {
                 changeLocation={this.props.changeLocation}
                 buttonClick={this.eventhandler}
                 location={this.props.location}
+                currentPhone={this.props.currentPhone}
             />
             :
             <div className={classes.root}>

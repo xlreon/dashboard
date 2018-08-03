@@ -2,25 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import Maps from "views/Maps/Maps.jsx";
 import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
 import CustomDrawer from "components/CustomDrawer/CustomDrawer.jsx";
 import features from './features.jsx';
 import CustomAppBar from 'components/CustomAppBar/CustomAppBar.jsx';
+import Snackbar from '@material-ui/core/Snackbar';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import md5 from 'md5';
-import Snackbar from '@material-ui/core/Snackbar';
+import MapsDirection from 'components/MapsDirection/MapsDirection';
 
 class DashBoard extends React.Component {
-  
+
   constructor(props) {
     super(props);
+    this.flag = false
+
     this.state = {
       open: true,
       showAll : true,
       foundLocation: true,
       settings : null,
-      location: [{ lat: 12.9716, lng: 77.5946 }],
+      location: null,
       phones: [],
       currentPhone: 0,
     };
@@ -32,8 +35,9 @@ class DashBoard extends React.Component {
   }
 
   changeLocation= (loc) => {
-    console.log(loc);
-    this.setState({ location : [loc], showAll: false });
+    console.log(this.state.location);
+    this.setState({ location : loc });
+    console.log(this.state.location);
   };
 
   getLocations = () => {
@@ -42,38 +46,18 @@ class DashBoard extends React.Component {
     if (this.state.phones.length)
     {
       {this.state.phones.map((prop, key) => {
-        
-        if (prop.data === JSON.stringify({})) {
-          this.setState({foundLocation: false})
-        }
-
         console.log(prop.gps)
         if (prop.gps === "true") {
           for (var property in prop.data) {
             prop.data[property] = Number(prop.data[property])
           } 
-          // this.setState({foundLocation: true})
+          this.flag = false
           return list.push(prop.data);
         }
         else {
           this.flag = true
           return list;
-          // var body = prop.data
-          // var formBody = [];
-          // for (var property in body) {
-          //     var encodedKey = encodeURIComponent(property);
-          //     var encodedValue = encodeURIComponent(body[property]);
-          //     formBody.push(encodedKey + "=" + encodedValue);
-          // }
-          // formBody = formBody.join("&");
-          // axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/getLatLng`, formBody)
-          //             .then(res => {
-          //               // this.setState({foundLocation: true})
-          //               return list.push(res.data);
-          //             })
-          //             .catch(err => console.log('Get lat long error'))
         }
-        // return list.push(prop.data);
       })
     }
     }
@@ -86,17 +70,36 @@ class DashBoard extends React.Component {
 
   componentDidMount() {
 
-    setInterval(() => this.recurGetInfo(),30000);
-
+    
     var phones = JSON.parse(localStorage.getItem("phones"));
     var currentPhone = JSON.parse(localStorage.getItem("currPhone"));
-    // console.log(currentPhone)
-    this.setState({phones: phones, currentPhone : currentPhone});
-      setInterval(() => {
-        this.recurPhoneGet()
-      },30000)
+    
+    if (phones !== null)
+    {
+      phones.map((phn) => {
+        phn.data.lat = parseFloat(phn.data.lat);
+        phn.data.lng = parseFloat(phn.data.lng);
+      })
+      
+      this.setState({phones: phones, currentPhone : currentPhone, location : phones[currentPhone].data});
+    }
+
+  }
+
+  componentWillMount(){
+
+    this.recurPhoneGet();
+
+    setInterval(() => this.recurGetInfo(),30000);
+    
+    setInterval(() => {
+      this.recurPhoneGet()
+    },30000)
+
     
   }
+
+  headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
 
   recurGetInfo = () => {
     var body = { featureName : "info"};
@@ -110,7 +113,8 @@ class DashBoard extends React.Component {
             formBody = formBody.join("&");
             
             axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/feature`, 
-                formBody
+                formBody,
+                this.headers
             )
             .then(res => { 
               console.log('Get information notification sent.');
@@ -121,10 +125,8 @@ class DashBoard extends React.Component {
   }
 
   handleChange = event => {
-    console.log("in")
-    console.log(event.target.value);
-    this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0})
-    console.log(this.state.currentPhone)
+    if(this.state.phones[event.target.value] !== undefined && this.state.phones[event.target.value].data !== null)
+      this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0, location : this.state.phones[event.target.value].data});
   }
 
   recurPhoneGet = () => {
@@ -142,16 +144,18 @@ class DashBoard extends React.Component {
                 formBody.push(encodedKey + "=" + encodedValue);
             }
             formBody = formBody.join("&");
+            
             axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/imei/get`, 
-                formBody
+                formBody,
+                this.headers
             )
             .then(res => {
             var imeiList = res.data.body.content;
-        
-            
             // console.log(imeiList)
-            {imeiList.map((prop, key) => {
+            localStorage.setItem("imeiList", imeiList);
             
+            {imeiList.map((prop, key) => {
+            if(prop!==null) {
             var body = { imei: prop};
             
             var formBody = [];
@@ -161,42 +165,70 @@ class DashBoard extends React.Component {
                 formBody.push(encodedKey + "=" + encodedValue);
                 }
                 formBody = formBody.join("&");
-
+                
                 axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/phone/get`, 
-                formBody
+                  formBody,
+                  this.headers
                 )
                 .then(res => {
                 if (res.data.body.content !== null) {
                     phoneList.push(res.data.body);
                     // localStorage.setItem("phones",JSON.stringify(phoneList));
-                    localStorage.setItem('currHash',md5(JSON.stringify(res.data.body)))
-                    console.log(localStorage.getItem('currHash'))
+                    localStorage.setItem('currHash'+key,md5(JSON.stringify(res.data.body)))
+                    // console.log(localStorage.getItem('currHash'))
                     // console.log(this.state.phones)
-                    var prevHash = localStorage.getItem('prevHash');
-                    var currHash = localStorage.getItem('currHash')
+                    var prevHash = localStorage.getItem('prevHash'+key);
+                    var currHash = localStorage.getItem('currHash'+key);
+
+                    console.log(prevHash," ", currHash)
                     
                     if (prevHash !== currHash) {
                       localStorage.setItem("phones",JSON.stringify(phoneList));
-                      this.setState({phones: phoneList});
+                      localStorage.setItem("prevHash"+key,currHash)
+                      
+                      var newLoc = phoneList[this.state.currentPhone].data
+                      
+                      newLoc.lat = parseFloat(newLoc.lat);
+                      newLoc.lng = parseFloat(newLoc.lng);
+                      console.log("data changed", newLoc)
+
+                      this.setState({location : newLoc, phones: phoneList});
+
+                      
                     }
                   }
                 })
                 .catch(error => console.log(error))
         
+              }
             })}
-            
             })
             .catch(error => console.log(error))
         }
   }
-
-  
   
   render() {
-    const { classes } = this.props;
-    const { open, location, showAll, phones, currentPhone } = this.state;
+
+    var email = localStorage.getItem("email");
+
+    if(email === "null")
+    {
+      return <Redirect push to="/login" />;
+    }
+
     
-    // console.log(phones);
+    const { classes } = this.props;
+    const { open, location, phones, currentPhone } = this.state;
+    // console.log(location);
+
+    var origin = JSON.parse(localStorage.getItem("initialLoc"));
+        
+    origin.lat = parseFloat(origin.lat);
+    origin.lng = parseFloat(origin.lng);
+
+    // console.log(location)
+    // console.log(origin)
+    
     return (
       <div>
       <div className={classes.appRoot}>
@@ -205,9 +237,9 @@ class DashBoard extends React.Component {
           phones={phones}
           currentPhone={currentPhone}
           handleChange={this.handleChange}
+          recurPhoneGet={this.recurPhoneGet}
         />
         </div>
-        {/* {console.log("current phone -> ",currentPhone !== undefined ? currentPhone : 0)} */}
       <div className={classes.root}>
         <div className={classes.appFrame}>
           <CustomDrawer 
@@ -226,14 +258,18 @@ class DashBoard extends React.Component {
             })}
           >
             <div className={classes.mainPanel} ref="mainPanel">
+              {/* {md5(JSON.stringify(location)) === md5(JSON.stringify(origin)) ?
                 <Maps 
-                    locations={showAll ? this.getLocations() : location}
+                    // locations={this.getLocations().length > 0 ? this.getLocations() : location}
+                    location={location} 
                 />
-                </div>
+                : */}
+                <MapsDirection location={location} origin={origin} />
+            </div>
           <Snackbar
-          open={!this.state.foundLocation}
-          onClose={this.handleClose}
-          TransitionComponent={this.state.Transition}
+          open={this.flag}
+          // onClose={this.handleClose}
+          // TransitionComponent={this.state.Transition}
           ContentProps={{
             'aria-describedby': 'message-id',
           }}

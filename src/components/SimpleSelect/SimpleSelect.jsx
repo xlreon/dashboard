@@ -9,57 +9,55 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
-  text : {
+  white : {
     color: 'white'
+  },
+  black : {
+    color: 'black'
+  },
+  select : {
+    display : "flex",
+  },
+  button : {
+    marginBottom : 20
   }
 });
 
 class SimpleMenu extends React.Component {
 
-  constructor(props)
-  {
-    super(props);
-
-    console.log(props.currPhone);
-  }
-
-  state={
-    text : "Select Device"
-  }
-
-
+  
   render() {
-    const { classes, phones, anchorEl, deviceSelect, handleChange, currPhone } = this.props;
-
+    const { classes, phones, anchorEl, deviceSelect, handleChange, currentPhone, handleClose, color } = this.props;
+    const css = color === 'white' ? classes.white : classes.black;
+    
     return (
       <div>
         <Button
           aria-owns={anchorEl ? 'simple-menu' : null}
           aria-haspopup="true"
           onClick={deviceSelect}
+          // className={classes.button}
         >
-          <Typography className={classes.text} variant='subheading'>
-            {/* {phones[currPhone].name} */}
-            {this.state.text}
+          <div className={classes.select}><Typography className={css} variant='subheading'>
+            {phones !== undefined && phones.length > 0 ? phones[currentPhone].model : "Select Device"}
           </Typography>
-          <ArrowDropDownIcon className={classes.text}/>
+          <ArrowDropDownIcon className={css}/></div>
         </Button>
         <Menu
           id="simple-menu"
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
-          // onClose={handleChange}
+          onClose={handleClose}
         >
-          {/* <MenuItem onClick={handleChange}>
-            <img src={android} style={{width: "4vh",height: "4vh",marginTop: "1vh" }}/> Android
-          </MenuItem>
-          <MenuItem onClick={handleChange}>My account</MenuItem>
-          <MenuItem onClick={handleChange}>Logout</MenuItem> */}
-          {phones.map((prop, key) => {
+        {  phones !== undefined ?
+        // console.log("phone",typeof(phones))
+          phones.map((prop, key) => {
             return <MenuItem onClick={handleChange} value={key} key={key}> 
               <img src={android} style={{width: "4vh",height: "4vh",marginTop: "1vh" }}/> {prop.model}
             </MenuItem>
-          })} 
+          })
+        :
+        ""}
         </Menu>
       </div>
     );

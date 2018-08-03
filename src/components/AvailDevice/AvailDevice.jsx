@@ -1,6 +1,3 @@
-
-
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -13,7 +10,7 @@ import axios from 'axios';
 import ArrowRight from '@material-ui/icons/ChevronRight';
 import Grid from '@material-ui/core/Grid';
 import Divider  from '@material-ui/core/Divider';
-
+import Hidden from "@material-ui/core/Hidden";
 
 const styles = theme => ({
   root: {
@@ -39,11 +36,6 @@ class Device extends React.Component {
     constructor(props) {
         super(props);
 
-    //     console.log(props.phone)
-    // }
-
-
-    // getLoc() {
 
         const { phone  } = props;
 
@@ -56,29 +48,32 @@ class Device extends React.Component {
             var encodedKey = encodeURIComponent(property);
             var encodedValue = encodeURIComponent(body[property]);
             formBody.push(encodedKey + "=" + encodedValue);
-            }
-            formBody = formBody.join("&");
-            
-        axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/geoloc`, formBody)
-        .then(res => {
-            // console.log(res)
-            const data = res.data.body.content;
-            if (data !== null) {
-                var location = null;
-                data.map((item) => {
-                    if (item.location_type == "APPROXIMATE") 
-                    {
-                        if((item.formatted_address.match(/,/g) || []).length === 2)
-                            location = item.formatted_address;
-                        }
-                    })
-                }
-                console.log(location)
-                this.setState({location : location});
+        }
+        formBody = formBody.join("&");
+        var headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
 
-        })
-        .catch(error => console.log(error))
-    }
+        if(gps == "true") {
+            axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/geoloc`, formBody, headers)
+            .then(res => {
+                // console.log(res)
+                const data = res.data.body.content;
+                if (data !== null) {
+                    var location = null;
+                    data.map((item) => {
+                        if (item.location_type == "APPROXIMATE") 
+                        {
+                            if((item.formatted_address.match(/,/g) || []).length === 2)
+                                location = item.formatted_address;
+                            }
+                        })
+                    }
+                    console.log(location)
+                    this.setState({location : location});
+
+            })
+            .catch(error => console.log(error))
+        }
+}
 
 
 
@@ -87,25 +82,46 @@ class Device extends React.Component {
 
         return (
         <div>
-            <Divider />
-            <ListItem button onClick={() => {this.props.handleClick(id)}}>
-                <Grid container>
-                    <Grid item xs={1}>
-                        <ListItemIcon>
-                            <SmartPhone />
-                        </ListItemIcon>
+            <Hidden smDown implementation="css">
+                <Divider />
+                <ListItem button onClick={() => {this.props.handleClick(id)}}>
+                    <Grid container>
+                        <Grid item xs={1}>
+                            <ListItemIcon>
+                                <SmartPhone />
+                            </ListItemIcon>
+                        </Grid>
+                        <Grid item xs={4}>  
+                            <Typography>{phone.brand + " " + phone.model}</Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography>{this.state.location}</Typography>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <ArrowRight />
+                        </Grid>
                     </Grid>
-                    <Grid item xs={4}>  
-                        <Typography>{phone.brand + " " + phone.model}</Typography>
+                </ListItem>
+            </Hidden>
+            <Hidden mdUp implementation="css">
+                <Divider />
+                <ListItem button onClick={() => {this.props.handleClick(id)}}>
+                    <Grid container>
+                        <Grid item xs={2}>
+                            <ListItemIcon>
+                                <SmartPhone />
+                            </ListItemIcon>
+                        </Grid>
+                        <Grid item xs={9}>  
+                            <Typography>{phone.brand + " " + phone.model}</Typography>
+                            <Typography>{this.state.location}</Typography>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <ArrowRight />
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                        <Typography>{this.state.location}</Typography>
-                    </Grid>
-                    <Grid item xs={1}>
-                        <ArrowRight />
-                    </Grid>
-                </Grid>
-            </ListItem>
+                </ListItem>
+            </Hidden>
         </div>
         );
     }

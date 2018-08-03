@@ -16,6 +16,7 @@ import logo from "assets/img/pfa.png";
 import background from "assets/img/background.png";
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
     
@@ -82,6 +83,7 @@ class ForgotCard extends React.Component {
 
     state = {
         isEmail: false,
+        loading : false,
       };
     
     
@@ -94,6 +96,8 @@ class ForgotCard extends React.Component {
         else
             this.setState({ isEmail : false });
     }
+  
+    headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
     
     handleSubmit = () => {
         
@@ -107,20 +111,37 @@ class ForgotCard extends React.Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        
-        axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/forgetPassword`, 
-            formBody
+
+        axios.post(`http://localhost:8080/forgetPassword`, 
+            formBody,
+            this.headers
         )
         .then(res => {
             console.log(res.data);
             if (res.data.status === 1) {
                 console.log(" success")
-                this.setState({ sent : true });
-                // window.location.href = "/forgot";
+                localStorage.setItem("resetEmail",this.state.email);
+
+                if (!this.state.loading) {
+                    this.setState(
+                      {
+                        loading: true,
+                      },
+                      () => {
+                        this.timer = setTimeout(() => {
+                          this.setState({
+                            loading: false,
+                            sent: true
+                          });
+                        }, 2000);
+                      },
+                    );
+                }
             }
         })
         .catch(error => console.log(error))
 
+        localStorage.setItem("resetEmail",this.state.email);
         
     }
 
@@ -128,7 +149,9 @@ class ForgotCard extends React.Component {
 
 
         const { classes } = this.props;
-        const { email } = this.state;
+        const { email, loading } = this.state;
+
+        console.log(loading)
         return (
             <div>
                 <Card className={classes.card}>
@@ -154,7 +177,9 @@ class ForgotCard extends React.Component {
                             />
                         </div>
                         <div className={classNames('row',classes.login)} >
+                            {!loading ?
                             <Button disabled={!this.state.isEmail} type="submit" variant='raised' color='primary'>Send Verification</Button>
+                            : <CircularProgress size={24} className={classes.buttonProgress} />}
                         </div>
                     </ValidatorForm>
                     <div className={classNames(classes.login)} >

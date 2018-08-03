@@ -56,7 +56,8 @@ class Device extends React.Component {
           <FeatureList 
             details={this.props.features} 
             changeLocation={this.props.changeLocation} 
-            location={this.props.details.location}
+            location={this.props.details.data}
+            currentPhone={this.props.currentPhone}
           />
         </ExpansionPanelDetails>
       </ExpansionPanel>

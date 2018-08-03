@@ -17,6 +17,7 @@ import background from "assets/img/background.png";
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom'
 import Dialog from 'components/Dialogs/Dialog.jsx';
+import Succesful from 'components/Dialogs/updateSuccessful';
 
 const styles = theme => ({
     
@@ -96,6 +97,7 @@ class ForgotCard extends React.Component {
         user: {},
         check: {},
         open: false,
+        success: false,
     };
     
     handleOpenDialog = () => {
@@ -104,6 +106,10 @@ class ForgotCard extends React.Component {
     
     handleCloseDialog = () => {
         this.setState({ open: false });
+    };
+
+    handleRedirect = () => {
+        this.setState({ redirect: true });
     };
     
     
@@ -117,32 +123,37 @@ class ForgotCard extends React.Component {
     }
     
     handleSubmit = () => {
-        console.log(this.state.user.password);
-        // this.setState({ redirect : true });
 
-        // var body = { email: this.state.email, password : this.state.pass};
-        
-        // var formBody = [];
-        // for (var property in body) {
-        //     var encodedKey = encodeURIComponent(property);
-        //     var encodedValue = encodeURIComponent(body[property]);
-        //     formBody.push(encodedKey + "=" + encodedValue);
-        // }
-        // formBody = formBody.join("&");
-        
-        // axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/loginWeb`, 
-        //     formBody
-        // )
-        // .then(res => {
-        //     if (res.data.status === 3) {
-        //         console.log("login success")
-        //         localStorage.setItem("email", this.state.email);
-        //         this.setState({redirect: true});
-        //         // window.location.href = "/forgot";
-        //     }
-        // })
-        // .catch(error => console.log(error))
+        var email = localStorage.getItem("resetEmail");
 
+                
+        var body = { email: email, password : this.state.user.password};
+
+        var formBody = [];
+        for (var property in body) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(body[property]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+        var headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
+
+        axios.post(`http:/localhost:8080/password/update`, 
+            formBody,
+            headers
+        )
+        .then(res => {
+            console.log(res.data);
+            if (res.data.status === 9) {
+                
+                console.log("update successfull")
+                this.setState({ success : true});
+                
+            }
+        })
+        .catch(error => console.log(error))
+
+        this.setState({ open: false });
         
     }
 
@@ -197,18 +208,6 @@ class ForgotCard extends React.Component {
                         >
                         <div className='row'>
                         <TextValidator
-                            label="Old Password"
-                            onChange={this.handleChange}
-                            name="oldPassword"
-                            type="password"
-                            className={classes.space}
-                            validators={['required']}
-                            errorMessages={['this field is required']}
-                            value={user.oldPassword}
-                        />
-                        </div>
-                        <div className='row'>
-                        <TextValidator
                             label="Password"
                             onChange={this.handleChange}
                             name="password"
@@ -233,10 +232,9 @@ class ForgotCard extends React.Component {
                         </div>
                         <div className={classNames('row',classes.login)} >
                             <Button 
-                                disabled={this.state.check.oldPassword &&
-                                    this.state.check.password &&
-                                    this.state.check.repeatPassword && 
-                                    this.state.user.repeatPassword === this.state.user.password} 
+                                disabled={!this.state.check.password ||
+                                    !this.state.check.repeatPassword || 
+                                    this.state.user.repeatPassword !== this.state.user.password} 
                                 type="submit" 
                                 variant='raised' 
                                 color='primary'
@@ -245,14 +243,18 @@ class ForgotCard extends React.Component {
                             </Button>
                         </div>
                     </ValidatorForm>
-
                     
                     </CardContent>
                 </Card>
                 <Dialog 
                     open ={this.state.open}
+                    text={"Once you change the password, you wont be able to undo"}
                     handleSubmit={this.handleSubmit}
                     handleCloseDialog={this.handleCloseDialog}
+                />
+                <Succesful 
+                    open ={this.state.success}
+                    handleRedirect={this.handleRedirect}
                 />
             </div>
         );

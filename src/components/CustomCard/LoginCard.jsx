@@ -13,7 +13,7 @@ import Center from 'react-center';
 import logo from "assets/img/pfa.png";
 import background from "assets/img/background.png";
 import axios from 'axios';
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Error from '@material-ui/icons/ErrorOutline';
 
@@ -124,9 +124,10 @@ class LoginCard extends React.Component {
             this.setState({ isPass : false });
     }
     
+    headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
     handleSubmit = () => {
-        console.log(this.state.email);
-        console.log(this.state.pass);
+        // console.log(this.state.email);
+        // console.log(this.state.pass);
 
         var body = { email: this.state.email, password : this.state.pass};
         
@@ -137,9 +138,10 @@ class LoginCard extends React.Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        
-        axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/loginWeb`, 
-            formBody
+
+        axios.post(`http://localhost:8080/loginWeb`, 
+            formBody,
+            this.headers
         )
         .then(res => {
             if (res.data.status === 3) {

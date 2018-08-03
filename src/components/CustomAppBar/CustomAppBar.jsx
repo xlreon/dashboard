@@ -14,22 +14,30 @@ const styles = theme => ({
     appFlex: {
         flexGrow: 1,
         display: 'flex',
+        alignItems : 'center',
         justifyContent : 'center'
     
     },
     appSelectPhone: {
         width: "100%",
         // flexGrow: 1,
-        marginRight : 100
+        // marginRight : 100
     },
     appMenuButton: {
         marginLeft: -12,
         marginRight: 20,
+        color : "white"
     },
     img : {
         height : 30,
         width : 30,
         marginRight : 10,
+    },
+    root : {
+        color: "#8891f8"
+    },
+    logoText : {
+        color: "white"
     },
 });
 
@@ -39,6 +47,9 @@ class CustomAppBar extends React.Component {
         anchorEl : null
     }
 
+    handleClose = () => {
+        this.setState({ anchorEl: null });
+    };
     
     deviceSelect = event => {
         this.setState({ anchorEl: event.currentTarget });
@@ -57,13 +68,13 @@ class CustomAppBar extends React.Component {
 
         return (
         <div>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton className={classes.appMenuButton} color="inherit" aria-label="Menu">
-                        <MenuIcon onClick={handleDrawerToggle}/>
+            <AppBar position='fixed'>
+                <Toolbar className={classes.root} >
+                    <IconButton className={classes.appMenuButton} aria-label="Menu" onClick={handleDrawerToggle}>
+                        <MenuIcon/>
                     </IconButton>
                     <img src={logo} alt="logo" className={classes.img} />
-                    <Typography variant="title" color="inherit" >
+                    <Typography variant="title" className={classes.logoText}>
                         UniQ Mobile Finder
                     </Typography>
                     <div className={classes.appFlex}>
@@ -75,9 +86,11 @@ class CustomAppBar extends React.Component {
                         deviceSelect={this.deviceSelect}
                         anchorEl={anchorEl}
                         currentPhone={currentPhone}
+                        handleClose={this.handleClose}
+                        color={'white'}
                     />
                     </div>
-                    <Settings />
+                    <Settings recurPhoneGet={this.props.recurPhoneGet}/>
                 </Toolbar>
             </AppBar>
         </div>
