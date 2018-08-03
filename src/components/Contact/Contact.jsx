@@ -123,7 +123,7 @@ class Contact extends React.Component {
         }
         formBody = formBody.join("&");
 
-        axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/file/db/get`, 
+        axios.post(`http://ec2-18-220-150-205.us-east-2.compute.amazonaws.com:8080/file/db/get`, 
           formBody,
           this.headers
         )

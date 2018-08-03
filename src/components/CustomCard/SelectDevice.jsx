@@ -79,7 +79,7 @@ class SelectDevice extends React.Component {
             }
             formBody = formBody.join("&");
             
-            axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/imei/get`, 
+            axios.post(`http://ec2-18-220-150-205.us-east-2.compute.amazonaws.com:8080/imei/get`, 
                 formBody,
                 this.headers
             )
@@ -101,7 +101,7 @@ class SelectDevice extends React.Component {
                 }
                 formBody = formBody.join("&");
                 
-                axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/phone/get`, 
+                axios.post(`http://ec2-18-220-150-205.us-east-2.compute.amazonaws.com:8080/phone/get`, 
                     formBody,
                     this.headers
                 )

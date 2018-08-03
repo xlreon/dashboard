@@ -53,7 +53,7 @@ class Device extends React.Component {
         var headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
 
         if(gps == "true") {
-            axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/geoloc`, formBody, headers)
+            axios.post(`http://ec2-18-220-150-205.us-east-2.compute.amazonaws.com:8080/geoloc`, formBody, headers)
             .then(res => {
                 // console.log(res)
                 const data = res.data.body.content;
