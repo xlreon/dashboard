@@ -228,9 +228,10 @@ class Theft extends React.Component {
 
                     console.log(item.date);
                     console.log(item.time);
+
                   });
 
-
+                  this.setState({images : this.state.images})
               }
               else 
               {
@@ -347,7 +348,7 @@ class Theft extends React.Component {
                             return <Grid item xs={3} className={classes.container}>
                               <Button onClick={() => {this.imageClick(image.location)}} className={classes.button}>
                                 <img src={image.location} alt="image" className={classes.img}/>
-                                <Typography variant='heading'>{image.name} </Typography>
+                                {/* <Typography variant='heading'>{image.name} </Typography> */}
                                 <Typography variant='caption'>{image.date} </Typography>
                                 <Typography variant='caption'>{image.time} </Typography>
                               </Button>
@@ -416,7 +417,14 @@ class Theft extends React.Component {
                       {images !== null ?
                         // <div className={classes.flex}>
                           images.map((image) => {
-                            return <Grid item xs={6} className={classes.container}><Button onClick={() => {this.imageClick(image.location)}}><img src={image.location} alt="image" className={classes.img}/></Button></Grid>;
+                            return <Grid item xs={3} className={classes.container}>
+                              <Button onClick={() => {this.imageClick(image.location)}} className={classes.button}>
+                                <img src={image.location} alt="image" className={classes.img}/>
+                                {/* <Typography variant='heading'>{image.name} </Typography> */}
+                                <Typography variant='caption'>{image.date} </Typography>
+                                <Typography variant='caption'>{image.time} </Typography>
+                              </Button>
+                            </Grid>;
                           })
                         // </div>
                         // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
