@@ -214,7 +214,7 @@ class Contact extends React.Component {
                         })}
                       </div>
                       // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
-                      : <Spin size="large" />
+                      : <Spin size="large" />}
 
                 
                 </CardContent>
