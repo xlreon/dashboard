@@ -217,11 +217,8 @@ class DashBoard extends React.Component {
     
     const { classes } = this.props;
     const { open, location, phones, currentPhone } = this.state;
-    // console.log(location);
-
     var origin = JSON.parse(localStorage.getItem("initialLoc"));
-    if (origin !== null) 
-    {
+    if(origin!==null) {
       origin.lat = parseFloat(origin.lat);
       origin.lng = parseFloat(origin.lng);
     }
