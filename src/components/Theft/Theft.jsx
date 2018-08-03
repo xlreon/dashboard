@@ -295,7 +295,8 @@ class Theft extends React.Component {
                             return <Grid item xs={3} className={classes.container}><Button onClick={() => {this.imageClick(image.location)}}><img src={image.location} alt="image" className={classes.img}/></Button></Grid>;
                           })
                         // </div>
-                        : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
+                        // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
+                        : <Spin size="large" /> }
                     </Grid> }
                     <Divider />
                     <Typography variant="title" className={classes.heading} color='primary' >Videos :</Typography>
@@ -314,7 +315,8 @@ class Theft extends React.Component {
                           </div>;
                         })}
                       </div>
-                      : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
+                      // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
+                      : <Spin size="large" /> }
                   {/* </div> */}
                 </CardContent>
             </Card>
