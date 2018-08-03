@@ -110,7 +110,7 @@ class DashBoard extends React.Component {
             }
             formBody = formBody.join("&");
             
-            axios.post(`http://ec2-18-220-150-205.us-east-2.compute.amazonaws.com:8080/feature`, 
+            axios.post(`http://ec2-18-219-197-132.us-east-2.compute.amazonaws.com:8080/feature`, 
                 formBody,
                 this.headers
             )
@@ -143,7 +143,7 @@ class DashBoard extends React.Component {
             }
             formBody = formBody.join("&");
             
-            axios.post(`http://ec2-18-220-150-205.us-east-2.compute.amazonaws.com:8080/imei/get`, 
+            axios.post(`http://ec2-18-219-197-132.us-east-2.compute.amazonaws.com:8080/imei/get`, 
                 formBody,
                 this.headers
             )
@@ -164,7 +164,7 @@ class DashBoard extends React.Component {
                 }
                 formBody = formBody.join("&");
                 
-                axios.post(`http://ec2-18-220-150-205.us-east-2.compute.amazonaws.com:8080/phone/get`, 
+                axios.post(`http://ec2-18-219-197-132.us-east-2.compute.amazonaws.com:8080/phone/get`, 
                   formBody,
                   this.headers
                 )
@@ -220,12 +220,8 @@ class DashBoard extends React.Component {
     // console.log(location);
 
     var origin = JSON.parse(localStorage.getItem("initialLoc"));
-<<<<<<< HEAD
     if (origin !== null) 
     {
-=======
-    if(origin!==null) {
->>>>>>> dfe85a952aacf11db6e4136cacad5e5595ac2d8f
       origin.lat = parseFloat(origin.lat);
       origin.lng = parseFloat(origin.lng);
     }

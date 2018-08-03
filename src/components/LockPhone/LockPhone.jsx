@@ -125,7 +125,7 @@ class LockPhone extends React.Component {
         formBody = formBody.join("&");
         var headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
 
-        axios.post(`http://ec2-18-220-150-205.us-east-2.compute.amazonaws.com:8080/feature/setRemotePassword`, 
+        axios.post(`http://ec2-18-219-197-132.us-east-2.compute.amazonaws.com:8080/feature/setRemotePassword`, 
             formBody,
             headers
         )
