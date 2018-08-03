@@ -88,11 +88,11 @@ class DashBoard extends React.Component {
 
   componentWillMount(){
     
-    setInterval(() => this.recurGetInfo(),90000);
+    setInterval(() => this.recurGetInfo(),300000);
     
     setInterval(() => {
       this.recurPhoneGet()
-    },90000)
+    },300000)
 
     
   }
