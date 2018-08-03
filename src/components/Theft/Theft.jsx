@@ -96,7 +96,11 @@ const styles = theme => ({
       img : {
         height : 100,
         width : 100,
-        },
+      },
+      button : {
+        display : 'block',
+        padding : 10
+      },
       loginButton : {
         // background: 'linear-gradient(45deg, #9480ff 30%, #fffff0 90%)',
         background: '#9480ff',
@@ -152,7 +156,7 @@ class Theft extends React.Component {
       var email = localStorage.getItem('email');
       
       var imeiList = imei.split(",");
-      // console.log("imeilist",imeiList)
+      console.log("imeilist",imeiList)
 
         if (imeiList.length > 0)
         {
@@ -167,9 +171,9 @@ class Theft extends React.Component {
           }
           formBody = formBody.join("&");
           
-          axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/file/db/get`, 
-            formBody,
-            this.headers
+          axios.post(`http://localhost:8080/file/db/get`, 
+          formBody,
+          this.headers
           )
           .then(res => {
               if (res.data.body.content !== null) {
@@ -179,6 +183,54 @@ class Theft extends React.Component {
                   // res.data.body.content.map((item)=>{
                   //     console.log(item.name)
                   // })
+
+                  // var x = [
+                  //   {
+                  //     name : "3-dcd"
+                  //   },
+                  //   {
+                  //     name : "1-54dvd"
+                  //   },
+                  //   {
+                  //     name : "7-dcdsc"
+                  //   },
+                  // ]
+
+                  this.state.images.sort((a,b)=>{
+                    var timeA = a.name.split('-');
+                    var timeB = b.name.split('-');
+
+                    return parseInt(timeB[0]) - parseInt(timeA[0]) 
+                    // console.log(parseInt(time[0]))
+                  });
+                  
+                  this.state.images.map((item)=>{
+                    // console.log(item.name);
+                    var time = item.name.split('-');
+                    console.log(parseInt(time[0]))
+
+                    var date = new Date(parseInt(time[0]))
+
+                    // console.log(date.toDateString())
+                    // console.log(date.toTimeString())
+
+                    item.date = date.toDateString();
+
+                    if (date.getHours() > 12)
+                      item.time = (parseInt(date.getHours())-12) + ":" + date.getMinutes() + " pm";
+                    else if (date.getHours() === 12)
+                      item.time = date.getHours() + ":" + date.getMinutes() + " pm";
+                    else if (date.getHours() === 24)
+                      item.time = 12 + ":" + date.getMinutes() + " am";
+                    else
+                      item.time = date.getHours() + ":" + date.getMinutes()+ " am";
+
+
+                    console.log(item.date);
+                    console.log(item.time);
+                  });
+
+
               }
               else 
               {
@@ -197,7 +249,7 @@ class Theft extends React.Component {
           }
           formBody = formBody.join("&");
           
-          axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/file/db/get`, 
+          axios.post(`http://localhost:8080/file/db/get`, 
             formBody,
             this.headers
           )
@@ -292,7 +344,14 @@ class Theft extends React.Component {
                       {images !== null ?
                         // <div className={classes.flex}>
                           images.map((image) => {
-                            return <Grid item xs={3} className={classes.container}><Button onClick={() => {this.imageClick(image.location)}}><img src={image.location} alt="image" className={classes.img}/></Button></Grid>;
+                            return <Grid item xs={3} className={classes.container}>
+                              <Button onClick={() => {this.imageClick(image.location)}} className={classes.button}>
+                                <img src={image.location} alt="image" className={classes.img}/>
+                                <Typography variant='heading'>{image.name} </Typography>
+                                <Typography variant='caption'>{image.date} </Typography>
+                                <Typography variant='caption'>{image.time} </Typography>
+                              </Button>
+                            </Grid>;
                           })
                         // </div>
                         // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
