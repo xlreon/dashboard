@@ -256,13 +256,10 @@ class DashBoard extends React.Component {
             })}
           >
             <div className={classes.mainPanel} ref="mainPanel">
-              {/* {md5(JSON.stringify(location)) === md5(JSON.stringify(origin)) ?
-                <Maps 
-                    // locations={this.getLocations().length > 0 ? this.getLocations() : location}
-                    location={location} 
-                />
-                : */}
+
+                {location !==null && origin!== null ?
                 <MapsDirection location={location} origin={origin} />
+                :""}
             </div>
           <Snackbar
           open={this.flag}
