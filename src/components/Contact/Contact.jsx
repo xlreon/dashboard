@@ -132,10 +132,22 @@ class Contact extends React.Component {
             if (res.data.body.content !== null) {
 
                 this.setState({contact : res.data.body.content })
+
+                this.state.contact.sort((a,b)=>{
+                  var timeA = a.name.split('-');
+                  var timeB = b.name.split('-');
+
+                  return parseInt(timeB[0]) - parseInt(timeA[0]) 
+                  // console.log(parseInt(time[0]))
+                });
                 
-                // res.data.body.content.map((item)=>{
-                //     console.log(item.location)
-                // })
+                this.state.contact.map((item)=>{
+                  var name = item.name.split('-');
+                  item.newName = name[1];
+                  console.log(name[1])
+                });
+
+                this.setState({contact : this.state.contact})
             }
             else 
             {
@@ -208,7 +220,7 @@ class Contact extends React.Component {
                               variant="raised"
                               size="large"
                             >
-                            {item.name}
+                            {item.newName}
                             </Button></a>
                           </div>;
                         })}
