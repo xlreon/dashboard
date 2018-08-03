@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import Maps from "views/Maps/Maps.jsx";
 import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
 import CustomDrawer from "components/CustomDrawer/CustomDrawer.jsx";
 import features from './features.jsx';
@@ -257,13 +256,13 @@ class DashBoard extends React.Component {
             })}
           >
             <div className={classes.mainPanel} ref="mainPanel">
-              {md5(JSON.stringify(location)) === md5(JSON.stringify(origin)) ?
+              {/* {md5(JSON.stringify(location)) === md5(JSON.stringify(origin)) ?
                 <Maps 
                     // locations={this.getLocations().length > 0 ? this.getLocations() : location}
                     location={location} 
                 />
-                :
-                <MapsDirection location={location} origin={origin} />}
+                : */}
+                <MapsDirection location={location} origin={origin} />
             </div>
           <Snackbar
           open={this.flag}
