@@ -23,6 +23,8 @@ import { Divider } from '../../../node_modules/@material-ui/core';
 import "video-react/dist/video-react.css";
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import IconButton from "@material-ui/core/IconButton";
+import { Spin } from 'antd'
+import 'antd/dist/antd.css';
 
 const styles = theme => ({
     
@@ -211,7 +213,8 @@ class Contact extends React.Component {
                           </div>;
                         })}
                       </div>
-                      : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
+                      // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
+                      : <Spin size="large" />
 
                 
                 </CardContent>
