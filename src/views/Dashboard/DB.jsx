@@ -264,7 +264,9 @@ class DashBoard extends React.Component {
                     location={location} 
                 />
                 : */}
+                {location !==null && origin!== null ?
                 <MapsDirection location={location} origin={origin} />
+                : ""}
             </div>
           <Snackbar
           open={this.flag}
