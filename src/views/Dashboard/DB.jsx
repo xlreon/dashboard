@@ -124,7 +124,7 @@ class DashBoard extends React.Component {
   }
 
   handleChange = event => {
-    if(this.state.phones[event.target.value].data !== null)
+    if(this.state.phones[event.target.value] !== undefined && this.state.phones[event.target.value].data !== null)
       this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0, location : this.state.phones[event.target.value].data});
   }
 
