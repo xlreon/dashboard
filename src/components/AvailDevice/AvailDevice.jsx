@@ -10,7 +10,7 @@ import axios from 'axios';
 import ArrowRight from '@material-ui/icons/ChevronRight';
 import Grid from '@material-ui/core/Grid';
 import Divider  from '@material-ui/core/Divider';
-
+import Hidden from "@material-ui/core/Hidden";
 
 const styles = theme => ({
   root: {
@@ -50,9 +50,10 @@ class Device extends React.Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        
+        var headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
+
         if(gps == "true") {
-            axios.post(`http://localhost:8080/geoloc`, formBody)
+            axios.post(`http://ec2-18-216-27-235.us-east-2.compute.amazonaws.com:8080/geoloc`, formBody, headers)
             .then(res => {
                 // console.log(res)
                 const data = res.data.body.content;
@@ -81,25 +82,46 @@ class Device extends React.Component {
 
         return (
         <div>
-            <Divider />
-            <ListItem button onClick={() => {this.props.handleClick(id)}}>
-                <Grid container>
-                    <Grid item xs={1}>
-                        <ListItemIcon>
-                            <SmartPhone />
-                        </ListItemIcon>
+            <Hidden smDown implementation="css">
+                <Divider />
+                <ListItem button onClick={() => {this.props.handleClick(id)}}>
+                    <Grid container>
+                        <Grid item xs={1}>
+                            <ListItemIcon>
+                                <SmartPhone />
+                            </ListItemIcon>
+                        </Grid>
+                        <Grid item xs={4}>  
+                            <Typography>{phone.brand + " " + phone.model}</Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography>{this.state.location}</Typography>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <ArrowRight />
+                        </Grid>
                     </Grid>
-                    <Grid item xs={4}>  
-                        <Typography>{phone.brand + " " + phone.model}</Typography>
+                </ListItem>
+            </Hidden>
+            <Hidden mdUp implementation="css">
+                <Divider />
+                <ListItem button onClick={() => {this.props.handleClick(id)}}>
+                    <Grid container>
+                        <Grid item xs={2}>
+                            <ListItemIcon>
+                                <SmartPhone />
+                            </ListItemIcon>
+                        </Grid>
+                        <Grid item xs={9}>  
+                            <Typography>{phone.brand + " " + phone.model}</Typography>
+                            <Typography>{this.state.location}</Typography>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <ArrowRight />
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                        <Typography>{this.state.location}</Typography>
-                    </Grid>
-                    <Grid item xs={1}>
-                        <ArrowRight />
-                    </Grid>
-                </Grid>
-            </ListItem>
+                </ListItem>
+            </Hidden>
         </div>
         );
     }

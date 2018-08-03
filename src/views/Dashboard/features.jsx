@@ -13,7 +13,7 @@ const features = [
         name : "Track Your Device",
         description : "Track device location real time",
         detail : "Click on this Button to fetch your Location on the map",
-        event : "Show on Map",
+        event : "Track",
         api : "location",
         icon : <Location />
     },

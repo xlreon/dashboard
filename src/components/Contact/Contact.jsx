@@ -23,6 +23,8 @@ import { Divider } from '../../../node_modules/@material-ui/core';
 import "video-react/dist/video-react.css";
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import IconButton from "@material-ui/core/IconButton";
+import { Spin } from 'antd'
+import 'antd/dist/antd.css';
 
 const styles = theme => ({
     
@@ -100,7 +102,8 @@ const styles = theme => ({
 });     
 
 class Contact extends React.Component {
-
+    headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
+  
     componentDidMount() {
       
         var phones = localStorage.getItem("phones")
@@ -119,9 +122,10 @@ class Contact extends React.Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        
+
         axios.post(`http://localhost:8080/file/db/get`, 
-        formBody
+          formBody,
+          this.headers
         )
         .then(res => {
             console.log(res.data)
@@ -129,9 +133,9 @@ class Contact extends React.Component {
 
                 this.setState({contact : res.data.body.content })
                 
-                res.data.body.content.map((item)=>{
-                    console.log(item.name)
-                })
+                // res.data.body.content.map((item)=>{
+                //     console.log(item.location)
+                // })
             }
             else 
             {
@@ -199,16 +203,18 @@ class Contact extends React.Component {
                         {contact.length === 0 ? <Typography color="error" className={classes.container}>No contacts found!</Typography>: ""}
                         {contact.map((item) => {
                           return <div className={classNames('row',classes.contact)} >
+                            <a href={item.location}>
                             <Button 
                               variant="raised"
                               size="large"
                             >
                             {item.name}
-                            </Button>
+                            </Button></a>
                           </div>;
                         })}
                       </div>
-                      : <Typography color="error" className={classes.container}>Could not fetch data!</Typography>}
+                      // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
+                      : <Spin size="large" />}
 
                 
                 </CardContent>

@@ -7,7 +7,8 @@ import {
 const appStyle = theme => ({
   root: {
     flexGrow: 1,
-    overflow : 'hidden'
+    overflow : 'hidden',
+    marginTop : '7vh'
   },
   mainPanel: {
     // [theme.breakpoints.up("md")]: {

@@ -24,12 +24,16 @@ import "video-react/dist/video-react.css";
 import { Player } from 'video-react';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import IconButton from "@material-ui/core/IconButton";
+import ImageView from 'components/Dialogs/imageView.jsx';
+import Hidden from '@material-ui/core/Hidden'
+import { Spin } from 'antd'
+import 'antd/dist/antd.css';
 
 const styles = theme => ({
     
       card: {
         minWidth: 275,
-        width : 500,
+        width : '80vh',
         zIndex : 2,
         position : 'relative',
         borderRadius: '25px'
@@ -39,6 +43,12 @@ const styles = theme => ({
         // marginLeft : 30
         height : '80vh',
         overflow : 'scroll'
+      },
+      smallCard: {
+        width : '80%',
+        zIndex : 2,
+        position : 'relative',
+        borderRadius: '25px'
       },
       bullet: {
         display: 'inline-block',
@@ -105,10 +115,19 @@ const styles = theme => ({
         display : 'flex'
       },
       player :{
-        height : 200
+        height : 200,
+        // width : 200
       },
       break : {
         height : 10
+      },
+      inline : {
+        display : 'inline',
+        width: 100,
+        height : 100
+      },
+      video : {
+        margin : 50,
       }
 });     
 
@@ -123,6 +142,8 @@ class Theft extends React.Component {
       this.getItems(0);
 
     }
+
+    headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
 
     getItems(index) {
 
@@ -147,7 +168,8 @@ class Theft extends React.Component {
           formBody = formBody.join("&");
           
           axios.post(`http://localhost:8080/file/db/get`, 
-          formBody
+          formBody,
+          this.headers
           )
           .then(res => {
               if (res.data.body.content !== null) {
@@ -176,7 +198,8 @@ class Theft extends React.Component {
           formBody = formBody.join("&");
           
           axios.post(`http://localhost:8080/file/db/get`, 
-          formBody
+            formBody,
+            this.headers
           )
           .then(res => {
             console.log(res.data)
@@ -204,6 +227,7 @@ class Theft extends React.Component {
         currentPhone : 0,
         images : null,
         videos : null,
+        imageOpen : false
     }
 
     handleClose = () => {
@@ -221,14 +245,25 @@ class Theft extends React.Component {
         this.getItems(event.target.value);
     }
 
+    handleImageClose = () => {
+      this.setState({ imageOpen : false });
+    };
+
+    imageClick = (img) => {
+      this.setState({ imageOpen : true, image : img});
+    };
+
     render() {
         
         const { classes } = this.props;
         const { phones, currentPhone, anchorEl, images, videos } = this.state;
         
+        console.log(images)
+
         console.log(videos)
         return (
             <div>
+              <Hidden smDown implementation="css">
                 <Card className={classes.card}>
                 <CardContent className={classes.content}>
                   {/* <div className={classes.container}> */}
@@ -257,34 +292,106 @@ class Theft extends React.Component {
                       {images !== null ?
                         // <div className={classes.flex}>
                           images.map((image) => {
-                            return <Grid item xs={4} className={classes.container}><img src={image.location} alt="image" className={classes.img}/></Grid>;
+                            return <Grid item xs={3} className={classes.container}><Button onClick={() => {this.imageClick(image.location)}}><img src={image.location} alt="image" className={classes.img}/></Button></Grid>;
                           })
                         // </div>
-                        : <Typography color="error" className={classes.container}>Could not fetch data!</Typography>}
+                        // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
+                        : <Spin size="large" /> }
                     </Grid> }
                     <Divider />
                     <Typography variant="title" className={classes.heading} color='primary' >Videos :</Typography>
                     {videos !== null ?
-                      <div>
+                      <div className={classes.video}>
                       {videos.length === 0 ? <Typography color="error" className={classes.container}>No videos found!</Typography>: ""}
                         {videos.map((video) => {
                           return <div className={classNames('row')} >
                             <Player
                               // playsInline
                               // poster={img}
-                              className={classes.player}
+                              // className={classes.player}
                               src={video.location}
                             />
                             <div className={classes.break}></div>
                           </div>;
                         })}
                       </div>
-                      : <Typography color="error" className={classes.container}>Could not fetch data!</Typography>}
+                      // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
+                      : <Spin size="large" /> }
                   {/* </div> */}
-
                 </CardContent>
             </Card>
-                
+            <ImageView 
+              open={this.state.imageOpen}
+              onClose={this.handleImageClose}
+              image={this.state.image}
+            />
+          </Hidden>
+          <Hidden mdUp implementation="css">
+          <div className={classes.container}>
+          <Card className={classes.smallCard}>
+                <CardContent className={classes.content}>
+                  {/* <div className={classes.container}> */}
+                  <Grid container spacing={24}>
+                    <Grid xs={2} item>
+                      <IconButton onClick={() => {window.history.back();}}>
+                            <ChevronLeft />
+                        </IconButton>
+                    </Grid>
+                    <Grid xs={10} item className={classes.container}>
+                      <SimpleSelect
+                          className={classes.appSelectPhone}
+                          phones={phones} 
+                          device={currentPhone}
+                          handleChange={this.handleChange}
+                          deviceSelect={this.deviceSelect}
+                          anchorEl={anchorEl}
+                          currentPhone={currentPhone}
+                          handleClose={this.handleClose}
+                          color={'black'}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Typography variant="title" className={classes.heading} color='primary'>Images :</Typography>
+                    {images !== null && images.length === 0  ? <div className={classes.heading}><Typography color="error" className={classes.container}>No images found!</Typography></div> :
+                    <Grid container spacing={24} className={classes.heading}>
+                      {images !== null ?
+                        // <div className={classes.flex}>
+                          images.map((image) => {
+                            return <Grid item xs={6} className={classes.container}><Button onClick={() => {this.imageClick(image.location)}}><img src={image.location} alt="image" className={classes.img}/></Button></Grid>;
+                          })
+                        // </div>
+                        // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
+                        : <Spin size="large" /> }
+                    </Grid> }
+                    <Divider />
+                    <Typography variant="title" className={classes.heading} color='primary' >Videos :</Typography>
+                    {videos !== null ?
+                      <div className={classes.video}>
+                      {videos.length === 0 ? <Typography color="error" className={classes.container}>No videos found!</Typography>: ""}
+                        {videos.map((video) => {
+                          return <div className={classNames('row')} >
+                            <Player
+                              // playsInline
+                              // poster={img}
+                              // className={classes.player}
+                              src={video.location}
+                            />
+                            <div className={classes.break}></div>
+                          </div>;
+                        })}
+                      </div>
+                      // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
+                      : <Spin size="large" /> }
+                  {/* </div> */}
+                </CardContent>
+            </Card>
+            <ImageView 
+              open={this.state.imageOpen}
+              onClose={this.handleImageClose}
+              image={this.state.image}
+            />
+          </div>
+          </Hidden>
             </div>
         );
     }

@@ -27,8 +27,9 @@ class SimpleMenu extends React.Component {
 
   
   render() {
-    const { classes, phones, anchorEl, deviceSelect, handleChange, currentPhone, handleClose } = this.props;
-
+    const { classes, phones, anchorEl, deviceSelect, handleChange, currentPhone, handleClose, color } = this.props;
+    const css = color === 'white' ? classes.white : classes.black;
+    
     return (
       <div>
         <Button
@@ -37,10 +38,10 @@ class SimpleMenu extends React.Component {
           onClick={deviceSelect}
           // className={classes.button}
         >
-          <div className={classes.select}><Typography className={classes.black} variant='subheading'>
+          <div className={classes.select}><Typography className={css} variant='subheading'>
             {phones !== undefined && phones.length > 0 ? phones[currentPhone].model : "Select Device"}
           </Typography>
-          <ArrowDropDownIcon className={classes.black}/></div>
+          <ArrowDropDownIcon className={css}/></div>
         </Button>
         <Menu
           id="simple-menu"

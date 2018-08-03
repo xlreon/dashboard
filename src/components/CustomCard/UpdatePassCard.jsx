@@ -136,9 +136,11 @@ class ForgotCard extends React.Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        
-        axios.post(`http://localhost:8080/password/update`, 
-            formBody
+        var headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
+
+        axios.post(`http:/localhost:8080/password/update`, 
+            formBody,
+            headers
         )
         .then(res => {
             console.log(res.data);
@@ -246,6 +248,7 @@ class ForgotCard extends React.Component {
                 </Card>
                 <Dialog 
                     open ={this.state.open}
+                    text={"Once you change the password, you wont be able to undo"}
                     handleSubmit={this.handleSubmit}
                     handleCloseDialog={this.handleCloseDialog}
                 />

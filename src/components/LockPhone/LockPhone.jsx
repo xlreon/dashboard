@@ -123,9 +123,11 @@ class LockPhone extends React.Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
+        var headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
 
         axios.post(`http://localhost:8080/feature/setRemotePassword`, 
-            formBody
+            formBody,
+            headers
         )
         .then(res => {
             this.handleClick("Set Remote Password API call : Success");

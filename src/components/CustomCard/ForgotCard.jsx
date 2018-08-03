@@ -96,6 +96,8 @@ class ForgotCard extends React.Component {
         else
             this.setState({ isEmail : false });
     }
+  
+    headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
     
     handleSubmit = () => {
         
@@ -109,9 +111,10 @@ class ForgotCard extends React.Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        
+
         axios.post(`http://localhost:8080/forgetPassword`, 
-            formBody
+            formBody,
+            this.headers
         )
         .then(res => {
             console.log(res.data);
