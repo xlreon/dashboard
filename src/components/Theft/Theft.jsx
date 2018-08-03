@@ -25,6 +25,7 @@ import { Player } from 'video-react';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import IconButton from "@material-ui/core/IconButton";
 import ImageView from 'components/Dialogs/imageView.jsx';
+import Hidden from '@material-ui/core/Hidden'
 import { Spin } from 'antd'
 import 'antd/dist/antd.css';
 
