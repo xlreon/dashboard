@@ -28,6 +28,7 @@ import ImageView from 'components/Dialogs/imageView.jsx';
 import Hidden from '@material-ui/core/Hidden'
 import { Spin } from 'antd'
 import 'antd/dist/antd.css';
+import fileType from 'file-extension'
 
 const styles = theme => ({
     
@@ -161,7 +162,7 @@ class Theft extends React.Component {
         if (imeiList.length > 0)
         {
 
-          var body = { imei: imeiList[index], email : email, type : 'image'};
+          var body = { imei: imeiList[index]};
               
           var formBody = [];
               for (var property in body) {
@@ -176,9 +177,21 @@ class Theft extends React.Component {
             this.headers
           )
           .then(res => {
+            var nBody = []
               if (res.data.body.content !== null) {
+                res.data.body.content.map(file => {
+                  if(fileType(file.name) === 'png'||
+                  fileType(file.name) === 'jpg' ||
+                  fileType(file.name) === 'jpeg'||
+                  fileType(file.name) === 'bmp' ||
+                  fileType(file.name) === 'gif'
+                      ) {
+                    console.log(file)
+                    nBody.push(file)
+                  }
+                })
 
-                  this.setState({images : res.data.body.content })
+                  this.setState({images : nBody })
 
                   this.state.images.sort((a,b)=>{
                     var timeA = a.name.split('-');
@@ -225,7 +238,7 @@ class Theft extends React.Component {
           })
           .catch(error => console.log(error))
 
-          var body = { imei: imeiList[index], email : email, type : 'video'};
+          var body = { imei: imeiList[index]};
               
           var formBody = [];
               for (var property in body) {
@@ -240,11 +253,22 @@ class Theft extends React.Component {
             this.headers
           )
           .then(res => {
+            var nBody = []
             console.log(res.data)
 
               if (res.data.body.content !== null) {
 
-                  this.setState({videos : res.data.body.content })
+                  res.data.body.content.map(file => {
+                    if(fileType(file.name) === 'mp4' ||
+                    fileType(file.name) === '3gp' ||
+                    fileType(file.name) === '3gpp' ||
+                    fileType(file.name) === 'webm' ||
+                    fileType(file.name) === 'mkv' 
+                      ) {
+                      nBody.push(file)
+                    }
+                  })
+                  this.setState({videos : nBody })
                   
                   // res.data.body.content.map((item)=>{
                   //     console.log(item.name)

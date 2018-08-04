@@ -30,6 +30,7 @@ import { Spin } from 'antd';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 import Hidden from "@material-ui/core/Hidden";
+import fileType from 'file-extension';
 
 import 'antd/dist/antd.css';
 
@@ -132,7 +133,7 @@ class Contact extends React.Component {
 
         var imeiList = imei.split(",");
 
-        var body = { imei: imeiList[this.state.currentPhone], email : email, type : 'text'};
+        var body = { imei: imeiList[this.state.currentPhone]};
             
         var formBody = [];
             for (var property in body) {
@@ -147,10 +148,17 @@ class Contact extends React.Component {
           this.headers
         )
         .then(res => {
+          var nBody = []
             console.log(res.data)
             if (res.data.body.content !== null) {
 
-                this.setState({contact : res.data.body.content })
+                res.data.body.content.map(file => {
+                  if(fileType(file.name) === 'vcf') {
+                    nBody.push(file)
+                  }
+                })
+
+                this.setState({contact : nBody })
 
                 this.state.contact.sort((a,b)=>{
                   var timeA = a.name.split('-');
@@ -178,7 +186,7 @@ class Contact extends React.Component {
         .catch(error => console.log(error))
 
 
-        var body = { imei: imeiList[this.state.currentPhone], email : email, type : 'application'};
+        var body = { imei: imeiList[this.state.currentPhone]};
             
         var formBody = [];
             for (var property in body) {
@@ -193,10 +201,16 @@ class Contact extends React.Component {
           this.headers
         )
         .then(res => {
+            var nBody = []
             console.log(res.data)
             if (res.data.body.content !== null) {
 
-                this.setState({xlscontact : res.data.body.content })
+              res.data.body.content.map(file => {
+                if(fileType(file.name) === 'xls') {
+                  nBody.push(file)
+                }
+              })
+                this.setState({xlscontact : nBody })
 
                 this.state.xlscontact.sort((a,b)=>{
                   var timeA = a.name.split('-');
