@@ -12,15 +12,14 @@ import axios from 'axios';
 import md5 from 'md5';
 import MapsDirection from 'components/MapsDirection/MapsDirection';
 
-const fcmInterval={};
-const getPhoneInterval={};
 
 class DashBoard extends React.Component {
 
   constructor(props) {
     super(props);
     this.flag = false
-
+    var fcmInterval={};
+    var getPhoneInterval={};
     this.state = {
       open: true,
       showAll : true,
@@ -91,9 +90,9 @@ class DashBoard extends React.Component {
 
   componentWillMount(){
     
-    fcmInterval = setInterval(() => this.recurGetInfo(),30000);
+    this.fcmInterval = setInterval(() => this.recurGetInfo(),30000);
     
-    getPhoneInterval = setInterval(() => {
+    this.getPhoneInterval = setInterval(() => {
       this.recurPhoneGet()
     },30000)
 
@@ -101,8 +100,8 @@ class DashBoard extends React.Component {
   }
 
   resetInterval = () => {
-    clearInterval(fcmInterval)
-    clearInterval(getPhoneInterval)
+    clearInterval(this.fcmInterval)
+    clearInterval(this.getPhoneInterval)
   }
 
   headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
