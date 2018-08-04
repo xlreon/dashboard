@@ -260,8 +260,7 @@ class Contact extends React.Component {
 
         var imei = localStorage.getItem('imeiList');
         var imeiList = imei.split(",");
-
-        var body = { featureName : 'contact', imei : imeiList[this.props.currentPhone]};
+        var body = { featureName : 'contact', imei : imeiList[this.state.currentPhone]};
 
         var formBody = [];
         for (var property in body) {
