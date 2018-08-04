@@ -12,8 +12,8 @@ import axios from 'axios';
 import md5 from 'md5';
 import MapsDirection from 'components/MapsDirection/MapsDirection';
 
-const fcmInterval;
-const getPhoneInterval;
+const fcmInterval={};
+const getPhoneInterval={};
 
 class DashBoard extends React.Component {
 
