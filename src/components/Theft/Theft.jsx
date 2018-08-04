@@ -365,7 +365,7 @@ class Theft extends React.Component {
                     </Grid> }
                   </Hidden>
                   <Hidden mdUp implementation="css">
-                    {filteredImages !== null && filteredImages.length === 0  ? <div className={classes.heading}><Typography color="error" className={classes.container}>No filteredImages found!</Typography></div> :
+                    {filteredImages !== null && filteredImages.length === 0  ? <div className={classes.heading}><Typography color="error" className={classes.container}>No Images found!</Typography></div> :
                     <Grid container spacing={24} className={classes.heading}>
                       {filteredImages !== null ?
                           filteredImages.map((image) => {
