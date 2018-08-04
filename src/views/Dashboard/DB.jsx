@@ -107,7 +107,10 @@ class DashBoard extends React.Component {
   headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
 
   recurGetInfo = () => {
-    var body = { featureName : "info"};
+    var imei = localStorage.getItem('imeiList');
+    var imeiList = imei.split(",");
+
+    var body = { featureName : "info",imei: imeiList[this.state.currentPhone]};
             
             var formBody = [];
             for (var property in body) {
