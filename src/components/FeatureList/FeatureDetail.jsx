@@ -258,10 +258,10 @@ class FeatureDetail extends React.Component {
                             {
                             this.props.feature.api !== "theft" && this.props.feature.api !== "contact" && this.props.feature.api !== "wipe" && this.props.feature.api !== "location"
                             ?
-                            <Switch className={classes.button} checkedChildren={<Typography style={{fontSize: "17px",color: "white"}}>On</Typography>} unCheckedChildren={<Typography style={{fontSize: "17px",color: "white"}}>Off</Typography>}
-                                style={{width: "10vh",height: "3vh"}}
+                            <Switch className={classes.button} checkedChildren="On" unCheckedChildren="Off"
+                                style={{width: "10vh",height: "4vh"}}
                                 onClick={() => {
-                                    if (this.props.feature.api === "wipe")
+                                    if (this.props.feature.api === "wipe" && this.props.feature.api === 'lock')
                                     {
                                         this.setState({authentication : true})
                                     }
