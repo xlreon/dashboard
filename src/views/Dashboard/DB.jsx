@@ -89,6 +89,29 @@ class DashBoard extends React.Component {
   }
 
   componentWillMount(){
+      const email = localStorage.getItem("email")
+      var body = { email : email};
+      
+      var formBody = [];
+      for (var property in body) {
+          var encodedKey = encodeURIComponent(property);
+          var encodedValue = encodeURIComponent(body[property]);
+          formBody.push(encodedKey + "=" + encodedValue);
+      }
+      formBody = formBody.join("&");
+      
+      axios.post(`http://ec2-18-219-197-132.us-east-2.compute.amazonaws.com:8080/imei/get`, 
+          formBody,
+          this.headers
+      )
+      .then(res => {
+      var imeiList = res.data.body.content;
+      // console.log(imeiList)
+      localStorage.setItem("imeiList", imeiList);
+      })
+      .catch(err => {
+        console.log(err)
+      }) 
     
     this.fcmInterval = setInterval(() => this.recurGetInfo(),30000);
     
@@ -109,7 +132,7 @@ class DashBoard extends React.Component {
   recurGetInfo = () => {
     var imei = localStorage.getItem('imeiList');
     var imeiList = imei.split(",");
-
+    console.log(imeiList[this.state.currentPhone])
     var body = { featureName : "info",imei: imeiList[this.state.currentPhone]};
             
             var formBody = [];
@@ -143,28 +166,12 @@ class DashBoard extends React.Component {
     var phoneList = [];
         if (email)
         {
-            var body = { email : email};
             
-            var formBody = [];
-            for (var property in body) {
-                var encodedKey = encodeURIComponent(property);
-                var encodedValue = encodeURIComponent(body[property]);
-                formBody.push(encodedKey + "=" + encodedValue);
-            }
-            formBody = formBody.join("&");
-            
-            axios.post(`http://ec2-18-219-197-132.us-east-2.compute.amazonaws.com:8080/imei/get`, 
-                formBody,
-                this.headers
-            )
-            .then(res => {
-            var imeiList = res.data.body.content;
-            // console.log(imeiList)
-            localStorage.setItem("imeiList", imeiList);
-            
-            {imeiList.map((prop, key) => {
-            if(prop!==null) {
-            var body = { imei: prop};
+            var imei = localStorage.getItem('imeiList');
+            var imeiList = imei.split(",");
+            console.log("imeilist",imeiList[this.state.currentPhone])
+            if(imeiList[this.state.currentPhone]!==null) {
+            var body = { imei: imeiList[this.state.currentPhone]};
             
             var formBody = [];
                 for (var property in body) {
@@ -182,17 +189,17 @@ class DashBoard extends React.Component {
                 if (res.data.body.content !== null) {
                     phoneList.push(res.data.body);
                     // localStorage.setItem("phones",JSON.stringify(phoneList));
-                    localStorage.setItem('currHash'+key,md5(JSON.stringify(res.data.body)))
+                    localStorage.setItem('currHash'+this.state.currentPhone,md5(JSON.stringify(res.data.body)))
                     // console.log(localStorage.getItem('currHash'))
                     // console.log(this.state.phones)
-                    var prevHash = localStorage.getItem('prevHash'+key);
-                    var currHash = localStorage.getItem('currHash'+key);
+                    var prevHash = localStorage.getItem('prevHash'+this.state.currentPhone);
+                    var currHash = localStorage.getItem('currHash'+this.state.currentPhone);
 
                     console.log(prevHash," ", currHash)
                     
                     if (prevHash !== currHash) {
                       localStorage.setItem("phones",JSON.stringify(phoneList));
-                      localStorage.setItem("prevHash"+key,currHash)
+                      localStorage.setItem("prevHash"+this.state.currentPhone,currHash)
                       
                       var newLoc = phoneList[this.state.currentPhone].data
                       
@@ -209,9 +216,6 @@ class DashBoard extends React.Component {
                 .catch(error => console.log(error))
         
               }
-            })}
-            })
-            .catch(error => console.log(error))
         }
   }
   
