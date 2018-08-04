@@ -130,7 +130,7 @@ class SelectDevice extends React.Component {
 
     handleClick = (phone) => {
         
-        localStorage.setItem("currPhone",JSON.stringify(phone));
+        localStorage.setItem("currPhone",JSON.stringify(phone!==null || phone!== undefined ? phone : 0));
 
         localStorage.setItem('initialLoc',JSON.stringify(this.state.phones[phone].data));
 
