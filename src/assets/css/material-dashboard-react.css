@@ -219,3 +219,10 @@ footer ul li a:hover {
         overflow-x: hidden;
     }
 }
+
+.ant-switch-inner {
+    height: '4vh'
+}
+..ant-switch-inner {
+    font-size: "20px"
+}
