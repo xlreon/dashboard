@@ -394,7 +394,7 @@ class Contact extends React.Component {
                       <div>
                         <Button className={classes.button} onClick={()=> this.getBackup()} style={{color: "#3f51b5"}}>
                             <Backup className={classes.icons}/>
-                            <Typography>Create Backup</Typography>
+                            <Typography>CREATE CONTACT BACKUP</Typography>
                         </Button>
                       </div>
                     </Grid>
@@ -402,7 +402,7 @@ class Contact extends React.Component {
                       <div>
                         <Button className={classes.button} onClick={() => this.setState({showContact : true})} style={{color: "#3f51b5"}}>
                           <Contacts className={classes.icons}/>
-                          <Typography>View Backup</Typography>
+                          <Typography>VIEW CONTACT BACKUP</Typography>
                         </Button>
                       </div>
                     </Grid>
