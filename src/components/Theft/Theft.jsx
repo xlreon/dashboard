@@ -33,14 +33,14 @@ const styles = theme => ({
     
       card: {
         minWidth: 275,
-        width : '80vh',
         zIndex : 2,
         position : 'relative',
-        borderRadius: '25px'
+        borderRadius: '25px',
+        marginRight : 30,
+        marginLeft : 30
       },
       content : {
-        // marginRight : 30,
-        // marginLeft : 30
+        // marginRight : 10,
         height : '80vh',
         overflow : 'scroll'
       },
@@ -179,22 +179,6 @@ class Theft extends React.Component {
               if (res.data.body.content !== null) {
 
                   this.setState({images : res.data.body.content })
-                  
-                  // res.data.body.content.map((item)=>{
-                  //     console.log(item.name)
-                  // })
-
-                  // var x = [
-                  //   {
-                  //     name : "3-dcd"
-                  //   },
-                  //   {
-                  //     name : "1-54dvd"
-                  //   },
-                  //   {
-                  //     name : "7-dcdsc"
-                  //   },
-                  // ]
 
                   this.state.images.sort((a,b)=>{
                     var timeA = a.name.split('-');
@@ -205,11 +189,12 @@ class Theft extends React.Component {
                   });
                   
                   this.state.images.map((item)=>{
-                    // console.log(item.name);
+                    console.log(item.name);
                     var time = item.name.split('-');
-                    console.log(parseInt(time[0]))
+                    var time = time[0].split('/');
+                    // console.log(parseInt(time[1]))
 
-                    var date = new Date(parseInt(time[0]))
+                    var date = new Date(parseInt(time[1]))
 
                     // console.log(date.toDateString())
                     // console.log(date.toTimeString())
@@ -226,8 +211,8 @@ class Theft extends React.Component {
                       item.time = date.getHours() + ":" + date.getMinutes()+ " am";
 
 
-                    console.log(item.date);
-                    console.log(item.time);
+                    // console.log(item.date);
+                    // console.log(item.time);
 
                   });
 
@@ -311,13 +296,12 @@ class Theft extends React.Component {
         const { classes } = this.props;
         const { phones, currentPhone, anchorEl, images, videos } = this.state;
         
-        console.log(images)
+        // console.log(images)
 
-        console.log(videos)
+        // console.log(videos)
         return (
-            <div>
-              <Hidden smDown implementation="css">
-                <Card className={classes.card}>
+            <div className={classes.container}>
+              <Card className={classes.card}>
                 <CardContent className={classes.content}>
                   {/* <div className={classes.container}> */}
                   <Grid container spacing={24}>
@@ -340,24 +324,40 @@ class Theft extends React.Component {
                     </Grid>
                   </Grid>
                   <Typography variant="title" className={classes.heading} color='primary'>Images :</Typography>
+                  <Hidden smDown implementation="css">
                     {images !== null && images.length === 0  ? <div className={classes.heading}><Typography color="error" className={classes.container}>No images found!</Typography></div> :
                     <Grid container spacing={24} className={classes.heading}>
                       {images !== null ?
-                        // <div className={classes.flex}>
                           images.map((image) => {
                             return <Grid item xs={3} className={classes.container}>
                               <Button onClick={() => {this.imageClick(image.location)}} className={classes.button}>
-                                <img src={image.location} alt="image" className={classes.img}/>
-                                {/* <Typography variant='heading'>{image.name} </Typography> */}
+                                <div className={classes.container}>
+                                  <img src={image.location} alt="image" className={classes.img}/>
+                                </div>
                                 <Typography variant='caption'>{image.date} </Typography>
                                 <Typography variant='caption'>{image.time} </Typography>
                               </Button>
                             </Grid>;
                           })
-                        // </div>
-                        // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
                         : <Spin size="large" /> }
                     </Grid> }
+                  </Hidden>
+                  <Hidden mdUp implementation="css">
+                    {images !== null && images.length === 0  ? <div className={classes.heading}><Typography color="error" className={classes.container}>No images found!</Typography></div> :
+                    <Grid container spacing={24} className={classes.heading}>
+                      {images !== null ?
+                          images.map((image) => {
+                            return <Grid item xs={6} className={classes.container}>
+                              <Button onClick={() => {this.imageClick(image.location)}} className={classes.button}>
+                                <img src={image.location} alt="image" className={classes.img}/>
+                                <Typography variant='caption'>{image.date} </Typography>
+                                <Typography variant='caption'>{image.time} </Typography>
+                              </Button>
+                            </Grid>;
+                          })
+                        : <Spin size="large" /> }
+                    </Grid> }
+                  </Hidden>
                     <Divider />
                     <Typography variant="title" className={classes.heading} color='primary' >Videos :</Typography>
                     {videos !== null ?
@@ -375,9 +375,7 @@ class Theft extends React.Component {
                           </div>;
                         })}
                       </div>
-                      // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
                       : <Spin size="large" /> }
-                  {/* </div> */}
                 </CardContent>
             </Card>
             <ImageView 
@@ -385,80 +383,6 @@ class Theft extends React.Component {
               onClose={this.handleImageClose}
               image={this.state.image}
             />
-          </Hidden>
-          <Hidden mdUp implementation="css">
-          <div className={classes.container}>
-          <Card className={classes.smallCard}>
-                <CardContent className={classes.content}>
-                  {/* <div className={classes.container}> */}
-                  <Grid container spacing={24}>
-                    <Grid xs={2} item>
-                      <IconButton onClick={() => {window.history.back();}}>
-                            <ChevronLeft />
-                        </IconButton>
-                    </Grid>
-                    <Grid xs={10} item className={classes.container}>
-                      <SimpleSelect
-                          className={classes.appSelectPhone}
-                          phones={phones} 
-                          device={currentPhone}
-                          handleChange={this.handleChange}
-                          deviceSelect={this.deviceSelect}
-                          anchorEl={anchorEl}
-                          currentPhone={currentPhone}
-                          handleClose={this.handleClose}
-                          color={'black'}
-                      />
-                    </Grid>
-                  </Grid>
-                  <Typography variant="title" className={classes.heading} color='primary'>Images :</Typography>
-                    {images !== null && images.length === 0  ? <div className={classes.heading}><Typography color="error" className={classes.container}>No images found!</Typography></div> :
-                    <Grid container spacing={24} className={classes.heading}>
-                      {images !== null ?
-                        // <div className={classes.flex}>
-                          images.map((image) => {
-                            return <Grid item xs={3} className={classes.container}>
-                              <Button onClick={() => {this.imageClick(image.location)}} className={classes.button}>
-                                <img src={image.location} alt="image" className={classes.img}/>
-                                {/* <Typography variant='heading'>{image.name} </Typography> */}
-                                <Typography variant='caption'>{image.date} </Typography>
-                                <Typography variant='caption'>{image.time} </Typography>
-                              </Button>
-                            </Grid>;
-                          })
-                        // </div>
-                        // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
-                        : <Spin size="large" /> }
-                    </Grid> }
-                    <Divider />
-                    <Typography variant="title" className={classes.heading} color='primary' >Videos :</Typography>
-                    {videos !== null ?
-                      <div className={classes.video}>
-                      {videos.length === 0 ? <Typography color="error" className={classes.container}>No videos found!</Typography>: ""}
-                        {videos.map((video) => {
-                          return <div className={classNames('row')} >
-                            <Player
-                              // playsInline
-                              // poster={img}
-                              // className={classes.player}
-                              src={video.location}
-                            />
-                            <div className={classes.break}></div>
-                          </div>;
-                        })}
-                      </div>
-                      // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
-                      : <Spin size="large" /> }
-                  {/* </div> */}
-                </CardContent>
-            </Card>
-            <ImageView 
-              open={this.state.imageOpen}
-              onClose={this.handleImageClose}
-              image={this.state.image}
-            />
-          </div>
-          </Hidden>
             </div>
         );
     }

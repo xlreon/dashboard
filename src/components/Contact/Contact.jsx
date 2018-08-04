@@ -29,6 +29,7 @@ import Contacts from "@material-ui/icons/ContactPhone";
 import { Spin } from 'antd';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
+import Hidden from "@material-ui/core/Hidden";
 
 import 'antd/dist/antd.css';
 
@@ -38,11 +39,13 @@ const styles = theme => ({
         minWidth: 275,
         zIndex : 2,
         position : 'relative',
-        borderRadius: '25px'
+        borderRadius: '25px',
+        marginRight : 30,
+        marginLeft : 30
       },
       content : {
-        // marginRight : 30,
-        // marginLeft : 30
+        marginRight : 10,
+        // marginLeft : 10
       },
       bullet: {
         display: 'inline-block',
@@ -290,7 +293,7 @@ class Contact extends React.Component {
         console.log(contact)
 
         return (
-            <div>
+          <div className={classes.container}>
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'bottom',
@@ -341,6 +344,7 @@ class Contact extends React.Component {
                       />
                     </Grid>
                   </Grid>
+                  <Hidden smDown implementation="css">
                   {showContact ? 
                   <div>
                     <Typography variant="title" className={classes.contact} color='primary'>Contact Backup :</Typography>
@@ -404,8 +408,73 @@ class Contact extends React.Component {
                       </div>
                     </Grid>
                   </Grid>}
+                  </Hidden>
+                  <Hidden mdUp implementation="css">
+                  {showContact ? 
+                  <div>
+                    <Typography variant="title" className={classes.contact} color='primary'>Contact Backup :</Typography>
+                    <Grid container spacing={24}>
+                      <Grid item xs={12}>
+                      {contact !== null ?
+                      <div>
+                        {contact.length === 0 ? <Typography color="error" className={classes.container}>No vcf files found!</Typography>: ""}
+                        {contact.map((item) => {
+                          return <div className={classNames('row',classes.contact)} >
+                            <a href={item.location}>
+                            <Button>
+                              {item.ext === "vcf" ?
+                                <img src={vcf} className={classes.contactImg}/>
+                                :
+                                <img src={xls} className={classes.contactImg}/>}
+                              {item.newName}
+                            </Button></a>
+                          </div>;
+                        })}
+                      </div>
+                      : <Spin size="large" />}
+                      </Grid>
+                      <Grid item xs={12}>
+                      {xlscontact !== null ?
+                      <div>
+                      {xlscontact.length === 0 ? <Typography color="error" className={classes.container}>No xls files found!</Typography>: ""}
+                        {xlscontact.map((item) => {
+                          return <div className={classNames('row',classes.contact)} >
+                            <a href={item.location}>
+                            <Button>
+                              {item.ext === "vcf" ?
+                                <img src={vcf} className={classes.contactImg}/>
+                                :
+                                <img src={xls} className={classes.contactImg}/>}
+                              {item.newName}
+                            </Button></a>
+                          </div>;
+                        })}
+                      </div>
+                      : <Spin size="large" />}
+                      </Grid>
+                    </Grid>
+                  </div>
+                  :
+                  <Grid container spacing={24}>
+                    <Grid item xs={6}>
+                      <div>
+                        <Button className={classes.button} onClick={()=> this.getBackup()}>
+                            <Backup className={classes.icons}/>
+                            <Typography>Create Backup</Typography>
+                        </Button>
+                      </div>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <div>
+                        <Button className={classes.button} onClick={() => this.setState({showContact : true})}>
+                          <Contacts className={classes.icons}/>
+                          <Typography>View Backup</Typography>
+                        </Button>
+                      </div>
+                    </Grid>
+                  </Grid>}
+                  </Hidden>
 
-                
                 </CardContent>
             </Card>
                 
