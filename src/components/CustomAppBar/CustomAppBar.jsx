@@ -90,7 +90,10 @@ class CustomAppBar extends React.Component {
                         color={'white'}
                     />
                     </div>
-                    <Settings recurPhoneGet={this.props.recurPhoneGet}/>
+                    <Settings 
+                        recurPhoneGet={this.props.recurPhoneGet}
+                        resetInterval={this.props.resetInterval}
+                    />
                 </Toolbar>
             </AppBar>
         </div>

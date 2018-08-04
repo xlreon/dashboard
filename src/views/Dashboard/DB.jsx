@@ -12,12 +12,14 @@ import axios from 'axios';
 import md5 from 'md5';
 import MapsDirection from 'components/MapsDirection/MapsDirection';
 
+
 class DashBoard extends React.Component {
 
   constructor(props) {
     super(props);
     this.flag = false
-
+    var fcmInterval={};
+    var getPhoneInterval={};
     this.state = {
       open: true,
       showAll : true,
@@ -88,19 +90,27 @@ class DashBoard extends React.Component {
 
   componentWillMount(){
     
-    setInterval(() => this.recurGetInfo(),90000);
+    this.fcmInterval = setInterval(() => this.recurGetInfo(),30000);
     
-    setInterval(() => {
+    this.getPhoneInterval = setInterval(() => {
       this.recurPhoneGet()
-    },90000)
+    },30000)
 
     
+  }
+
+  resetInterval = () => {
+    clearInterval(this.fcmInterval)
+    clearInterval(this.getPhoneInterval)
   }
 
   headers = {"headers": {'Access-Control-Allow-Origin': '*'}}
 
   recurGetInfo = () => {
-    var body = { featureName : "info"};
+    var imei = localStorage.getItem('imeiList');
+    var imeiList = imei.split(",");
+
+    var body = { featureName : "info",imei: imeiList[this.state.currentPhone]};
             
             var formBody = [];
             for (var property in body) {
@@ -235,6 +245,7 @@ class DashBoard extends React.Component {
           currentPhone={currentPhone}
           handleChange={this.handleChange}
           recurPhoneGet={this.recurPhoneGet}
+          resetInterval={this.resetInterval}
         />
         </div>
       <div className={classes.root}>

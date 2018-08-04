@@ -28,6 +28,7 @@ class SimpleMenu extends React.Component {
   };
 
   handleLogout = () => {
+    this.props.resetInterval()
     localStorage.setItem("email", null);
     this.setState({redirect : true});
   };
