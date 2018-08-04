@@ -392,7 +392,7 @@ class Contact extends React.Component {
                   <Grid container spacing={24}>
                     <Grid item xs={6}>
                       <div>
-                        <Button className={classes.button} onClick={()=> this.getBackup()}>
+                        <Button className={classes.button} onClick={()=> this.getBackup()} style={{color: "#3f51b5"}}>
                             <Backup className={classes.icons}/>
                             <Typography>Create Backup</Typography>
                         </Button>
@@ -400,7 +400,7 @@ class Contact extends React.Component {
                     </Grid>
                     <Grid item xs={6}>
                       <div>
-                        <Button className={classes.button} onClick={() => this.setState({showContact : true})}>
+                        <Button className={classes.button} onClick={() => this.setState({showContact : true})} style={{color: "#3f51b5"}}>
                           <Contacts className={classes.icons}/>
                           <Typography>View Backup</Typography>
                         </Button>
