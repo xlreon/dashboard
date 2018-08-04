@@ -10,7 +10,8 @@ import classNames from "classnames";
 import TextField from '@material-ui/core/TextField';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import Center from 'react-center';
-import logo from "assets/img/pfa.png";
+import vcf from "assets/img/vcf.png";
+import xls from "assets/img/xls.png";
 import background from "assets/img/background.png";
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
@@ -23,7 +24,8 @@ import { Divider } from '../../../node_modules/@material-ui/core';
 import "video-react/dist/video-react.css";
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import IconButton from "@material-ui/core/IconButton";
-import Backup from "@material-ui/icons/ContactPhone";
+import Backup from "@material-ui/icons/Backup";
+import Contacts from "@material-ui/icons/ContactPhone";
 import { Spin } from 'antd';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
@@ -108,6 +110,10 @@ const styles = theme => ({
       },
       button : {
         display : 'block'
+      },
+      contactImg : {
+        width: 50,
+        height: 50,
       }
 });     
 
@@ -153,8 +159,10 @@ class Contact extends React.Component {
                 
                 this.state.contact.map((item)=>{
                   var name = item.name.split('-');
+                  var ext = item.name.split('.');
                   item.newName = name[1];
-                  console.log(name[1])
+                  item.ext = ext[1];
+                  // console.log(ext[1])
                 });
 
                 this.setState({contact : this.state.contact})
@@ -166,12 +174,59 @@ class Contact extends React.Component {
         })
         .catch(error => console.log(error))
 
+
+        var body = { imei: imeiList[this.state.currentPhone], email : email, type : 'application'};
+            
+        var formBody = [];
+            for (var property in body) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(body[property]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+
+        axios.post(`http://ec2-18-219-197-132.us-east-2.compute.amazonaws.com:8080/file/db/get`, 
+          formBody,
+          this.headers
+        )
+        .then(res => {
+            console.log(res.data)
+            if (res.data.body.content !== null) {
+
+                this.setState({xlscontact : res.data.body.content })
+
+                this.state.xlscontact.sort((a,b)=>{
+                  var timeA = a.name.split('-');
+                  var timeB = b.name.split('-');
+
+                  return parseInt(timeB[0]) - parseInt(timeA[0]) 
+                  // console.log(parseInt(time[0]))
+                });
+                
+                this.state.xlscontact.map((item)=>{
+                  var name = item.name.split('-');
+                  var ext = item.name.split('.');
+                  item.newName = name[1];
+                  item.ext = ext[1];
+                  // console.log(ext[1])
+                });
+
+                this.setState({xlscontact : this.state.xlscontact})
+            }
+            else 
+            {
+              this.setState({xlscontact : []})
+            }
+        })
+        .catch(error => console.log(error))
+
     }
     
     state = {
         anchorEl : null,
         currentPhone : 0,
         contact : null,
+        xlscontact : null,
         open: false,
         message: null,
     }
@@ -230,7 +285,7 @@ class Contact extends React.Component {
     render() {
         
         const { classes } = this.props;
-        const { phones, currentPhone, anchorEl, contact, showContact } = this.state;
+        const { phones, currentPhone, anchorEl, contact, xlscontact, showContact } = this.state;
         
         console.log(contact)
 
@@ -288,23 +343,47 @@ class Contact extends React.Component {
                   </Grid>
                   {showContact ? 
                   <div>
-                    <Typography variant="title" className={classes.contact} color='primary'>Contacts :</Typography>
+                    <Typography variant="title" className={classes.contact} color='primary'>Contact Backup :</Typography>
+                    <Grid container spacing={24}>
+                      <Grid item xs={6}>
                       {contact !== null ?
                       <div>
-                        {contact.length === 0 ? <Typography color="error" className={classes.container}>No contacts found!</Typography>: ""}
+                        {contact.length === 0 ? <Typography color="error" className={classes.container}>No vcf files found!</Typography>: ""}
                         {contact.map((item) => {
                           return <div className={classNames('row',classes.contact)} >
                             <a href={item.location}>
-                            <Button 
-                              variant="raised"
-                              size="large"
-                            >
-                            {item.newName}
+                            <Button>
+                              {item.ext === "vcf" ?
+                                <img src={vcf} className={classes.contactImg}/>
+                                :
+                                <img src={xls} className={classes.contactImg}/>}
+                              {item.newName}
                             </Button></a>
                           </div>;
                         })}
                       </div>
                       : <Spin size="large" />}
+                      </Grid>
+                      <Grid item xs={6}>
+                      {xlscontact !== null ?
+                      <div>
+                      {xlscontact.length === 0 ? <Typography color="error" className={classes.container}>No xls files found!</Typography>: ""}
+                        {xlscontact.map((item) => {
+                          return <div className={classNames('row',classes.contact)} >
+                            <a href={item.location}>
+                            <Button>
+                              {item.ext === "vcf" ?
+                                <img src={vcf} className={classes.contactImg}/>
+                                :
+                                <img src={xls} className={classes.contactImg}/>}
+                              {item.newName}
+                            </Button></a>
+                          </div>;
+                        })}
+                      </div>
+                      : <Spin size="large" />}
+                      </Grid>
+                    </Grid>
                   </div>
                   :
                   <Grid container spacing={24}>
@@ -319,7 +398,7 @@ class Contact extends React.Component {
                     <Grid item xs={6}>
                       <div>
                         <Button className={classes.button} onClick={() => this.setState({showContact : true})}>
-                          <Backup className={classes.icons}/>
+                          <Contacts className={classes.icons}/>
                           <Typography>View Backup</Typography>
                         </Button>
                       </div>
