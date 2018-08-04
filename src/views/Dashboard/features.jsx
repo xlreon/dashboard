@@ -7,6 +7,8 @@ import Format from '@material-ui/icons/DeleteForever';
 import Clear from '@material-ui/icons/Clear';
 import Theft from '@material-ui/icons/DirectionsRun';
 import Contact from '@material-ui/icons/ContactPhone';
+import Camera from "@material-ui/icons/CameraEnhance";
+import Caution from "@material-ui/icons/ReportProblem";
 
 const features = [
     {
@@ -47,7 +49,7 @@ const features = [
         detail : "Click this button to prevent intruder from switching off your phone",
         event : "Prevent SwitchOff",
         api : "prevent",
-        icon : <Clear />
+        icon : <Caution />
     },
     {
         name : "Theft Information",
@@ -55,7 +57,7 @@ const features = [
         detail : "Click this button to view your theft information",
         event : "Go",
         api : "theft",
-        icon : <Theft />
+        icon : <Camera />
     },
     {
         name : "Contact Back up",
