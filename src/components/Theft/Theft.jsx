@@ -28,6 +28,7 @@ import ImageView from 'components/Dialogs/imageView.jsx';
 import Hidden from '@material-ui/core/Hidden'
 import { Spin } from 'antd'
 import 'antd/dist/antd.css';
+import fileExist from 'url-exists';
 
 const styles = theme => ({
     
@@ -295,6 +296,27 @@ class Theft extends React.Component {
         
         const { classes } = this.props;
         const { phones, currentPhone, anchorEl, images, videos } = this.state;
+        var filteredImages = []
+        if(images!==null) {
+          images.map(image => {
+            fileExist(image.location,(err,exist) => {
+            if(exist) {
+              filteredImages.push(image)
+            }
+          })
+        })
+        }
+
+        var filteredVideos = []
+        if(videos!==null) {
+          videos.map(video => {
+            fileExist(video.location,(err,exist) => {
+            if(exist) {
+              filteredVideos.push(video)
+            }
+          })
+        })
+        }
         
         // console.log(images)
 
@@ -325,10 +347,10 @@ class Theft extends React.Component {
                   </Grid>
                   <Typography variant="title" className={classes.heading} color='primary'>Images :</Typography>
                   <Hidden smDown implementation="css">
-                    {images !== null && images.length === 0  ? <div className={classes.heading}><Typography color="error" className={classes.container}>No images found!</Typography></div> :
+                    {filteredImages !== null && filteredImages.length === 0  ? <div className={classes.heading}><Typography color="error" className={classes.container}>No Images found!</Typography></div> :
                     <Grid container spacing={24} className={classes.heading}>
-                      {images !== null ?
-                          images.map((image) => {
+                      {filteredImages !== null ?
+                          filteredImages.map((image) => {
                             return <Grid item xs={3} className={classes.container}>
                               <Button onClick={() => {this.imageClick(image.location)}} className={classes.button}>
                                 <div className={classes.container}>
@@ -343,10 +365,10 @@ class Theft extends React.Component {
                     </Grid> }
                   </Hidden>
                   <Hidden mdUp implementation="css">
-                    {images !== null && images.length === 0  ? <div className={classes.heading}><Typography color="error" className={classes.container}>No images found!</Typography></div> :
+                    {filteredImages !== null && filteredImages.length === 0  ? <div className={classes.heading}><Typography color="error" className={classes.container}>No filteredImages found!</Typography></div> :
                     <Grid container spacing={24} className={classes.heading}>
-                      {images !== null ?
-                          images.map((image) => {
+                      {filteredImages !== null ?
+                          filteredImages.map((image) => {
                             return <Grid item xs={6} className={classes.container}>
                               <Button onClick={() => {this.imageClick(image.location)}} className={classes.button}>
                                 <img src={image.location} alt="image" className={classes.img}/>
@@ -360,10 +382,10 @@ class Theft extends React.Component {
                   </Hidden>
                     <Divider />
                     <Typography variant="title" className={classes.heading} color='primary' >Videos :</Typography>
-                    {videos !== null ?
+                    {filteredVideos !== null ?
                       <div className={classes.video}>
-                      {videos.length === 0 ? <Typography color="error" className={classes.container}>No videos found!</Typography>: ""}
-                        {videos.map((video) => {
+                      {filteredVideos.length === 0 ? <Typography color="error" className={classes.container}>No Videos found!</Typography>: ""}
+                        {filteredVideos.map((video) => {
                           return <div className={classNames('row')} >
                             <Player
                               // playsInline
