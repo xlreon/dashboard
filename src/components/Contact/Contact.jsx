@@ -23,7 +23,11 @@ import { Divider } from '../../../node_modules/@material-ui/core';
 import "video-react/dist/video-react.css";
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import IconButton from "@material-ui/core/IconButton";
-import { Spin } from 'antd'
+import Backup from "@material-ui/icons/ContactPhone";
+import { Spin } from 'antd';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
+
 import 'antd/dist/antd.css';
 
 const styles = theme => ({
@@ -97,8 +101,14 @@ const styles = theme => ({
       },
       contact : {
         margin : 10
+      },
+      icons : {
+        width: 80,
+        height: 80,
+      },
+      button : {
+        display : 'block'
       }
-
 });     
 
 class Contact extends React.Component {
@@ -162,6 +172,8 @@ class Contact extends React.Component {
         anchorEl : null,
         currentPhone : 0,
         contact : null,
+        open: false,
+        message: null,
     }
 
     handleClose = () => {
@@ -178,20 +190,86 @@ class Contact extends React.Component {
         this.setState({currentPhone: event.target.value !== undefined ? event.target.value : 0,anchorEl : null})
     }
 
+    handleSnackClick = (msg) => {
+      this.setState({ open: true, message : msg });
+    };
+
+    handleSnackClose = () => {
+        this.setState({ open: false });
+    };
+
+    getBackup = () => {
+
+        var imei = localStorage.getItem('imeiList');
+        var imeiList = imei.split(",");
+
+        var body = { featureName : 'contact', imei : imeiList[this.props.currentPhone]};
+
+        var formBody = [];
+        for (var property in body) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(body[property]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+
+        axios.post(`http://ec2-18-219-197-132.us-east-2.compute.amazonaws.com:8080/feature`, 
+            formBody,
+            this.headers
+        )
+        .then(res => {
+            this.handleSnackClick("Create Backup : Success");
+            console.log(res);
+        })
+        .catch(error => {
+          this.handleSnackClick("Create Backup : Failure");
+            console.log(error);
+        })
+    };
+
     render() {
         
         const { classes } = this.props;
-        const { phones, currentPhone, anchorEl, contact } = this.state;
+        const { phones, currentPhone, anchorEl, contact, showContact } = this.state;
         
         console.log(contact)
 
         return (
             <div>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                    }}
+                    open={this.state.open}
+                    autoHideDuration={6000}
+                    onClose={this.handleSnackClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">{this.state.message}</span>}
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="Close"
+                            color="inherit"
+                            className={classes.close}
+                            onClick={this.handleSnackClose}
+                        >
+                        <CloseIcon />
+                        </IconButton>,
+                    ]}
+                  />
                 <Card className={classes.card}>
                 <CardContent className={classes.content}>
                 <Grid container spacing={24}>
                     <Grid xs={2} item>
-                      <IconButton onClick={() => {window.history.back();}}>
+                      <IconButton onClick={() => {
+                        if (showContact)
+                          this.setState({showContact : false})
+                        else
+                          window.history.back();
+                        }}>
                             <ChevronLeft />
                         </IconButton>
                     </Grid>
@@ -208,8 +286,9 @@ class Contact extends React.Component {
                       />
                     </Grid>
                   </Grid>
-                  <Typography variant="title" className={classes.contact} color='primary'>Contacts :</Typography>
-                    {/* <Grid container spacing={24}> */}
+                  {showContact ? 
+                  <div>
+                    <Typography variant="title" className={classes.contact} color='primary'>Contacts :</Typography>
                       {contact !== null ?
                       <div>
                         {contact.length === 0 ? <Typography color="error" className={classes.container}>No contacts found!</Typography>: ""}
@@ -225,8 +304,27 @@ class Contact extends React.Component {
                           </div>;
                         })}
                       </div>
-                      // : <Typography color="error" className={classes.container}>Fetching data...</Typography>}
                       : <Spin size="large" />}
+                  </div>
+                  :
+                  <Grid container spacing={24}>
+                    <Grid item xs={6}>
+                      <div>
+                        <Button className={classes.button} onClick={()=> this.getBackup()}>
+                            <Backup className={classes.icons}/>
+                            <Typography>Create Backup</Typography>
+                        </Button>
+                      </div>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <div>
+                        <Button className={classes.button} onClick={() => this.setState({showContact : true})}>
+                          <Backup className={classes.icons}/>
+                          <Typography>View Backup</Typography>
+                        </Button>
+                      </div>
+                    </Grid>
+                  </Grid>}
 
                 
                 </CardContent>
