@@ -47,6 +47,11 @@ const styles = theme => ({
       content : {
         marginRight : 10,
         // marginLeft : 10
+        height : '80vh',
+        overflow : 'scroll'
+      },
+      firstContent : {
+        marginRight : 10,
       },
       bullet: {
         display: 'inline-block',
@@ -332,7 +337,7 @@ class Contact extends React.Component {
                     ]}
                   />
                 <Card className={classes.card}>
-                <CardContent className={classes.content}>
+                <CardContent className={showContact ? classes.content : classes.firstContent}>
                 <Grid container spacing={24}>
                     <Grid xs={2} item>
                       <IconButton onClick={() => {
