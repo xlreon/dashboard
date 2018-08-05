@@ -228,7 +228,12 @@ class LockPhone extends React.Component {
                 </ValidatorForm>
 
                 <div className={classNames('row',classes.login)} >
-                    <Button onClick={() => this.handleSubmit()} type="submit" variant='raised' color='primary'>Submit</Button>
+                    <Button 
+                    onClick={() => this.handleSubmit()} 
+                    type="submit" 
+                    variant='raised' 
+                    disabled={this.state.lock['password']===undefined || this.state.lock['password']===""}
+                    color='primary'>Submit</Button>
 
                 </div>
                 

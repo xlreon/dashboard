@@ -34,8 +34,6 @@ class Device extends React.Component {
 
   handleChange = panel => (event, expanded) => {
 
-    console.log(panel);
-
     this.setState({
       expanded: !this.state.expanded,
     });
@@ -50,7 +48,7 @@ class Device extends React.Component {
     return (
       <ExpansionPanel expanded={expanded} onChange={this.handleChange(key)}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <CustomCard details={details}/>
+          <CustomCard details={details} currentPhone={this.props.currentPhone}/>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <FeatureList 

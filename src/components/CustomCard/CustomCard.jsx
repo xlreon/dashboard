@@ -13,8 +13,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Wifi from '@material-ui/icons/Wifi';
 import Android from '@material-ui/icons/Android';
-import IOS from '@material-ui/icons/PhoneIphone';
+import Info from '@material-ui/icons/InfoOutline';
 import Battery from '@material-ui/icons/Battery60';
+import  IconButton  from '@material-ui/core/IconButton';
+import Dialog from 'components/Dialogs/Imei';
 
 const styles = theme => ({
   cover: {
@@ -28,26 +30,53 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  block : {
+    display : 'block',
+    marginTop : 15
   }
 });
 
-function checkOS(os) {
-  console.log(os);
-  return <Android />;
+class CustomCard extends React.Component {
+
+  state = {
+    imei : false,
+  }
+
+handleCloseDialog = () => {
+  this.setState({ imei: false });
+};
+
+componentDidMount() {
+  
+    var imei = localStorage.getItem('imeiList');
+      
+    var imeiList = imei.split(",");
+
+    this.setState({imeiVal : imeiList[this.props.currentPhone]});
+
+
 }
 
-function CustomCard(props) {
-  const { classes, theme } = props;
-  const os = props.details.os;
+render() {
+  const { classes, theme } = this.props;
 
   return (
     <div className={classes.root}>
 
       <Grid container spacing={24}>
-        <Grid item xs={3} className={classes.gridItem}>
-        {/* <Typography variant="subheading" color="textSecondary"> */}
+        <Grid item xs={3} className={classes.block}>
+
+            <div className={classes.gridItem}>
               <img src={img} className={classes.cover} />
-            {/* </Typography> */}
+            </div>
+            <div className={classes.gridItem}>
+
+              <IconButton onClick={() => this.setState({imei : true})}>
+                <Info />
+              </IconButton>
+            </div>
+
         </Grid>
         <Grid item xs={9}>
           <List component="nav">
@@ -55,26 +84,32 @@ function CustomCard(props) {
               <ListItemIcon>
               <Android />
               </ListItemIcon>
-              <ListItemText primary={props.details.brand + " " + props.details.model} />
+              <ListItemText primary={this.props.details.brand + " " + this.props.details.model} />
             </ListItem>
             <ListItem >
               <ListItemIcon>
                 <Battery />
               </ListItemIcon>
-              <ListItemText primary={props.details.battery + "% Battery"} />
+              <ListItemText primary={this.props.details.battery + "% Battery"} />
             </ListItem>
             <ListItem >
               <ListItemIcon>
                 <Wifi />
               </ListItemIcon>
-              <ListItemText primary={props.details.ssid} />
+              <ListItemText primary={this.props.details.ssid} />
             </ListItem>
           </List>
         </Grid>
       </Grid>
-
+      <Dialog 
+        open ={this.state.imei}
+        text={this.state.imeiVal}
+        handleCloseDialog={this.handleCloseDialog}
+      />
     </div>
   );
+}
+
 }
 
 CustomCard.propTypes = {
